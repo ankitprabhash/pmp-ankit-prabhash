@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback - PMP Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF8; --surface:#FFFFFF; --ink:#16213E; --ink-soft:#4A5568; --ink-faint:#8890A0;
+    --accent:#A9762C; --accent-soft:#F3E9D8; --line:#E6E4DD;
+    --shadow: 0 1px 2px rgba(22,33,62,0.04), 0 8px 24px rgba(22,33,62,0.06);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:'Inter', system-ui, sans-serif; line-height:1.6;}
+  h1,h2{font-family:'Lora', Georgia, serif; font-weight:600;}
+  a{color:inherit;}
+  .wrap{max-width:640px; margin:0 auto; padding:0 24px;}
+
+  header{border-bottom:1px solid var(--line); background:rgba(250,250,248,0.9); backdrop-filter:blur(8px); position:sticky; top:0;}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1080px; margin:0 auto;}
+  .brand{font-family:'Lora', serif; font-weight:700; font-size:1.15rem; text-decoration:none;}
+  .brand span{color:var(--accent);}
+  .back{font-size:0.9rem; color:var(--ink-soft); text-decoration:none; font-weight:500;}
+  .back:hover{color:var(--ink);}
+
+  main{padding:64px 0 80px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--accent);}
+  h1{font-size:2rem; margin-bottom:14px;}
+  main > .wrap > p{color:var(--ink-soft); margin-bottom:36px; font-size:1.02rem; max-width:520px;}
+
+  form{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:32px; box-shadow:var(--shadow);}
+  .field{margin-bottom:22px;}
+  .field:last-of-type{margin-bottom:0;}
+  label{display:block; font-size:0.88rem; font-weight:600; margin-bottom:8px; color:var(--ink);}
+  label .optional{font-weight:400; color:var(--ink-faint);}
+  input, select, textarea{
+    width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
+    font-family:'Inter', sans-serif; font-size:0.95rem; color:var(--ink); background:#fff;
+  }
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent);}
+  textarea{resize:vertical; min-height:120px;}
+  .btn-row{margin-top:30px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--ink); color:#fff; border:none; padding:13px 26px; border-radius:8px;
+    font-weight:600; font-size:0.95rem; cursor:pointer; transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:var(--shadow);}
+  .hint{font-size:0.85rem; color:var(--ink-faint);}
+
+  .note{
+    margin-top:24px; background:var(--accent-soft); border:1px solid #E8D7B5; border-radius:10px;
+    padding:16px 20px; font-size:0.88rem; color:#5A4420;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="brand">PMP<span>.</span>Practice</a>
+    <a href="index.html" class="back">← Back to home</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow">Feedback</div>
+    <h1>Tell me what to fix</h1>
+    <p>Found a wrong answer, a typo, or something confusing in a mock? Or just want to say the format helped you - either way, this goes straight to my inbox.</p>
+
+    <form id="feedbackForm">
+      <div class="field">
+        <label for="name">Your name <span class="optional">(optional)</span></label>
+        <input type="text" id="name" placeholder="So I know who to thank">
+      </div>
+
+      <div class="field">
+        <label for="mock">Which mock is this about?</label>
+        <select id="mock">
+          <option value="General / whole site">General / whole site</option>
+          <option value="121-Question Practice Exam">121-Question Practice Exam</option>
+          <option value="200-Question Mock Set">200-Question Mock Set</option>
+          <option value="100 Drag & Drop Questions">100 Drag &amp; Drop Questions</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="type">What kind of feedback?</label>
+        <select id="type">
+          <option value="Wrong answer / error in a question">Wrong answer / error in a question</option>
+          <option value="Confusing question or wording">Confusing question or wording</option>
+          <option value="Site is not working properly">Site is not working properly</option>
+          <option value="Suggestion / new idea">Suggestion / new idea</option>
+          <option value="Just saying thanks">Just saying thanks</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="message">Your message</label>
+        <textarea id="message" placeholder="If it's about a specific question, mention the question number if you remember it. That helps me find and fix it fast."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn-primary">Send feedback</button>
+        <span class="hint">Opens your email app, sent to ankit.prabhash@gmail.com</span>
+      </div>
+    </form>
+
+    <div class="note">
+      This site has no backend, so there is no server-side form. Clicking send just opens your own email app with everything filled in - you still need to hit send there.
+    </div>
+    <p style="margin-top:20px; font-size:0.8rem; color:var(--ink-faint);">Made by <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener" style="color:var(--ink-faint); text-decoration:underline; text-underline-offset:2px;">Ankit Prabhash</a></p>
+  </div>
+</main>
+
+<script>
+  document.getElementById('feedbackForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = document.getElementById('name').value.trim() || 'Not shared';
+    var mock = document.getElementById('mock').value;
+    var type = document.getElementById('type').value;
+    var message = document.getElementById('message').value.trim();
+
+    var subject = 'PMP Practice Feedback: ' + type;
+    var body =
+      'Name: ' + name + '\n' +
+      'About: ' + mock + '\n' +
+      'Type: ' + type + '\n\n' +
+      'Message:\n' + (message || '(no message written)');
+
+    var mailto = 'mailto:ankit.prabhash@gmail.com'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailto;
+  });
+</script>
+
+</body>
+</html>

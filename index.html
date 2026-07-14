@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMP Practice - Free Mock Tests</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF8;
+    --surface:#FFFFFF;
+    --ink:#16213E;
+    --ink-soft:#4A5568;
+    --ink-faint:#8890A0;
+    --accent:#A9762C;
+    --accent-soft:#F3E9D8;
+    --line:#E6E4DD;
+    --shadow: 0 1px 2px rgba(22,33,62,0.04), 0 8px 24px rgba(22,33,62,0.06);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', system-ui, sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Lora', Georgia, serif; color:var(--ink); font-weight:600;}
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,250,248,0.9);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px;}
+  .brand{font-family:'Lora', serif; font-weight:700; font-size:1.15rem; letter-spacing:-0.01em; text-decoration:none;}
+  .brand span{color:var(--accent);}
+  .nav-links{display:flex; gap:28px; font-size:0.92rem; font-weight:500;}
+  .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .15s;}
+  .nav-links a:hover{color:var(--ink);}
+
+  /* Hero */
+  .hero{padding:88px 0 56px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.06em;
+    text-transform:uppercase; color:var(--accent); margin-bottom:22px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--accent);}
+  .hero h1{
+    font-size:clamp(2.1rem, 4.4vw, 3.4rem);
+    line-height:1.15; letter-spacing:-0.01em;
+    max-width:820px; margin-bottom:22px;
+  }
+  .hero h1 em{color:var(--accent); font-style:normal;}
+  .hero p.lede{
+    font-size:1.12rem; color:var(--ink-soft); max-width:640px; margin-bottom:34px;
+  }
+  .hero-cta{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 24px; border-radius:8px; font-weight:600; font-size:0.95rem;
+    text-decoration:none; transition:transform .15s, box-shadow .15s;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn-primary{background:var(--ink); color:#fff;}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:var(--shadow);}
+  .btn-secondary{background:transparent; border-color:var(--line); color:var(--ink);}
+  .btn-secondary:hover{border-color:var(--ink-soft);}
+
+  /* Process flow divider - the signature element: real PMBOK process groups as a sequence */
+  .flow{
+    padding:34px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    overflow-x:auto;
+  }
+  .flow-track{
+    display:flex; align-items:center; gap:0; min-width:640px;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem;
+  }
+  .flow-step{display:flex; align-items:center; gap:10px; color:var(--ink-faint); flex:1;}
+  .flow-step .dot{width:7px; height:7px; border-radius:50%; background:var(--line); flex-shrink:0;}
+  .flow-step.active{color:var(--ink);}
+  .flow-step.active .dot{background:var(--accent);}
+  .flow-arrow{color:var(--line); margin:0 14px; flex-shrink:0;}
+  .flow-caption{font-size:0.82rem; color:var(--ink-faint); margin-top:12px;}
+
+  /* Sections */
+  section{padding:64px 0;}
+  .section-head{max-width:640px; margin-bottom:36px;}
+  .section-head .eyebrow{margin-bottom:14px;}
+  .section-head h2{font-size:1.9rem; margin-bottom:12px;}
+  .section-head p{color:var(--ink-soft); font-size:1.03rem;}
+
+  /* Mindset section */
+  .mindset-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
+  .mindset-grid p{color:var(--ink-soft); margin-bottom:16px; font-size:1.01rem;}
+  .mindset-grid p:last-child{margin-bottom:0;}
+  .callout{
+    background:var(--accent-soft); border:1px solid #E8D7B5; border-radius:10px;
+    padding:22px 24px; font-size:0.95rem; color:#5A4420;
+  }
+  .callout strong{display:block; margin-bottom:6px; color:var(--ink);}
+
+  /* Mock cards */
+  .mock-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+  .mock-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:26px; display:flex; flex-direction:column; text-decoration:none;
+    transition:transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .mock-card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:#D8D4C8;}
+  .mock-tag{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.04em;
+    color:var(--accent); text-transform:uppercase; margin-bottom:14px;
+  }
+  .mock-card h3{font-size:1.2rem; margin-bottom:10px; line-height:1.3;}
+  .mock-card p{color:var(--ink-soft); font-size:0.92rem; flex-grow:1; margin-bottom:20px;}
+  .mock-meta{display:flex; gap:16px; font-size:0.82rem; color:var(--ink-faint); border-top:1px solid var(--line); padding-top:16px;}
+  .mock-meta span{display:flex; align-items:center; gap:6px;}
+  .mock-go{margin-top:16px; font-weight:600; font-size:0.9rem; color:var(--ink); display:flex; align-items:center; gap:6px;}
+  .mock-card:hover .mock-go{color:var(--accent);}
+
+  /* Story section */
+  .story{background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .story-inner{max-width:680px;}
+  .story p{color:var(--ink-soft); font-size:1.03rem; margin-bottom:16px;}
+  .story p:last-child{margin-bottom:0;}
+  .story .sign{margin-top:24px; font-family:'Lora', serif; font-style:italic; color:var(--ink);}
+
+  /* About section */
+  .about{
+    display:grid; grid-template-columns:auto 1fr; gap:28px; align-items:start;
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:32px;
+  }
+  .about-avatar{
+    width:56px; height:56px; border-radius:50%; background:var(--ink); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-family:'Lora', serif;
+    font-weight:600; font-size:1.2rem; flex-shrink:0;
+  }
+  .about h3{font-size:1.15rem; margin-bottom:4px;}
+  .about .role{font-size:0.88rem; color:var(--accent); font-weight:600; margin-bottom:14px;}
+  .about p{color:var(--ink-soft); font-size:0.97rem; margin-bottom:14px;}
+  .about p:last-of-type{margin-bottom:0;}
+  .about-stats{display:flex; gap:28px; flex-wrap:wrap; margin:18px 0; padding:16px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .about-stat b{display:block; font-family:'IBM Plex Mono', monospace; font-size:1.1rem; color:var(--ink);}
+  .about-stat span{font-size:0.78rem; color:var(--ink-faint);}
+  .about-link{
+    display:inline-flex; align-items:center; gap:6px; margin-top:6px;
+    font-size:0.9rem; font-weight:600; color:var(--ink); text-decoration:none;
+  }
+  .about-link:hover{color:var(--accent);}
+
+  /* Footer */
+  footer{padding:40px 0; border-top:1px solid var(--line);}
+  .footer-inner{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;}
+  .footer-note{font-size:0.85rem; color:var(--ink-faint); max-width:560px;}
+  .footer-links{display:flex; gap:20px; font-size:0.9rem;}
+  .footer-links a{text-decoration:none; color:var(--ink-soft);}
+  .footer-links a:hover{color:var(--accent);}
+  .made-by{font-size:0.8rem; color:var(--ink-faint); margin-top:6px;}
+  .made-by a{color:var(--ink-faint); text-decoration:underline; text-underline-offset:2px;}
+  .made-by a:hover{color:var(--accent);}
+
+  @media (max-width: 560px){
+    .about{grid-template-columns:1fr;}
+  }
+
+  @media (max-width: 800px){
+    .mindset-grid{grid-template-columns:1fr;}
+    .mock-grid{grid-template-columns:1fr;}
+    .nav-links{gap:16px; font-size:0.85rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav wrap">
+    <a href="#top" class="brand">PMP<span>.</span>Practice</a>
+    <div class="nav-links">
+      <a href="#mindset">The mindset</a>
+      <a href="#mocks">Mock tests</a>
+      <a href="#story">Why free</a>
+      <a href="#about">About the creator</a>
+      <a href="feedback.html">Feedback</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div class="eyebrow">Free · No login · No PDUs given here</div>
+    <h1>Study material for PMP is everywhere. What people struggle with is <em>the exam mindset</em>.</h1>
+    <p class="lede">This site is only for practice. If you still need your 35 contact hours or PDUs for the PMI application, get those first from a REP. Come here after that, when you are ready to test how you think under exam pressure.</p>
+    <div class="hero-cta">
+      <a href="#mocks" class="btn btn-primary">Start a mock test →</a>
+      <a href="#mindset" class="btn btn-secondary">Read this first</a>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="wrap">
+      <div class="flow-track">
+        <div class="flow-step active"><span class="dot"></span>Initiating</div>
+        <span class="flow-arrow">-</span>
+        <div class="flow-step active"><span class="dot"></span>Planning</div>
+        <span class="flow-arrow">-</span>
+        <div class="flow-step active"><span class="dot"></span>Executing</div>
+        <span class="flow-arrow">-</span>
+        <div class="flow-step"><span class="dot"></span>Monitoring &amp; Controlling</div>
+        <span class="flow-arrow">-</span>
+        <div class="flow-step"><span class="dot"></span>Closing</div>
+      </div>
+      <div class="flow-caption wrap" style="padding:0;">The five process groups. Most exam questions are really asking: which stage of this cycle is the PM in, right now?</div>
+    </div>
+  </div>
+
+  <section id="mindset">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">First, the mindset</div>
+        <h2>PMP is not a memory test</h2>
+      </div>
+      <div class="mindset-grid">
+        <div>
+          <p>Most people preparing for PMP think it is about remembering ITTOs, formulas, or 49 processes by heart. That is not the real exam. PMI has moved the exam toward situational judgement - they give you a project scenario and ask what a good PM would do next.</p>
+          <p>So the actual skill you are building is: read the situation, remove the noise, and pick the answer that protects the project, the team, and the sponsor's interest - in that order, most of the time. This comes only with practice, not with re-reading notes one more time.</p>
+        </div>
+        <div class="callout">
+          <strong>What this site is, and is not</strong>
+          This is only a practice ground for mock questions. It does not replace your 35 hours of training, your PDUs, or your application to PMI. Do those first with a proper REP. Then use these mocks to test your judgement, not your memory.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mocks">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Pick a mock</div>
+        <h2>Three formats, same goal - think like a PM under a clock</h2>
+        <p>All three open in a new tab. Your answers and score stay in that tab only, nothing is saved or sent anywhere.</p>
+      </div>
+      <div class="mock-grid">
+
+        <a href="mocks/mock-121.html" target="_blank" rel="noopener" class="mock-card">
+          <div class="mock-tag">Full-length</div>
+          <h3>121-Question Practice Exam</h3>
+          <p>Closest to the real exam feel. Scenario-based questions across all five process groups, timed like the actual test.</p>
+          <div class="mock-meta">
+            <span>121 questions</span>
+            <span>MCQ</span>
+          </div>
+          <div class="mock-go">Take this mock →</div>
+        </a>
+
+        <a href="mocks/mock-200.html" target="_blank" rel="noopener" class="mock-card">
+          <div class="mock-tag">Large bank</div>
+          <h3>200-Question Mock Set</h3>
+          <p>A bigger question bank to build stamina and spot the topics you keep getting wrong. Good for a second or third pass.</p>
+          <div class="mock-meta">
+            <span>200 questions</span>
+            <span>MCQ</span>
+          </div>
+          <div class="mock-go">Take this mock →</div>
+        </a>
+
+        <a href="mocks/mock-100-dragdrop.html" target="_blank" rel="noopener" class="mock-card">
+          <div class="mock-tag">Interactive</div>
+          <h3>100 Drag &amp; Drop Questions</h3>
+          <p>Matches PMI's newer question style - matching, ordering and drag-drop, not just plain MCQ. Good stress test before exam day.</p>
+          <div class="mock-meta">
+            <span>100 questions</span>
+            <span>Drag &amp; drop</span>
+          </div>
+          <div class="mock-go">Take this mock →</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="story" class="story">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Why this is free</div>
+        <h2>I made these for myself first</h2>
+      </div>
+      <div class="story-inner">
+        <p>When I was preparing for my own PMP exam, I looked for free mock tests online. Most of what I found on YouTube were videos five or six hours long. Good content, but hard to sit through in one go, especially on a work night after a full day at office.</p>
+        <p>So I built my own mock tests instead - using basic Python and some help from AI to put the questions together in a format I could actually use: open the page, answer at my own pace, see my score, move on.</p>
+        <p>I cleared my PMP. These mocks are exactly what I used. There are already many free options out there, so I am not trying to sell anything here. Just putting mine out too, in case the format works better for someone else the way it worked for me.</p>
+        <p class="sign">- Ankit Prabhash, PMP</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">Who made this</div>
+        <h2>About Ankit</h2>
+      </div>
+      <div class="about">
+        <div class="about-avatar">AP</div>
+        <div>
+          <h3>Ankit Prabhash</h3>
+          <div class="role">Project & Program Manager, PMP · Lean Six Sigma Black Belt</div>
+          <p>I work in global procurement, currently as a Project Manager - Special Projects, and have spent 13+ years across procurement, supply chain, and PMO roles at Konecranes and Vestas Wind Systems. Day to day, this means running governance, tracking risk, and getting cross-functional teams to actually deliver.</p>
+          <div class="about-stats">
+            <div class="about-stat"><b>13+ yrs</b><span>Procurement &amp; PMO</span></div>
+            <div class="about-stat"><b>€14M</b><span>Program led (C2X)</span></div>
+            <div class="about-stat"><b>1,000+</b><span>Suppliers, risk program</span></div>
+          </div>
+          <p>I built these mock tests the same way I'd approach any process problem at work - find what's broken (six-hour prep videos), simplify it, and ship something usable. No course to sell, no email list to join. Just the mocks.</p>
+          <a class="about-link" href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener">Connect on LinkedIn →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>
+      <p class="footer-note">This is an independent, free resource and is not affiliated with or endorsed by PMI or the Project Management Institute. PMP is a registered mark of PMI.</p>
+      <p class="made-by">Made by <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener">Ankit Prabhash</a></p>
+    </div>
+    <div class="footer-links">
+      <a href="feedback.html">Give feedback</a>
+      <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

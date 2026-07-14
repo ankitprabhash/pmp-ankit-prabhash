@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMP Practice Exam — 121 Questions</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --text: #e8eaf0;
+    --text-muted: #8890a8;
+    --accent: #6c63ff;
+    --accent-glow: rgba(108,99,255,0.18);
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.12);
+    --red: #ef4444;
+    --red-bg: rgba(239,68,68,0.12);
+    --yellow: #f59e0b;
+    --yellow-bg: rgba(245,158,11,0.12);
+    --blue: #3b82f6;
+    --blue-bg: rgba(59,130,246,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .logo { font-weight: 700; font-size: 16px; color: var(--accent); letter-spacing: -.5px; white-space: nowrap; }
+  .logo span { color: var(--text-muted); font-weight: 400; }
+  
+  .stats-bar {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap; flex: 1;
+  }
+  .stat-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .stat-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+  .dot-blue { background: var(--blue); }
+  .stat-pill strong { font-size: 14px; }
+  
+  .timers {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .timer-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .timer-box label { display: block; color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+  .timer-box .time { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .timer-box.warn .time { color: var(--yellow); }
+  .timer-box.danger .time { color: var(--red); }
+  
+  /* MAIN LAYOUT */
+  .main { display: flex; height: calc(100vh - 64px); }
+  
+  /* SIDEBAR - question navigator */
+  .sidebar {
+    width: 320px; min-width: 280px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--text-muted);
+    position: sticky; top: 0;
+    background: var(--surface);
+    z-index: 10;
+  }
+  .legend {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 10px; color: var(--text-muted);
+  }
+  .leg-box { width: 12px; height: 12px; border-radius: 3px; border: 1px solid; }
+  .leg-default { background: var(--surface2); border-color: var(--border); }
+  .leg-correct { background: var(--green-bg); border-color: var(--green); }
+  .leg-wrong { background: var(--red-bg); border-color: var(--red); }
+  .leg-marked { background: var(--yellow-bg); border-color: var(--yellow); }
+  .leg-skip { background: var(--surface2); border-color: var(--text-muted); }
+  .leg-current { background: var(--accent-glow); border-color: var(--accent); }
+  
+  .q-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    padding: 12px 16px;
+    flex: 1;
+    align-content: start;
+  }
+  .q-btn {
+    aspect-ratio: 1;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .q-btn:hover { border-color: var(--accent); color: var(--text); }
+  .q-btn.current { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+  .q-btn.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .q-btn.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .q-btn.marked { background: var(--yellow-bg); border-color: var(--yellow); color: var(--yellow); }
+  .q-btn.marked::after { content: "★"; position: absolute; top: 1px; right: 2px; font-size: 7px; }
+  .q-btn.skipped { border-color: var(--text-muted); }
+  
+  /* QUESTION AREA */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+    max-width: 860px;
+  }
+  
+  .q-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+  }
+  .q-num {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .q-progress {
+    flex: 1; height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden;
+  }
+  .q-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .3s; }
+  .q-per-timer {
+    font-size: 12px; color: var(--text-muted); white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .q-per-timer.warn { color: var(--yellow); }
+  .q-per-timer.danger { color: var(--red); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  
+  .question-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  
+  .options {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .option {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .15s;
+    background: var(--surface);
+  }
+  .option:hover:not(.disabled) { border-color: var(--accent); background: var(--accent-glow); }
+  .option.selected { border-color: var(--accent); background: var(--accent-glow); }
+  .option.correct { border-color: var(--green) !important; background: var(--green-bg) !important; }
+  .option.wrong { border-color: var(--red) !important; background: var(--red-bg) !important; }
+  .option.disabled { cursor: default; }
+  .option-letter {
+    width: 28px; height: 28px; border-radius: 6px;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+    transition: all .15s;
+    background: var(--surface2);
+  }
+  .option.selected .option-letter { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .option.correct .option-letter { background: var(--green); border-color: var(--green); color: #fff; }
+  .option.wrong .option-letter { background: var(--red); border-color: var(--red); color: #fff; }
+  .option-text { font-size: 15px; line-height: 1.55; padding-top: 3px; }
+  
+  /* EXPLANATION */
+  .explanation {
+    display: none;
+    margin-bottom: 24px;
+    padding: 18px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+  }
+  .explanation.show { display: block; }
+  .explanation-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--accent); font-weight: 700; margin-bottom: 8px;
+  }
+  .explanation-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+  .correct-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-bg); border: 1px solid var(--green);
+    color: var(--green); border-radius: 20px;
+    padding: 2px 10px; font-size: 12px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  /* ACTIONS */
+  .actions {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { opacity: .9; }
+  .btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: transparent; color: var(--red); border-color: var(--red); }
+  .btn-danger:hover { background: var(--red-bg); }
+  .btn-yellow { background: transparent; color: var(--yellow); border-color: var(--yellow); }
+  .btn-yellow:hover { background: var(--yellow-bg); }
+  .btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+  .btn-green:hover { opacity: .9; }
+  .spacer { flex: 1; }
+  
+  /* SUBMIT MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.7); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 500px;
+    width: 90%;
+  }
+  .modal h2 { font-size: 20px; margin-bottom: 6px; }
+  .modal p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+  .modal-stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px; margin-bottom: 24px;
+  }
+  .modal-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .modal-stat .val { font-size: 28px; font-weight: 700; }
+  .modal-stat .lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+  
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  
+  @media (max-width: 700px) {
+    .sidebar { width: 220px; min-width: 180px; }
+    .content { padding: 16px; }
+    .q-grid { grid-template-columns: repeat(4, 1fr); }
+    .question-text { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">PMP <span>Practice Exam</span><div style="font-size:12px;font-weight:400;color:#7880a0;margin-top:2px;">by Ankit Prabhash · <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" style="color:inherit;text-decoration:underline;">Connect on LinkedIn</a></div></div>
+  <div class="stats-bar">
+    <div class="stat-pill"><div class="dot dot-green"></div><strong id="stat-correct">0</strong> Correct</div>
+    <div class="stat-pill"><div class="dot dot-red"></div><strong id="stat-wrong">0</strong> Wrong</div>
+    <div class="stat-pill"><div class="dot dot-blue"></div><strong id="stat-pct">0%</strong> Score</div>
+    <div class="stat-pill"><strong id="stat-answered">0</strong>/<strong id="stat-total">0</strong> Answered</div>
+  </div>
+  <div class="timers">
+    <div class="timer-box" id="global-timer-box">
+      <label>Total Time</label>
+      <div class="time" id="global-timer">3:50:00</div>
+    </div>
+    <div class="timer-box" id="per-timer-box">
+      <label>This Question</label>
+      <div class="time" id="per-timer">3:00</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-header">Question Navigator (121)</div>
+    <div class="legend">
+      <div class="legend-item"><div class="leg-box leg-current"></div>Current</div>
+      <div class="legend-item"><div class="leg-box leg-correct"></div>Correct</div>
+      <div class="legend-item"><div class="leg-box leg-wrong"></div>Wrong</div>
+      <div class="legend-item"><div class="leg-box leg-marked"></div>Marked</div>
+      <div class="legend-item"><div class="leg-box leg-skip"></div>Skipped</div>
+    </div>
+    <div class="q-grid" id="q-grid"></div>
+  </div>
+  
+  <div class="content" id="main-content">
+    <div class="q-header">
+      <div class="q-num" id="q-num">Q1 / 121</div>
+      <div class="q-progress"><div class="q-progress-fill" id="q-progress-fill" style="width:0%"></div></div>
+      <div class="q-per-timer" id="q-per-timer-display">⏱ 3:00</div>
+    </div>
+    
+    <div class="question-text" id="question-text"></div>
+    
+    <div class="options" id="options-container"></div>
+    
+    <div class="explanation" id="explanation">
+      <div class="explanation-title">💡 Coach Explanation</div>
+      <div class="correct-tag" id="correct-tag">✓ Correct Answer: X</div>
+      <div class="explanation-text" id="explanation-text"></div>
+    </div>
+    
+    <div class="actions">
+      <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()">Check Answer</button>
+      <button class="btn btn-secondary" id="btn-explain" onclick="toggleExplain()">💬 Explain</button>
+      <button class="btn btn-yellow" onclick="markQuestion()">★ Mark for Review</button>
+      <button class="btn btn-secondary" onclick="skipQuestion()">⏭ Skip</button>
+      <div class="spacer"></div>
+      <button class="btn btn-secondary" onclick="prevQuestion()">← Prev</button>
+      <button class="btn btn-primary" onclick="nextQuestion()">Next →</button>
+      <button class="btn btn-danger" onclick="showSubmitModal()">Submit Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- Submit Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h2>Submit Exam?</h2>
+    <p id="modal-msg">You have unanswered questions. Are you sure you want to submit?</p>
+    <div class="modal-stats">
+      <div class="modal-stat"><div class="val" style="color:var(--green)" id="m-correct">0</div><div class="lbl">Correct</div></div>
+      <div class="modal-stat"><div class="val" style="color:var(--red)" id="m-wrong">0</div><div class="lbl">Wrong</div></div>
+      <div class="modal-stat"><div class="val" style="color:var(--accent)" id="m-pct">0%</div><div class="lbl">Score</div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-green" onclick="submitExam()">Submit & See Results</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [{"id": 1, "question": "A scrum master in a hybrid project has project team members in conflict. How should conflict management be addressed in this scenario?", "options": {"A": "Work with the team to identify the points of conflict and remove the members responsible for the conflict.", "B": "Document the list of conflicts and have the team vote on how to proceed.", "C": "Organize the conflicts into categories:structural and interpersonal.", "D": "Review conflicts during daily Scrum so they are addressed quickly. —"}, "correct": "C", "explanation": "There are a number of ways to break down conflict situations into specific categories. This distinction is useful in finding effective approaches to resolving conflict."}, {"id": 2, "question": "An engineer complains to the project manager that another project team member is interfering with their work and causing delays due to the need to undo unwanted changes. How should the project manager resolve the conflict at its source?", "options": {"A": "Plan a meeting with both team members to review the Resource Management Plan", "B": "Perform variance analysis to determine any impact on the Schedule Performance Index", "C": "Coach the engineer on emotional intelligence to help resolve the conflict with the other team member", "D": "Send a disciplinary warning to the disruptive team member to avoid repeat incidents"}, "correct": "A", "explanation": "The word \"interference\" indicates that the conflict is rooted in a misunderstanding of roles and responsibilities."}, {"id": 3, "question": "During a team induction meeting, the project manager notices some hostility between three key project team members who have very different personalities. How should the project manager address this hostility?", "options": {"A": "Plan a team building event where different personality types are required to solve problems.", "B": "Remind the entire team that as professionals, emotions should not impair their work performance.", "C": "Plan project tasks and meetings to avoid contact between the three members.", "D": "Avoid interfering and allow the team members time to resolve their differences."}, "correct": "A", "explanation": "The conflict is due to interpersonal incompatibilities."}, {"id": 4, "question": "A functional manager questions whether certain aspects of a project are in compliance with the project's goals. Which document should the project manager review to address the functional manager's concern?", "options": {"A": "Statement of work (SOW)", "B": "Project charter", "C": "Project management plan", "D": "Project management information system (PMIS)"}, "correct": "B", "explanation": "The project charter is defined as a document issued by the project sponsor that formally authorizes the existence of a project and provides the project manager with the authority to apply organizational resources to project activities."}, {"id": 5, "question": "A project manager is assigned to a new multinational project. This is the first time the project manager will be working with team members from different countries. What should the project manager do?", "options": {"A": "Develop an awareness of local customs with the understanding that culture is learned.", "B": "Take and pass cultural sensitivity courses for business professionals.", "C": "Decline the project until given the opportunity to travel to the countries involved with the project.", "D": "Meet the team members from the various countries and ask them directly how to be sensitive to their needs."}, "correct": "A", "explanation": "The project manager needs to be proactive and learn what he can while also maintaining flexibility."}, {"id": 6, "question": "A project manager is committed to the success of a multinational project with tight deadlines. A new team member is continually late or misses status meetings. In a one-on-one with the project manager, the team member expresses the belief that working on deliverables is more important than attending status meetings. What should the project manager do?", "options": {"A": "Reassign the team member to another project with more flexible deadlines.", "B": "Document this behavior in the team member's personnel file.", "C": "Encourage this team member's attendance, but be flexible if critical work is not affected.", "D": "Meet with the team to ensure they understand that attendance at status meetings is required."}, "correct": "D", "explanation": "It is the project manager's responsibility to make sure that all team members understand and follow the team rules."}, {"id": 7, "question": "A project manager is assigned to a new project. The client has stated that the project originated from ideas and assumptions generated by the client's business partners. What should the project manager do to understand the project objectives?", "options": {"A": "Gather first-hand information from the business partners.", "B": "Meet with stakeholders and document their feedback in the project charter.", "C": "Define the problem to be solved by the project objectives.", "D": "Communicate the ideas and assumptions at a high level to the stakeholders."}, "correct": "B", "explanation": "The first thing a new project manager needs to do is to understand the objectives of the project."}, {"id": 8, "question": "After a recent company reorganization, a project manager is given a new project with a team that has never worked", "options": {"A": "Work with the team to create a social contract and encourage the team to work together. A", "B": "Schedule team-building training for the project team. ;", "C": "Request that the team provide you daily project updates. B \"4", "D": "Schedule an event outside of work to allow the team to get to know more about each other. Cc"}, "correct": "A", "explanation": "A. Yes - This will allow the team to normalize themselves and be self-servicing when you are unavailable."}, {"id": 9, "question": "An organization is developing a new product. What should the project manager of this development do first to improve the success of the project?", "options": {"A": "Work with the project management organization (PMO) to develop a detailed project schedule.", "B": "Work with the marketing team to conduct an impact analysis to identify the target market.", "C": "Work with the project sponsor to define the project vision and overall initiative.", "D": "Work with the stakeholders to identify the appropriate project team members."}, "correct": "C", "explanation": "For any project success its critical to initially define vision and mission of the overall initiative before even focusing on detailing planning."}, {"id": 10, "question": "40f 175 An organization is redesigning and relaunching a key product. The stakeholders are all company executives and want to ensure that the product launch will be a success. What should the project manager do to ensure project success?", "options": {"A": "Implement a detailed communication management plan so that stakeholders are kept informed of the project status.", "B": "Communicate the critical nature of this project to the team and escalate any issues to the sponsor.", "C": "Ensure that all of the stakeholders attend the daily standups so that they can adjust the project as needed.", "D": "Work to identify and align performance indicators with the deliverable."}, "correct": "D", "explanation": "In order to measure successful delivery and completion of any initiative it is critical to determine performance indicators beforehand."}, {"id": 11, "question": "Sof 175 A project manager is running an agile project that is half completed. During the most recent sprint retrospective, the team members see that they worked more hours than were originally scheduled. How should the project manager address this situation?", "options": {"A": "Note the additional hours in the budget and leverage the budget reserves.", "B": "Reach out to the sponsor asking for additional project team members to increase velocity.", "C": "Work with the project team to identify why this occurred and what can be done to prevent it in future sprints.", "D": "Empower the team to address this issue and present the sponsor with the proposed resolution."}, "correct": "C", "explanation": "The project manager has to help the team to figure out how to maintain or improve the productivity"}, {"id": 12, "question": "A new project manager is developing a resource management plan but is unfamiliar with the skill sets required by the project. How would applying expert judgment help the project manager create the resource management plan?", "options": {"A": "By showing the project manager how to determine organizational process assets", "B": "By helping the project manager to understand authority relationships specified in the project organization chart", "C": "By enabling the project manager to determine the preliminary effort level needed to meet project objectives", "D": "By enabling the project manager to manage virtual teams of skilled personnel"}, "correct": "C", "explanation": "Expertise should be considered from individuals or groups with specialized knowledge or training in team and physical resource planning and estimating."}, {"id": 13, "question": "An organization hires a project manager familiar with hybrid project management to assist transitioning from traditional to agile project management. The project teams are not familiar with adaptive methods and have not kept project documentation current. What should the new project manager do in this scenario?", "options": {"A": "Send a personalized email to each team member with detailed instructions on how they should incorporate agile techniques in their roles.", "B": "Organize a session with the entire project team to introduce the benefits of adaptive methods and how to implement them.", "C": "Email all project team members insisting on the importance of maintaining accurate documentation.", "D": "Meet with the project team to conduct a retrospective session."}, "correct": "B", "explanation": "Electronically making artifacts available is a variation to traditional war room geographically dispersed team"}, {"id": 14, "question": "A project team is regularly missing milestones. Stakeholders are concerned that the project will miss the deliverable due date. The project manager has been aware of team conflict and learns that a team member is missing some skills needed for project completion. What should the project manager do in this scenario?", "options": {"A": "Note this in the risk register and address this to the team during the retrospective session.", "B": "Have the team member participate in training focused on the needed skill.", "C": "Remove the team member from the project and inform the sponsor that the deliverable will not be available on the due date.", "D": "Meet with human resources to have them address the individuals missing skills."}, "correct": "B", "explanation": "1.6.3. Continuously assess and refresh team skills to meet project needs. In this case providing training will help mitigate the mismatch in knowledge/ skills required."}, {"id": 15, "question": "A project integrates with several systems developed by various vendors and one of these vendors has gone out of business. What should project manager do first?", "options": {"A": "Meet with this vendor to identify a replacement.", "B": "Revise the risk register according to the format specified in the risk management plan.", "C": "Calculate the delay resulting from a change in vendors and notify the project sponsor of the new timeline.", "D": "Negotiate with another vendor to produce the deliverable."}, "correct": "B", "explanation": "The risk register contains response strategies that may affect the project scope, such as reducing or changing project and product scope to avoid or mitigate a risk. Before developing a risk response strategy, you must FIRST document WHAT the risk is."}, {"id": 16, "question": "A project manager learns that market conditions are changing unexpectedly for a product in its implementation phase.", "options": {"A": "Develop a strategy to address overall project risk exposure and update the risk report. =", "B": "Use forecasting formulas to generate a high-level estimate of the impact of the market shift.", "C": "Increase the contingency reserve to compensate for the additional risk.", "D": "Establish earned value management (EVM) techniques to calculate a projected estimate at completion (EAC) c forecast. D"}, "correct": "A", "explanation": ""}, {"id": 17, "question": "A project is showing a negative schedule variance. The project manager sees that one team is causing the delays. What should the project manager do?", "options": {"A": "Meet with the team to identify strategies to resolve the delays.", "B": "Meet with the project sponsor to determine an approach to getting back on schedule.", "C": "Run a risk analysis to determine the impact of the delays on project success.", "D": "Develop an agile approach to accelerate the timeline."}, "correct": "A", "explanation": "The project manager needs to be proactive and review the activities with the team and to identify resolution strategies."}, {"id": 18, "question": "The project manager for a complex project discovers that a certain team member has missed several targets. What should the project manager do?", "options": {"A": "Determine if the team member has been assigned to a concurrent project.", "B": "Impose a penalty for each day the team member misses a target.", "C": "Ask the team member's functional manager to address the issue.", "D": "Discuss the issue with the team member and offer any needed assistance."}, "correct": "D", "explanation": "The project manager needs to proactively manage this resource. They need to understand the reason for repeatedly missing deadlines and to offer the requisite support."}, {"id": 19, "question": "project manager for a complex project discovers that a certain team member has missed several targets. What should the project manager do?", "options": {"A": "Determine if the team member has been assigned to a concurrent project.", "B": "Impose a penalty for each day the team member misses a target.", "C": "Ask the team member's functional manager to address the issue.", "D": "Discuss the issue with the team member and offer any needed assistance."}, "correct": "D", "explanation": "The project manager needs to proactively manage this resource. They need to understand the reason for repeatedly missing deadlines and to offer the requisite support."}, {"id": 20, "question": "A project manager is working on a complex project that requires expertise in negotiation skills. What should the project manager do to persuade the stakeholders to accept the proposed viewpoint?", "options": {"A": "Discuss the business case for the project.", "B": "Establish the schedule and contingency measures.", "C": "Understand the reasons for potential disagreement.", "D": "Assess the risk of unsuccessful negotiation."}, "correct": "C", "explanation": "Before solving a problem or conflict the problem, the source of conflict must be understood."}, {"id": 21, "question": "A project manager is preparing the charter for a software development project that will outsource 33 percent of user", "options": {"A": "Meet with the functional manager to review the statement of work (SOW). B", "B": "Ask the project sponsor to explain the rationale for third-party evaluation to the functional manager.", "C": "Provide a cost/benefit analysis of third-party evaluation to the functional manager. G", "D": "Explain the intent of the Ul evaluation to the functional manager. D"}, "correct": "A", "explanation": ""}, {"id": 22, "question": ") = 39 0f175 A project's statement of work (SOW) requires that the project be delivered in nine months. The project manager believes that the timeline is not realistic. What should the project manager do?", "options": {"A": "Involve the change control board (CCB) in the Perform Integrated Change Control process", "B": "in the Perform Integrated Change Control process B. Submit a written request to the project sponsor for additional resources and budget", "C": "Meet with subject matter experts (SMEs) and the project sponsor to set expectations", "D": "Negotiate a new timeline with the project sponsor"}, "correct": "C", "explanation": "If a project timeline is not realistic, then the project manager need to provide the proof to the sponsor so that a realistic expectation can be set. The SMEs can provide that information and allow the sponsor to decide on a course of action. |"}, {"id": 23, "question": "A project's statement of work (SOW) requires that the project be delivered in nine months. The project manager believes that the timeline is not realistic. What should the project manager do?", "options": {"A": "Involve the change control board (CCB) in the Perform Integrated Change Control process", "B": "in the Perform Integrated Change Control process B. Submit a written request to the project sponsor for additional resources and budget", "C": "Meet with subject matter experts (SMEs) and the project sponsor to set expectations", "D": "Negotiate a new timeline with the project sponsor j"}, "correct": "C", "explanation": "If a project timeline is not realistic, then the project manager need to provide the proof to the sponsor so that a realistic expectation can be set. The SMEs can provide that information and allow the sponsor to decide on a course of action. |"}, {"id": 24, "question": "A project manager learns that a stakeholder thinks that only certain stakeholders are getting all the project updates and feels left out of the information loop. What should the project manager do?", "options": {"A": "Prepare a status update report and send it to all stakeholders.", "B": "Meet with all stakeholders together and ask them to compare information.", "C": "Review the communications management plan to ensure that all stakeholders are included.", "D": "Revise the project communications strategy to ensure more frequent distribution of status reports."}, "correct": "C", "explanation": "It is important to insure that all stakeholders are being included in the communication management pian, not just the stakeholder who raised the issue."}, {"id": 25, "question": "The project sponsors for a multinational project have put a process in place that generates emails and reports at the end of each phase. The goal is to ensure the project remains unified across the company. The company plans to use the process as a model for future, similar projects. The project manager has been tasked to make sure this project is successful. What should the project manager do?", "options": {"A": "Update the communications management plan to include details about the emails and reports.", "B": "Include a formal sign-off at the end of each phase to engage the stakeholders.", "C": "Hold status meetings to solicit input from project sponsors for the emails and reports.", "D": "Update the stakeholder engagement plan at the end of each phase to maintain their commitment to the project's success."}, "correct": "B", "explanation": "The PM needs to adopt and model the desired behavior. Getting sign off at each stage will accomplish this."}, {"id": 26, "question": "A project manager is developing a project charter, but a key stakeholder is failing to provide information about the expected project benefits. Why should the project manager meet with the project sponsor about this issue?", "options": {"A": "The project sponsor is the key person responsible for managing both tacit and explicit project knowledge.", "B": "The project sponsor is the party who can address internal political and strategic issues that can affect project quality.", "C": "The project sponsor can request that the change control board (CCB) make a change in the stakeholder community.", "D": "Disciplinary actions regarding stakeholders are managed by the project sponsor."}, "correct": "B", "explanation": "The sponsor is the person who could intervene and facilitate that stakeholder's contribution. Correct Answer Your Answer _[ 8 | v |"}, {"id": 27, "question": "Back >load Page — A \\ave Page As... Print Page... » 50 0f 175 A project manager is assigned to an existing project, replacing the previous project manager. Soon after joining the project, the project manager sees that the project’s key performance indicators (KPIs) are decreasing, as is the project team’s overall enthusiasm for the project. The project manager reviews earlier projects completed by the team and sees that they previously performed well together. What should the project manager do to address the performance issues?", "options": {"A": "Meet with the sponsor to express concerns regarding the team performance.", "B": "Work on identifying other resources to replace the current team.", "C": "Meet with the project team to discuss the current level of performance.", "D": "Meet with the functional managers of the team asking them to address the decreasing performance. L"}, "correct": "C", "explanation": "| Meet with the project team to discuss the current level of performance. | An inexperience PM will reject that he is the cause of a decreasing performance, investing or wasting time to find the root cause in another factor. | If the team is used to work together with performing level the cause would be the change of the previous PM with the | new one, so you as a new team member needs to build trust"}, {"id": 28, "question": "Back load Page ~ 4 >) = 520f175 \\“ave Page As... Print Page... Which group decision style should be used when there is not enough time to make the decision?", "options": {"A": "Command Style", "B": "Consultative Style", "C": "Consensus Style", "D": "Majority Vote"}, "correct": "D", "explanation": "Correct Answer A | B C"}, {"id": 29, "question": "N 53 of 175 A complex project is in the planning stage when the sponsor identifies a need for a specialist who is a citizen of a", "options": {"A": "Train a resource on the existing team in the special skills. A", "B": "Submit a change request for additional budget.", "C": "Find a local replacement. B", "D": "Assign the specialist to a virtual team. 5; Cc Solution: D ; Assign the specialist to a virtual team. D Y The use of virtual teams creates new possibilities when acquiring project team members. Virtual teams can be defined Confidence Level: as groups of people with a shared goal who fulfill their roles with little or no time spent meeting face to face. The Not Selected availability of communication technology such as email, audio conferencing, social media, web-based meetings, and Time Spent: video conferencing has made virtual teams feasible. Orin 26 sacs Difficulty Level: Moderate"}, "correct": "D", "explanation": "; | Assign the specialist to a virtual team. | D | Y | | The use of virtual teams creates new possibilities when acquiring project team members. Virtual teams can be defined"}, {"id": 30, "question": "pp Back load Page }) ‘Nave Page As... Print Page... | 4 >) = 530f175 A complex project is in the planning stage when the sponsor identifies a need for a specialist who is a citizen of a foreign country. The project manager knows that the budget does not allow for this specialist's travel expenses. What should the project manager do?", "options": {"A": "Train a resource on the existing team in the special skills.", "B": "Submit a change request for additional budget.", "C": "Find a local replacement.", "D": "Assign the specialist to a virtual team. i Solution: D Assign the specialist to a virtual team. The use of virtual teams creates new possibilities when acquiring project team members. Virtual teams can be defined _ as groups of people with a shared goal who fulfill their roles with little or no time spent meeting face to face. The availability of communication technology such as email, audio conferencing, social media, web-based meetings, and _ video conferencing has made virtual teams feasible."}, "correct": "D", "explanation": "| | Assign the specialist to a virtual team. The use of virtual teams creates new possibilities when acquiring project team members. Virtual teams can be defined _ as groups of people with a shared goal who fulfill their roles with little or no time spent meeting face to face. The | availability of communication technology such as email, audio conferencing, social media, web-based meetings, and _ video conferencing has made virtual teams feasible. |"}, {"id": 31, "question": "A lex project is in the planning stage when the sponsor identifies a need for a specialist who is a citizen of a", "options": {"A": "Train a resource on the existing team in the special skills. A", "B": "Submit a change request for additional budget.", "C": "Find a local replacement. B", "D": "Assign the specialist to a virtual team. Cc"}, "correct": "D", "explanation": "D | of | The use of virtual teams creates new possibilities when acquiring project team members. Virtual teams can be defined"}, {"id": 32, "question": "A project manager is responsible for a new agile project that is global in nature. After a few sprints have been completed, the remote quality assurance team has generated a long defect list. The project also has issues related to the budget and time management. The project manager is certain that these issues are not related to project quality, but are from language misinterpretation. What should the project manager do to address these issues?", "options": {"A": "Request additional budget to hire a local quality assurance team.", "B": "When the project is nearing completion, merge the development team with the quality assurance team to test the deliverables.", "C": "Meet with the quality assurance team to criticize the list they provided.", "D": "While performing sessions with the full project team, review the project requirements and their descriptions."}, "correct": "D", "explanation": "This question requires a level of understanding of the agile processes as well as an understanding of how to manage team dynamics. There are options for the answer, but they don't serve team dynamics in a positive fashion."}, {"id": 33, "question": "A stakeholder for a hybrid project expresses frustration at the number of iteration review meetings that they are expected to attend. What should the project manager do in this situation?", "options": {"A": "Educate the stakeholder on hybrid methodologies and how regular reviews both increase product value and reduce additional work.", "B": "Discuss the stakeholder's preferred level of engagement and adjust the stakeholder engagement plan accordingly.", "C": "Setup a meeting with all stakeholders to identify which meetings individual stakeholders should attend and update the stakeholder engagement plan accordingly.", "D": "Note this in the risk register and work with the sponsor to identify an appropriate mitigation and response."}, "correct": "A", "explanation": "The correct answer is found by recognizing this as an opportunity to mentor the stakeholder in hybrid methodology used, as they do not seem to be clear on the review purpose. Treating the stakeholder complaint as a conflict to be resolved or their attendance as something to negotiate downwards misses the opportunity for building the stakeholder's understanding of the hybrid project."}, {"id": 34, "question": "A stakeholder for an agile project meets with a project team member that is a direct report. In the meeting, the stakeholder says that specific deliverables in the project need to be delivered incrementally to the customer sooner than currently scheduled in the project plan. The team member communicates this information to the project manager. How should the project manager proceed?", "options": {"A": "Meet with the stakeholder and reference the Pareto Chart as the rationale for the current delivery schedule.", "B": "Meet with the stakeholder and customer to discuss the updated delivery request.", "C": "Reprioritize the deliveries to the stakeholder’s requests as the stakeholder has an existing relationship with the customer.", "D": "Meet with the stakeholder and product owner to discuss the potential benefits of incremental deliveries and to learn the rationale of the requested delivery modifications."}, "correct": "D", "explanation": "There might be valid reasons why the delivery can be incremental at the pace and those concerns must be discussed with the product owner rather than imposing a certain schedule"}, {"id": 35, "question": "A project manager is responsible for updating the organization’s customer website to address market needs. The", "options": {"A": "Review the product backlog and rate items by both difficulty-to-complete and business value, propose developing A v items with lower difficulty/higher value first.", "B": "Adjust the business plan to increase the project team so that the total project duration will be reduced. B", "C": "Assemble a globally distributed team so that on work days, the project can be worked on 24-hours a day, reducing the time to complete. G", "D": "Meet with the project sponsor and stakeholders to establish a critical path aligned to business needs. D Solution: A . = . : Confidence Level: Review the product backlog and rate items by both difficulty-to-complete and business value, propose developing High items with lower difficulty/higher value first. Time Spent: The best strategy to early benefits realization is to look for the low effort backlog items which deliver the most business i ail value Difficulty Level: Difficult"}, "correct": "A", "explanation": ". = . :"}, {"id": 36, "question": "Accompany is incorporating some agile practices into an organization that has been using waterfall project management for years. The sponsor for the current project would like the project manager to implement some agile practices in the project. The sponsor tells the project manager that there is no additional budget available. What should the project manager do to meet the sponsor's request?", "options": {"A": "Request leveraging a vendor familiar with agile to train the team currently working on the project.", "B": "Deliver training to the project team on the benefits of smaller iterations for more adaptable project development.", "C": "Document concerns about this methodology change mid-project and bring these concerns to the stakeholders.", "D": "Ask stakeholders to identify individuals within the organization that are familiar with agile methods and have them replace the current project team."}, "correct": "B", "explanation": "Project manager should support the team and promote opportunities to subdivide the delivery in minimum viable products (specially in hybrid environments)"}, {"id": 37, "question": "Acomplex manufacturing project has multiple stakeholders in multiple locations. The project is entering a high-activity phase and the project manager needs to ensure that all stakeholders are kept informed with timely updates. What should the project manager do?", "options": {"A": "Schedule training sessions on effective communications with all stakeholders.", "B": "Determine the most appropriate technology to use to communicate with all stakeholders.", "C": "Schedule regular status reports to be sent to all stakeholders.", "D": "Revise the communications management plan to have a more frequent update schedule."}, "correct": "B", "explanation": "The choice of communication technologies should be suitable for project participants and proper training events should be planned, where appropriate"}, {"id": 38, "question": "A project manager is assigned to a new environmental project. When reviewing a vendor's proposal, the project manager identifies a technical risk that will have an impact on the project manager's company's operational cost. What should the project manager do?", "options": {"A": "Consult with their functional manager", "B": "Accept the risk and move on", "C": "Update project risk register", "D": "Assess the risk in a workshop"}, "correct": "D", "explanation": "This is a risk that need to be quantified and eventually escalated."}, {"id": 39, "question": "A stakeholder says that a wildfire should be considered a high risk to the project. Another stakeholder replies it is a low risk since the area has not experienced a wildfire in the last 10 years. What should the project manager do to address this?", "options": {"A": "Prepare a risk report describing the overall risk exposure.", "B": "Develop a risk mitigation plan to reduce the impact of the threat.", "C": "Establish a contingency reserve to handle the threat if it occurs.", "D": "Prioritize the risk by using a probability and impact matrix."}, "correct": "D", "explanation": "Risk probability assessment considers the likelihood that a specific risk will occur. Risk impact assessment considers the potential effect on one or more project objectives such as schedule, cost, quality, or performance."}, {"id": 40, "question": "A new project manager is assigned to replace a project manager who has resigned. During the initial assessment of project documentation, the new project manager discovers that the risk register has not been updated for several weeks. Why should the project manager's next step be to consult the risk management plan?", "options": {"A": "To understand how the previous manager prioritized risks", "B": "To learn how often the risk register must be updated", "C": "To ascertain the level of uncertainty acceptable for the project", "D": "To determine how often risks have emerged in the past"}, "correct": "B", "explanation": "The project manager must first determine what the agreed upon process is for handling risks."}, {"id": 41, "question": "A project manager identifies new risks have that might affect timely completion of critical tasks. The project manager", "options": {"A": "Risk register", "B": "Assumption log ‘", "C": "Risk management plan B", "D": "Probability and impact matrix Cc"}, "correct": "A", "explanation": "D The project manager must check the risk register and risk report to see if this is indeed a new risk and to see if there"}, {"id": 42, "question": "A project manager is assigned to a project that has completed the planning phase. The project sponsor is confident that the project management plan has allowed for a sufficient budget and timelines. The project manager believes unforeseen events could affect the ability to complete the project successfully. What should the project manager do?", "options": {"A": "Identify and evaluate potential risks and develop a risk action plan.", "B": "Meet with the project sponsor to request additional funding to mitigate potential risks.", "C": "Discuss the risk potential with the functional manager and identify resources that could ensure project success.", "D": "Document potential constraints and limitations in the risk management plan."}, "correct": "A", "explanation": "The project manager needs to be proactive and to familiarize himself with the identified risks and their mitigation strategies."}, {"id": 43, "question": "Signs of an increase in fuel prices were present during the planning stages of a large construction project. The risk of an increase was assigned as high probability and low impact, with an expected duration of 3-4 months. Soon after the project begins, the fuel price increase goes into effect and has a larger impact on the project than originally anticipated. What should the project manager do?", "options": {"A": "Update the risk register.", "B": "Update the assumption log.", "C": "Meet with the project stakeholders to negotiate a change in budget.", "D": "Meet with the change control board (CCB) to request a schedule change."}, "correct": "A", "explanation": "Before a response can be taken, the project manager must update the risk register with this new information."}, {"id": 44, "question": "q> = 83 0f 175 A project manager and the project team identified risks, performed a qualitative risk analysis, and prepared a risk response plan. However, delays in the response to risk events are affecting the project schedule. How would assigning risk owners to the risk responses help avoid these delays?", "options": {"A": "Risk owners work with the project sponsor to ensure the risk response plan will be effective.", "B": "Risk owners identify likely constraints and assumptions before the risk events occur.", "C": "Risk owners are responsible for implementing the appropriate risk response strategy.", "D": "The risk report assigns management of delays in the project schedule to the appropriate risk owner."}, "correct": "C", "explanation": "In addition to identifying all risks, each risk must be assigned a risk owner."}, {"id": 45, "question": "When preparing the project management plan, a project manager developed a stakeholder engagement plan that", "options": {"A": "The stakeholders never signed off on the project management plan or the stakeholder engagement plan.", "B": "The project manager neglected to record the stakeholders' changing expectations throughout the project's life cycle.", "C": "The project manager failed to meet with the sponsor periodically to ensure alignment with project goals. G", "D": "The stakeholders were not kept up-to-date with the changes to the project charter. D"}, "correct": "B", "explanation": ""}, {"id": 46, "question": "A project manger in a global organization is responsible for a project involving six different companies. Midway through the project, one stakeholder moves from one company to another. Which document should the project manager update?", "options": {"A": "Stakeholder engagement plan", "B": "Project charter", "C": "Stakeholder register", "D": "Project management plan"}, "correct": "C", "explanation": "The stakeholder engagement plan is updated to reflect any processes, procedures, tools, or techniques that affect the engagement of stakeholders in project decisions and execution."}, {"id": 47, "question": "[> | 89 of 175 A project in the execution phase is on track and within budget. A key stakeholder asks the project manager to discontinue sending the weekly status reports and only notify the stakeholder if an issue arises that requires the stakeholder's attention. What should the project manager do?", "options": {"A": "Meet with the stakeholder to discuss the amount and type of information that should be communicated.", "B": "Ask the other stakeholders if they would also like less frequent notifications.", "C": "Revise the communications management plan to reflect the stakeholder's request.", "D": "Review the stakeholder engagement plan to ascertain the stakeholder's involvement."}, "correct": "C", "explanation": "Monitor Communications is the process of ensuring the information needs of the project and its stakeholders are met. The key benefit of this process is the optimal information flow as defined in the communications management plan and the stakeholder engagement plan. This process is performed throughout the project."}, {"id": 48, "question": "A project manager’s most recent project was cancelled due to the IT department failing to follow established accounting processes. The project manager is participating in the process alignment for a new project and wants to ensure communication between teams due to the issues from the previous project. How can the project manager best meet this goal?", "options": {"A": "Ensure that a certified public accountant is part of the project team.", "B": "Plan a training activity for all project team members to attend to learn about accounting processes.", "C": "Set up sprints early in the project where stakeholders can agree on the cross-functional processes to be used.", "D": "Plan for iterations near the end of the project to allow the project team to modify processes used based on completed work."}, "correct": "C", "explanation": "An Agile approach between cross-functional teams and without a fixed deadline ensures a collaborative approach as long as necessary to create alignment based on internal needs. Early identification of scope changes will increase efficiency of the project."}, {"id": 49, "question": "oi 91 of 175 A project manager has been assigned to a big project. The project manager is performing a stakeholder analysis to include them in the project charter. Stakeholders’ stakes can include, but are not limited to a combination of:", "options": {"A": "Interests, rights, ownership, knowledge and contribution", "B": "Interests, requirements, rights, knowledge and impact", "C": "Power, impact, influence, requirements and expectations", "D": "Project role, rights, knowledge and interests"}, "correct": "A", "explanation": "A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | = x"}, {"id": 50, "question": "A project manager has been assigned to a big project. The project manager is performing a stakeholder analysis to include them in the project charter. Stakeholders’ stakes can include, but are not limited to a combination of:", "options": {"A": "Interests, rights, ownership, knowledge and contribution", "B": "Interests, requirements, rights, knowledge and impact", "C": "Power, impact, influence, requirements and expectations", "D": "Project role, rights, knowledge and interests"}, "correct": "A", "explanation": "A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | = x"}, {"id": 51, "question": "Wy 93 of 175 A product owner has been attending daily standups but seems focused only on the budget and costs of each iteration. When addressing these inquiries, the project manager explains the rationale of the spend and the impact on the product development. The product owner does not seem interested in the rationale, only in the amount spent. What should the project manager do in this scenario?", "options": {"A": "Adjust the daily standups to first address the budget, then discuss the project status once the product owner leaves the meeting.", "B": "Modify the communications management plan to send daily budget status updates to the product owner.", "C": "Meet with the product owner to educate them on the value delivered by the project, not just the cost of development.", "D": "Breakout the budget to reflect daily spend and provide this to the product owner to address their concerns."}, "correct": "C", "explanation": "Analysis of stakeholders is a key aspect of succeeding in projects and in this case it would have helped to identify that money spent was the main interest of the Product Owner. Project Manager should work on planning to make stakeholders understand Agile concepts and making them move away from a budget mindset towards a value delivered one. Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 52, "question": "aaa\" J 2 eae 4 | (94 01175 ny Which of the following does a project manager need to know in order to ensure that 95% or more of the stakeholders for a project have been reached?", "options": {"A": "Who can have an impact on the project", "B": "Who will be impacted by the project", "C": "Who will be impacted by the project and who can have an impact on the project", "D": "Who is the sponsor and who are the senior managers and end users of the project"}, "correct": "C", "explanation": "A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 53, "question": "q » (96 0f 175 A project manager performs a cost-benefit analysis for a project in its planning stage. The result of the analysis shows a ratio of 0.75. What does this value indicate and how should the project manager respond?", "options": {"A": "Because this ratio is close to 1, the result is inconclusive and the analysis should be rerun.", "B": "The result can be interpreted several ways, so expert reports should be examined to determine if the project should be considered or rejected.", "C": "The project's costs outweigh the benefits, so the project sponsor should be consulted to determine the project's feasibility.", "D": "The project's benefits outweigh the costs, so the project benefits management plan should be updated."}, "correct": "C", "explanation": "Since the sponsor is the person who authorizes and provides the funding of a project, only they can determine if the project still make sense to complete. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 54, "question": "A project manager performs a cost-benefit analysis for a project in its planning stage. The result of the analysis shows a ratio of 0.75. What does this value indicate and how should the project manager respond?", "options": {"A": "Because this ratio is close to 1, the result is inconclusive and the analysis should be rerun.", "B": "The result can be interpreted several ways, so expert reports should be examined to determine if the project should be considered or rejected.", "C": "The project's costs outweigh the benefits, so the project sponsor should be consulted to determine the project's feasibility.", "D": "The project's benefits outweigh the costs, so the project benefits management plan should be updated."}, "correct": "C", "explanation": "Since the sponsor is the person who authorizes and provides the funding of a project, only they can determine if the project still make sense to complete. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 55, "question": "ay 97 of 175 A project is slightly ahead of schedule. However, the project manager was informed that a critical deliverable will not be available on time. If the project manager brings the cost performance index (CPI) to greater than 1.0, what would be the impact on this project?", "options": {"A": "Project warranty issues would result.", "B": "Project costs and risks would decrease.", "C": "Project costs and risks would increase.", "D": "Rework would need to be performed."}, "correct": "C", "explanation": "Crashing a project will increase both costs and risks. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer Le | Done Reviewing Your Answer"}, {"id": 56, "question": "Back 4 | he Page A ve a | \\“ave Page As... Print Page... 3 A project that should have been 75 percent complete by now is only 65 percent complete. The total project budget is US$200,000 and the actual cost of work performed (ACWP) is US$1 10,000. What can be determined from this information?", "options": {"A": "The project is under budget, has a schedule performance index (SPI) of 0.94, and a cost performance index (CPI) of", "B": "Theedect is over budget, has an SPI of 1.04, and a CPI of 0.94.", "C": "The project is over budget, has an SPI of 1.18, and a CPI of 0.87.", "D": "The project is under budget, has an SPI of 0.87, and a CPI of 1.18."}, "correct": "D", "explanation": "EV = %compl * budget. 75% * $100,000 = $75,000. AC = $72,000 CPI = EV/AC = 1.04 A CPI over 1 means the project is under budget. Done Reviewing Correct Answer Your Answer A B z pb | ¥ |"}, {"id": 57, "question": "meer gy Te Weetehenantess 4 99 of 175 While developing the initial schedule baseline, the project manager learns that a functional manager reassigned two resources needed for a critical task to another strategic project. What should the project manager do?", "options": {"A": "Perform a quantitative risk analysis to determine the impact of the change on the project.", "B": "Request a review of the reassignment by the change control board (CCB).", "C": "Meet with the functional manager to negotiate allocation of replacement resources.", "D": "Escalate the issue to the project sponsor."}, "correct": "C", "explanation": "Since the functional manager controls the resources for this type of work, they will be the person who will be able to provide suitable replacements. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 58, "question": "A US$5 million project is being executed. To date, the planned cost is US$950,000, the actual cost is US$930,000, and iv) Correct the earned value is US$960,000. What is the current status of the project?", "options": {"A": "Ahead of schedule and under budget", "B": "Behind schedule and over budget", "C": "Ahead of schedule and over budget B", "D": "Behind schedule and under budget"}, "correct": "A", "explanation": "D Ahead of schedule and under budget CV = EV - AC; 540-650 = -110"}, {"id": 59, "question": "Back L 4 Res Page ? A ) \\Mave Page As... — Print Page... While developing the project schedule, the project manager realizes that the milestones are unrealistic due to longer- than-expected procurement lead times for certain key project components. The project manager needs to update the schedule baseline to reflect the long lead times. What should the project manager do first?", "options": {"A": "Modify the work breakdown structure (WBS)", "B": "Update the assumption log", "C": "Modify the procurement management plan", "D": "Submit a change request"}, "correct": "D", "explanation": "The assumption log is used for identifying, managing, and monitoring key assumptions and constraints that may affect the project. These may inform the assessment of the priority of individual project risks. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B x Lp"}, {"id": 60, "question": "A project team is working on an older server to develop a software application. The team has ordered a new server for end-user testing as the older server cannot perform this testing. The new server has not arrived in time for the scheduled testing window, delaying the end-user testing. What should the project manager do for this situation?", "options": {"A": "Review and adjust the project timeline while waiting for the new server to arrive.", "B": "Perform user testing on the current server.", "C": "Bypass user testing and proceed to the next task.", "D": "Ask the supplier to rush the delivery of the new server."}, "correct": "A", "explanation": "First 2 is not correct; they are old server and not usable for new production use. 4th option is not controllable and usually not feasible due to logistics arrangement. 3th choice is the common handling. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 61, "question": "During a standup, a project team member suggests modifying some features to benefit from a new opportunity. Another team member expresses concern regarding the user experience resulting from the proposed feature. How should the project manager address this situation?", "options": {"A": "Meet with the product owner to discuss both the opportunity and concern about the proposed modification.", "B": "Have the project team vote whether or not to include the modification.", "C": "Note the opportunity in the project backlog and table the discussion. Ask the project team to consider the modification and decide on how to proceed at the next scheduled meeting.", "D": "Meet with stakeholders and the project team to discuss how to proceed regarding the proposed modifications."}, "correct": "A", "explanation": "Product owner is ultimately responsible for the product A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 62, "question": "meer gy Te Weetehenantess 4 105 of 175 A stakeholder of an agile project asks the project manager to provide the remaining time planned for the project. What iv) Correct tool should the project manager use to provide this information?", "options": {"A": "The planning poker analysis Correct Answer Your Answer", "B": "The release burndown chart A", "C": "The count of story points for the remaining user stories", "D": "The work breakdown structure"}, "correct": "B", "explanation": "The release burndown chart The project manager will need to understand and apply which tools are suitable for certain tasks. D"}, {"id": 63, "question": "Back ‘ | kh» Page a ' \\Zave Page As... -—— Print Page... for development and testing phases. Not everyone on the project team is familiar with both approaches and the project encounters delays due to project team uncertainty. What should have been done to prevent this scenario?", "options": {"A": "Train the project team on the benefits of hybrid project management.", "B": "Have the project team members familiar waterfall be responsible for the requirements gathering phase and those familiar with agile handle development and testing phases.", "C": "Schedule daily standup meetings to keep the team informed of progress and address issues as they occur.", "D": "Request that the PMO leverage either waterfall or agile for the full project as the team cannot be trained in time for the project to succeed. A project management organization has a project that leverages waterfall for the requirements gathering phase and agile"}, "correct": "C", "explanation": "The key point is quick to respond! Weekly is not enough and waterfall. Communication of performance goals and understanding of approach are critical. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer Le | Done Reviewing Your Answer Xx"}, {"id": 64, "question": "for development and testing phases. Not everyone on the project team is familiar with both approaches and the project encounters delays due to project team uncertainty. What should have been done to prevent this scenario?", "options": {"A": "Train the project team on the benefits of hybrid project management.", "B": "Have the project team members familiar waterfall be responsible for the requirements gathering phase and those familiar with agile handle development and testing phases.", "C": "Schedule daily standup meetings to keep the team informed of progress and address issues as they occur.", "D": "Request that the PMO leverage either waterfall or agile for the full project as the team cannot be trained in time for the project to succeed. A project management organization has a project that leverages waterfall for the requirements gathering phase and agile"}, "correct": "C", "explanation": "The key point is quick to respond! Weekly is not enough and waterfall. Communication of performance goals and understanding of approach are critical. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer Le | Done Reviewing Your Answer Xx"}, {"id": 65, "question": "An organization has just has been shortlisted to win a project for implementing three magnetic resonance units in the main hospital for the country. The hospital's procurement officer asked the project sponsor for an updated proposal where the implementation time is reduced by 30%. Who should the project manager consult with to reduce the estimates in the most realistic way?", "options": {"A": "Hospital radiology team", "B": "Project team", "C": "Project sponsor", "D": "Hospital procurement officer"}, "correct": "B", "explanation": "Estimate Activity Resources is the process of estimating team resources and the type and quantities of materials, equipment, and supplies necessary to perform project work. The project manager and project team are responsible for estimating activity resources. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo C D"}, {"id": 66, "question": "Ni) 108 of 175 A project manager is working on an agile project. The project has 100 user stories broken down into ten iterations. Each user story is worth US$100. The actual expenditure is US$4,500 and 50 user stories have been delivered. Which statement is accurate?", "options": {"A": "The project behind schedule and is over budget.", "B": "The project is on schedule and is under budget.", "C": "The project is on schedule and on budget.", "D": "The project is behind schedule and under budget."}, "correct": "B", "explanation": "Sponsors want to know when the project will be done and the current value add. This metric is helpful for the team as they complete user stories and helps them to with further planning. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer 8 | C Done Reviewing Your Answer"}, {"id": 67, "question": "Back ‘ 4 load Page eis | Mave Page As... . Print Page... bE An organization is updating their production capacity by modernizing their computer systems and machinery. The existing machinery and systems will need to keep running while the upgrades are being made. To minimize potential risks, agile methodologies will be used for the systems upgrades while the machinery acquisition, installation and integration will use waterfall. The project team agrees that communication is critical for the project to succeed. How should the project manager proceed to ensure the project will be completed on schedule?", "options": {"A": "Schedule weekly collocated sessions with the key stakeholders.", "B": "Email weekly status updates to the project team.", "C": "Meet individually with the stakeholders once a week to provide status updates.", "D": "Conduct daily teleconference sessions with the sponsor."}, "correct": "A", "explanation": "while doing face to face co-located meeting it is easier to see gestures, and coordinate between each other, people are in the same room discussing what should be done A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 68, "question": "h | 110 of 175 A project manager is managing an agile project where the team is regularly missing user story due dates. What should the project manager do to resolve this situation?", "options": {"A": "Work with the sponsor to move out the deliverable hand over date.", "B": "Review the time allotted to iterations and sprints, adjusting them as needed.", "C": "Meet with the project team to identify if further agile methodologies training is necessary.", "D": "Implement a reward program for the project team to encourage completing stories on the due dates."}, "correct": "B", "explanation": "As the team has not yet improved in their estimates one possible way is to split stories to help in estimating work and also in what the team can commit to. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer 8 |"}, {"id": 69, "question": "h | 112 of 175 A company needs to measure customer satisfaction before and after project completion. What should the project manager use to measure performance?", "options": {"A": "Benchmarking", "B": "Mind mapping", "C": "Interviews", "D": "Affinity diagrams"}, "correct": "A", "explanation": "Benchmarking involves comparing actual or planned products, processes, and practices to those of comparable organizations to identify best practices, generate ideas for improvement, and provide a basis for measuring performance. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer LA | Cc Done Reviewing Your Answer"}, {"id": 70, "question": "tala Back { < | he Page 5 \\ \\ave Page As... — Print Page... A customer identifies performance issues on a newly implemented product. Why should the project manager estimate the cost of quality (COQ) for this project?", "options": {"A": "To find the optimal cost to prevent failures in future iterations of this product", "B": "To determine the cost-effectiveness of investing in external failure costs", "C": "To assess the quality of the product to minimize future appraisal costs", "D": "To minimize rework and scrap associated with internal failure costs"}, "correct": "B", "explanation": "External Failure Costs are those failures found by the customer. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer 8 | Done Reviewing Your Answer Xx"}, {"id": 71, "question": "{ ne | 114 of 175 — A project has been closed but is still covered by the warranty. The project manager needs to measure customer satisfaction with the deliverables. What should the project manager do?", "options": {"A": "Negotiate additional contracts with the customer for similar services", "B": "Schedule meetings with stakeholders and the customer to discuss lessons learned", "C": "Evaluate the project deliverables and review customer feedback documents", "D": "Audit project success by reviewing closing documentation for each project phase"}, "correct": "C", "explanation": "Project closure meetings are used to confirm that the deliverables have been accepted, to validate that the exit criteria have been met, to formalize the completion of the contracts, to evaluate the satisfaction of the stakeholders, to gather lessons learned, to transfer knowledge and information from the project, and to celebrate success. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 72, "question": "During a periodic review with stakeholders, the project sponsor asks how the project will measure satisfactory production of the deliverables and why those measurements are applied. Where can the project manager find this information?", "options": {"A": "Scope management plan", "B": "Requirements management plan", "C": "Quality management plan", "D": "Work performance reports"}, "correct": "B", "explanation": "The quality management plan identifies the quality requirements and/or standards for the project and its deliverables, and documenting how the project will demonstrate compliance with quality requirements and/ or standards. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer 8 | = x"}, {"id": 73, "question": "meer gy Te Weetehenantess EEE EE My 117 of 175 Tobx £# @ A manufacturing company receives customer complaints that a product is defective. A project sponsor has said that iv) Correct these complaints might be outliers. What should the project manager use to investigate the cause and quantity of defects in this product?", "options": {"A": "Flowcharts A", "B": "Affinity diagram", "C": "Control chart B", "D": "Histogram C"}, "correct": "D", "explanation": "Histogram | D | v | Control charts are used to determine whether or not a process is stable or has predictable performance."}, {"id": 74, "question": "Back < | he Page e A | \\Zave Page As... Print Page... 7 A project deliverable does not meet the functional requirements necessary to meet stakeholder needs. As a result, the customer refuses to accept the deliverable. How would defining the quality metrics have helped the project manager avoid this situation?", "options": {"A": "The test management plan would have evaluated the deliverable according to quality metrics before final acceptance.", "B": "Quality metrics specified in the work breakdown structure (WBS) would have identified compliance specifications.", "C": "Quality metrics would have described the attributes of the deliverable and how to measure them.", "D": "Quality metrics in the requirements plan would have allowed for a new procurement process in case of component failure."}, "correct": "C", "explanation": "Quality metrics are a description of a project or product attribute and how to measure it. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 75, "question": "The client agreed to the standards that would be used to assess final deliverables prior to hand-off, but is now asking for improvements because the deliverables do not meet the standards. Which document should the project manager consult to resolve this issue?", "options": {"A": "Scope management plan", "B": "Quality management plan", "C": "Requirements documentation", "D": "Project charter"}, "correct": "B", "explanation": "The definition of acceptance criteria may significantly increase or decrease quality costs and, therefore, project costs. Satisfying all acceptance criteria implies the needs of the stakeholders have been met. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo v C D"}, {"id": 76, "question": "| Back ( Res Page \"Ay | “ave Page As... ~ Print Page... 4 A project manager discovers a difference between the planned rate at which a product performs and the actual rate. This performance metric was not defined in the project management plan. The project manager needs to determine if any action needs to be taken. In which process group does the project manager make this type of determination?", "options": {"A": "Closing", "B": "Initiating", "C": "Monitoring and Controlling", "D": "Executing"}, "correct": "C", "explanation": "Monitor and control is the phase you are in when you are comparing the planned results with the actual results. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 77, "question": "ty 122 of 175 Multiple stakeholders have identified an issue regarding one of the project’s deliverables and bring their dissatisfaction to the project’s manager. What should the project manager do next?", "options": {"A": "Schedule a meeting with the stakeholders.", "B": "Update the risk management plan.", "C": "Review the documented project requirements.", "D": "Review the final scope statement."}, "correct": "C", "explanation": "Acceptance criteria is part of scope planning and management. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 78, "question": "Back j | 4 Ty \"Reload Page save Page As... Print Page... Multiple stakeholders have identified an issue regarding one of the project’s deliverables and bring their dissatisfaction to the project’s manager. What should the project manager do next?", "options": {"A": "Schedule a meeting with the stakeholders.", "B": "Update the risk management plan.", "C": "Review the documented project requirements.", "D": "Review the final scope statement."}, "correct": "C", "explanation": "Acceptance criteria is part of scope planning and management. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 79, "question": "An organization is launching an agile project. The stakeholders have accepted the iterative delivery approach and the scope statement. The project manager’s next task is to ensure that the project team has a clear understanding of the work needed. What should the project manager do next?", "options": {"A": "Develop the project management plan, identify work packages, populate the schedule and assign tasks to the team.", "B": "Leverage the stakeholders to develop the work breakdown structure (WBS), assign tasks to specific team members with the task duration clearly defined.", "C": "Working with the project team, build the WBS and work packages by decomposing the scope to develop the timeline and deliverables.", "D": "Build the communications management plan to ensure clear communication throughout the project then begin decomposing the scope into the project management plan."}, "correct": "C", "explanation": "To understand the work, the scope needs to be decompose into a work breakdown structure with specific work packages included. Then the detailed requirements documentation is completed based on the agreed scope and the WBS. Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 80, "question": "— 4 1125 of 175 An organization is launching an agile project. The stakeholders have accepted the iterative delivery approach and the scope statement. The project manager’s next task is to ensure that the project team has a clear understanding of the work needed. What should the project manager do next?", "options": {"A": "Develop the project management plan, identify work packages, populate the schedule and assign tasks to the team.", "B": "Leverage the stakeholders to develop the work breakdown structure (WBS), assign tasks to specific team members with the task duration clearly defined.", "C": "Working with the project team, build the WBS and work packages by decomposing the scope to develop the timeline and deliverables.", "D": "Build the communications management plan to ensure clear communication throughout the project then begin decomposing the scope into the project management plan."}, "correct": "C", "explanation": "To understand the work, the scope needs to be decompose into a work breakdown structure with specific work packages included. Then the detailed requirements documentation is completed based on the agreed scope and the WBS. Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 81, "question": "meer gy Te Weetehenantess Back 3 ‘ | Le Page q ti S a “ave Page As... — Print Page... 3 A project manager has been assigned to a new project that revisits a previously completed project. Why should the project manager refer to the lessons learned documents first?", "options": {"A": "To identify resources who worked on the previous project", "B": "To define the project requirements and finalize the scope", "C": "To determine a baseline for the project budget", "D": "To address gaps in the previous project"}, "correct": "D", "explanation": "Before planning anything new, the project manager should understand what happened on the prior project. This information will be found in that project's lessons learned documents. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B z pb | ¥ |"}, {"id": 82, "question": "| h 128 of 175 . — | = A recently developed procedure can speed implementation of a project by 25 percent. The project team wants to use this new procedure, but believes that because it is new, a knowledge base and technical support is lacking. What should the project manager do to determine if the project would benefit from using this procedure?", "options": {"A": "Compute the risk to reward ratio and use the new procedure if the value is negative.", "B": "Use the results of a quantitative risk analysis to determine if the procedure should be implemented.", "C": "Calculate the expected monetary value (EMV) and use the procedure if the value is positive.", "D": "Develop a tornado diagram to compare the effect of uncertainties on project outcome. Solution: C Calculate the expected monetary value (EMV) and use the procedure if the value is positive. The decision tree is evaluated by calculating the expected monetary value of each branch, allowing the optimal path to be selected. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c v. D Confidence Level: Medium Time Spent: 2 mins 42 secs Difficulty Level: Difficult"}, "correct": "C", "explanation": "The decision tree is evaluated by calculating the expected monetary value of each branch, allowing the optimal path to be selected. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 83, "question": "A recently developed procedure can speed implementation of a project by 25 percent. The project team wants to use this new procedure, but believes that because it is new, a knowledge base and technical support is lacking. What should the project manager do to determine if the project would benefit from using this procedure?", "options": {"A": "Compute the risk to reward ratio and use the new procedure if the value is negative.", "B": "Use the results of a quantitative risk analysis to determine if the procedure should be implemented.", "C": "Calculate the expected monetary value (EMV) and use the procedure if the value is positive.", "D": "Develop a tornado diagram to compare the effect of uncertainties on project outcome. Solution: C Calculate the expected monetary value (EMV) and use the procedure if the value is positive. The decision tree is evaluated by calculating the expected monetary value of each branch, allowing the optimal path to be selected. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c v. D Confidence Level: Medium Time Spent: 2 mins 42 secs Difficulty Level: Difficult"}, "correct": "C", "explanation": "The decision tree is evaluated by calculating the expected monetary value of each branch, allowing the optimal path to be selected. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 84, "question": "An organization is launching a project for a major product. This product will be the one of the most important company products. The stakeholders involved have informed the project manager that success of this project depends on market adaption, responding rapidly to market offerings and agility. What should the project manager do to ensure the project’s success?", "options": {"A": "Work closely with the marketing team to ensure that the product is successfully promoted.", "B": "Ensure that the project has substantial budget reserves to address any issues that occur during the project.", "C": "Stay actively involved by monitoring the project plan, task objectives and the quality of the deliverable, capturing all data to guide the project successfully.", "D": "Invite the stakeholders to attend all standups to ensure they are actively involved in the project’s success."}, "correct": "C", "explanation": "As the PM it is crucial to continuously and repetitively review the project deliverable to ensure that they are fit to achieve the project objectives and to be aligned with the organisation objectives. key to this is to collect data about the end product (project deliverable) fitness to the market requirements, competitiveness and to the clients' needs. The PM is not responsible of ensuring that the end product will be successful in the market as this is the responsibility of the product owner but nevertheless the PN need to communicate the project outcome to meet the intended objective. Done Reviewing Correct Answer Your Answer Le |"}, {"id": 85, "question": "Back : ‘ | h= Page a ) \\Zave Page As... + Print Page... - Team members are working on a technology project that is in the implementation phase. A key stakeholder communicates the need for changes to the project. The stakeholder and team members disagree about the need for the changes and how to implement them. What should the project manager do?", "options": {"A": "Review the change management plan with the team members and stakeholders and emphasize the importance of following it.", "B": "Facilitate a meeting with the project sponsor, stakeholders, and project team to discuss the proposed changes.", "C": "Initiate research into the proposed changes and submit a formal change request as needed.", "D": "Assign the decision regarding the requested changes to the key stakeholder and communicate the decision with the team."}, "correct": "A", "explanation": "The team and project manager must follow the documented and agreed upon change management processes. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 86, "question": "wy 130 of 175 Team members are working on a technology project that is in the implementation phase. A key stakeholder communicates the need for changes to the project. The stakeholder and team members disagree about the need for the changes and how to implement them. What should the project manager do?", "options": {"A": "Review the change management plan with the team members and stakeholders and emphasize the importance of following it.", "B": "Facilitate a meeting with the project sponsor, stakeholders, and project team to discuss the proposed changes.", "C": "Initiate research into the proposed changes and submit a formal change request as needed.", "D": "Assign the decision regarding the requested changes to the key stakeholder and communicate the decision with the team."}, "correct": "A", "explanation": "The team and project manager must follow the documented and agreed upon change management processes. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 87, "question": "meer gy Te Weetehenantess 4 132 of 175 Team members are making revisions to the deliverables with little attention to ensuring the revisions are properly iv) Correct documented. When questioned, the team members reply that the revisions are relatively minor. What part of the project management plan should the project manager review with the team?", "options": {"A": "Change management plan", "B": "Quality management plan 7", "C": "Requirements management plan B", "D": "Scope management plan r"}, "correct": "A", "explanation": "D The change management plan defines the process for managing change in the project."}, {"id": 88, "question": "During the project planning phase, the stakeholders neglected to document an essential system feature. The client realizes the oversight during an initial review of the deliverables. What should the project manager do?", "options": {"A": "Review the procurement management plan to determine if the missed feature can be added to the final deliverables.", "B": "Determine what effect overlooking the feature will cause and submit a change request to the change control board (CCB).", "C": "Ask the project sponsor to authorize a price discount for the client.", "D": "Work with the customer to agree on a new price to compensate for the omission."}, "correct": "B", "explanation": "The missing feature is needed, so the project manager needs to understand the impact of this and start the normal, agreed upon change management process. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo C D"}, {"id": 89, "question": "When developing the project management plan, the stakeholders overlooked an essential component of a required product. The project team developed a workaround, but during a review for quality compliance, the project management office (PMO) determined that the workaround did not resolve the issue. What should the project manager do first?", "options": {"A": "Design a prototype of the workaround to find a modification that will resolve the issue.", "B": "Review the requirements traceability matrix to determine the business value of the missing component.", "C": "Follow the formal integrated change control process to submit a change request to the change control board (CCB).", "D": "Perform a qualitative risk analysis to assess the impact of designing a new workaround."}, "correct": "C", "explanation": "since this missing critical aspect is needed, the3 normal change control processes should be followed. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer Le |"}, {"id": 90, "question": "A stakeholder learns that a better grade of equipment was leased than originally planned. When the stakeholder asks the project manager about it, the project manager responds that the better equipment was available at a discounted price. What should the project manager have done to keep the stakeholder informed?", "options": {"A": "Updated the communications management plan", "B": "Communicated results of a risk analysis for the equipment substitution", "C": "Performed integrated change control", "D": "Performed quality inspections and documented the results"}, "correct": "C", "explanation": "Contractor and material costs can change frequently during the delivery of a project. These changes can occur because of fluctuating materials and labor prices created by the external economic environment and need to be incorporated into the cost baseline. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer Le | Done Reviewing Your Answer Xx"}, {"id": 91, "question": "nf 137 of 175 A key stakeholder requests new features to be added to a product during the project implementation phase. The stakeholder insists that the new features will add value to the product. What should the project manager do first?", "options": {"A": "Meet with the project sponsor to discuss the benefits of the new features.", "B": "Review the stakeholder engagement plan to determine the key stakeholder's level of involvement.", "C": "Submit a change request according to the process in the change management plan.", "D": "Implement the change and document the outcome in the lessons learned repository."}, "correct": "C", "explanation": "The scope management plan establishes how the scope will be defined, developed, monitored, controlled, and validated. Any changes to scope must be processed through the agreed upon process of change control. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 92, "question": "Ny 138 of 175 During project execution, key stakeholders request a change to ensure that the final product will satisfy their requirements. Why should the project manager submit a change request?", "options": {"A": "To record the requirements needed for the stakeholders’ sign-off in order to update the issues log.", "B": "To ensure that the request is formally authorized and incorporated according to the integrated change control process.", "C": "To provide justification for any impact the change might have on the project's budget or schedule.", "D": "To ensure stakeholder responsibility regarding potential impact of the change on project budget and schedule."}, "correct": "B", "explanation": "Verifying that the changes are registered, assessed, approved, and tracked and communicating final results to stakeholders is the responsibility of the project manager. To ensure that the request is formally authorized and incorporated according to the integrated change control process. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer 8 | Done Reviewing Your Answer"}, {"id": 93, "question": "A project to expand a municipal building is on schedule and within budget. During excavation for the foundation, the project manager learns that the new addition will cover the ruins of a historical site. As a result, the construction will need to be moved to a different location. What will the project manager need to manage this situation?", "options": {"A": "Results of an archaeological or environmental study", "B": "Conflict management and change management skills", "C": "Understanding of scope creep", "D": "Ability to run what-if scenarios"}, "correct": "B", "explanation": "This new development will undoubtedly result in conflict and require a change to the project plan. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Toolbox 2S ean? Correct Answer Your Answer A Boo v C D"}, {"id": 94, "question": "iY Look Up “ReviewingMultiple” ins Search with Google ! Copy Share > Speech > | A project is in the implementation phase when a team lead leaves the project. The project manager is informed that the project sponsor has identified a replacement. What should the project manager do first?", "options": {"A": "Determine the competence levels of the new resource.", "B": "Review the project baselines to assess the impact of the change.", "C": "Document the change according to the change management plan.", "D": "Update the communications management plan. Solution: B Review the project baselines to assess the impact of the change. The project manager should always first assess any change to see if it will impact the scope, schedule or budget of their project. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer Your Answer A B vv C D Confidence Level: High Time Spent: 0 min 23 secs Difficulty Level: Expert"}, "correct": "B", "explanation": "The project manager should always first assess any change to see if it will impact the scope, schedule or budget of their project. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer Your Answer A B | vv C D"}, {"id": 95, "question": "During the planning phase for the expansion of a services company, stakeholders conducted a feasibility study to establish the type of new service the company should provide. During an alternatives analysis, another type of service was determined to be more effective. The change control board (CCB) has approved the change request for the alternative service. What should the project manager do?", "options": {"A": "Implement the change as approved.", "B": "has approved the change request for the alternative service. What should the project manager do? A. Implement the change as approved. B. Modify the change to reduce the impact on the schedule and budget.", "C": "Request justification from the CCB for the change.", "D": "Conduct a cost-benefit analysis of the alternative service."}, "correct": "A", "explanation": "Approved change requests can require new or revised cost estimates, activity sequences, schedule dates, resource requirements, and/or analysis of risk response alternatives. These changes can require adjustments to the project management plan and other project documents. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 96, "question": "A project manager who owns a product is at the mid-way point of the project. The project manager finds there is a financial condition in the project's contract regarding local currency and the exchange rate. The local currency value dropped, which led to the project being stopped. What should the project manager do to overcome the condition and execute the project according to the updated schedule baseline?", "options": {"A": "Negotiate with the contractor to keep project budget as planned", "B": "Discuss with stakeholders to review the project scope to be suitable to available budget and contract condition", "C": "Request the project sponsor to increase project budget to complete the project.", "D": "Propose to terminate the project"}, "correct": "B", "explanation": "A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B | vv. C D"}, {"id": 97, "question": "A project's workload is high and resources are overloaded. Management decides to change the members of the stakeholder community to manage the stakeholders' engagement. Which document should the project manager revise?", "options": {"A": "Communications management plan", "B": "Procurement management plan", "C": "Issue log", "D": "Project organization chart"}, "correct": "A", "explanation": "The Procurement Management Plan is where the process of documenting project procurement decisions, specifying the approach and identifying potential sellers is captured. The key benefit of this process is that it determines whether to acquire goods and services from outside the project and, if so, what to acquire as well as how and when to acquire it. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer LA | Cc Done Reviewing Your Answer"}, {"id": 98, "question": "A project manager needs to contract with a provider for a large government project. Project guidelines mandate that all potential providers have the same understanding of the procurement process. What should the project manager hold to ensure compliance with the guidelines of the project?", "options": {"A": "Direct negotiations with providers of similar past projects", "B": "Bidder conference", "C": "Individual meetings with each potential provider", "D": "Procurement team video conference"}, "correct": "B", "explanation": "A bidder conference is a meeting between the buyer and prospective sellers prior to proposal submittal. They are used to ensure that all prospective bidders have a clear and common understanding of the procurement and no bidders receive preferential treatment. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo C D"}, {"id": 99, "question": "f Back load Pai Ie —- 146 of 175 mave Page As... Print Page... The production of a key component in a construction project is outsourced to a third-party vendor. The vendor informs the project manager that this component will arrive in greater quantities than ordered and earlier than scheduled. What should the project manager do to address this issue?", "options": {"A": "Meet with the project sponsor to discuss penalties that can be imposed because of the changes.", "B": "Perform project phases in parallel to compress the schedule and complete the project earlier.", "C": "Review the third-party vendor's terms of delivery as specified in the procurement management plan.", "D": "Shift the budget and schedule to eliminate contingencies and planned overtime."}, "correct": "C", "explanation": "The procurement management plan describes how a project team will acquire goods and services from outside of the performing organization. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 100, "question": "Back 4 | h= Page ) A ) \\Zave Page As... . Print Page... L A supplier has been awarded a firm fixed price (FFP) contract to provide various materials for a construction project. The supplier has received all necessary documents relating to material standards and specifications. By contract, the supplier must deliver all materials to the construction site on a specific date. When the materials arrive at the site on time, why should the project manager inform the inspections group?", "options": {"A": "To inform the team member responsible for the materials to pick them up", "B": "To provide the finance department with documentation needed to pay the supplier's invoice", "C": "To advise the procurement department that the contract has been fulfilled", "D": "To ensure that the materials comply with the contract standards and specifications"}, "correct": "D", "explanation": "The delivered materials need to be verified to see if they are complete and correct. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B z pb | ¥ |"}, {"id": 101, "question": "Back ‘ | he Page ( Mave Page As... -—— Print Page... A company is venturing into a new business but has no previous experience in that market. The project manager is having trouble visualizing the project requirements. How would prototyping help the project manager gather project requirements?", "options": {"A": "By helping determine the feasibility of a solution", "B": "By enabling stakeholders to contribute expert judgment", "C": "By helping to analyze the final product", "D": "By engaging the customer in the final decision making"}, "correct": "A", "explanation": "Prototyping is a method of obtaining early feedback on requirements by providing a model of the expected product before actually building it. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer LA | Cc Done Reviewing Your Answer"}, {"id": 102, "question": "i 150 of 175 A project manager leaves an ongoing project and is replaced by a new project manager. What should the new project manager do first to help ensure the success of the project?", "options": {"A": "Become familiar with the project goals as specified in the project charter.", "B": "Consult the issues log and lessons learned register kept by the former project manager.", "C": "Modify the project schedule and budget to include knowledge transfer activities.", "D": "Meet with key stakeholders and update the communications strategy as necessary."}, "correct": "A", "explanation": "In order to successfully lead a project, the PM must first understand the purpose of the project and what the goals and deliverables are. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 103, "question": "meer gy Te Weetehenantess Be 4 >» = 150 0f 175 A project manager leaves an ongoing project and is replaced by a new project manager. What should the new project manager do first to help ensure the success of the project?", "options": {"A": "Become familiar with the project goals as specified in the project charter.", "B": "Consult the issues log and lessons learned register kept by the former project manager.", "C": "Modify the project schedule and budget to include knowledge transfer activities.", "D": "Meet with key stakeholders and update the communications strategy as necessary."}, "correct": "A", "explanation": "In order to successfully lead a project, the PM must first understand the purpose of the project and what the goals and deliverables are. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 104, "question": "meer gy Te Weetehenantess Back he page 31 0f 175 ar y Mave Page As... Print Page... a A project sponsor gives the project charter to a newly assigned project manager. What should the project manager do first?", "options": {"A": "Review the business case and project goals to understand the organization's strategic objectives.", "B": "Build and train the project team and assign project tasks with specific milestones to monitor progress.", "C": "Construct the project schedule and define the critical path in a way that minimizes risk.", "D": "Negotiate changes with the project sponsor to establish a realistic project baseline."}, "correct": "A", "explanation": "The business case and project goals need to be understood first before a charter can be written. Building a team and a schedule come later in the process. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 105, "question": "meer gy Te Weetehenantess re Back he we 152 of 175 | \\Zave Page As... - Print Page... A project sponsor assigns a project manager to a new, critical project. This project has tight budget and time @ Incorrect constraints. What should the project manager do first?", "options": {"A": "Meet with functional managers to schedule team resources. A", "B": "Meet with stakeholders to obtain their buy-in and support.", "C": "Compile requirements documentation to draft the project charter.", "D": "Update the requirements management plan to reflect the budget and time constraints. Le"}, "correct": "C", "explanation": "D The first steps in initiating a project are to understand the goal, the requirements and to create a charter."}, {"id": 106, "question": "meer gy Te Weetehenantess EEE EE 4 153 of 175 In anew agile project, the team is using Kanban Method. Kanban board acts as an information radiator to anyone who iv) Correct sees it, providing up-to-date information on the status of the work of the team. How is the Kanban board technology considered?", "options": {"A": "Low-tech, high-touch", "B": "Tool used in PDCA 7", "C": "Used to show the work done B", "D": "Board for story point estimates P e"}, "correct": "A", "explanation": "D"}, {"id": 107, "question": "meer gy Te Weetehenantess Open Link in New Tab | en Link inNew Window _ =", "options": {"A": "® ownload Linked File 154 of 175 Download Linked File As... Add Link to Bookmarks... Add Link to Reading List Copy Link oject team lead meets with the project manager before a scheduled kick-off meeting. The team lead is worried that Share » >ctations regarding project deliverables might not be realistic. What should the project manager do? A. Design the project business case including the results of a documented feasibility study.", "B": "Facilitate a meeting between the project sponsor and the team lead to discuss the concerns.", "C": "Meet with the stakeholders to discuss the concerns and record their conclusions in the stakeholder engagement plan.", "D": "Identify the risks and agreed-upon risk responses and modify the risk register accordingly."}, "correct": "A", "explanation": "Design the project business case including the results of a documented feasibility study. To ensure that the deliverable are realistic, the project manager needs to conduct a feasibility study and then evaluate the results. none of the other choices will ensure this. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A"}, {"id": 108, "question": "ody of 175 A project team successfully achieved a key milestone. To do this, the team met critical technical requirements on a new process, and then used the process to develop the first of several similar deliverables. Why should the project manager document the lessons learned repository?", "options": {"A": "The information recorded can provide input into organizational performance appraisals.", "B": "The project team can use the lessons learned repository to train the team responsible for the similar deliverables.", "C": "The new process resulted in benefits that could be applied to future projects.", "D": "The costs of the new process should be recorded so the budget can be updated."}, "correct": "C", "explanation": "This new technology has resulted in improved performance. This needs to be documented in lessons learned so that future projects can benefit from this. Connection Lost A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Toolbox s & na ¢ Correct Answer Your Answer Lc fv"}, {"id": 109, "question": "| ae load Page = \\) ay ; of 175 _ Print Page. A project manager is leading a development project for a customer in another country. As per new guidelines, the @ Incorrect project manager's company needs to meet specific compliance requirements, and the project manager's project was selected for an external audit. The customer believes that the audit is not required and requested not to have the project Gussie: ~eopRREES team disturbed. A How should the project manager respond? L", "options": {"A": "Exclude the project from the compliance audit as requested by the customer.", "B": "Meet with the customer to explain the need to meet the compliance requirements, and allow the audit to occur. ,", "C": "Manage the audit without informing the customer since it is an organization requirement. =", "D": "Schedule a steering committee meeting with all stakeholders to discuss and come to a common understanding. p>"}, "correct": "D", "explanation": ""}, {"id": 110, "question": "The project manager has documented a new risk and its impact. If not resolved immediately, the risk will jeopardize the success of the project .The resources necessary to address the risk are working on another critical project. What should the project manager do?", "options": {"A": "Negotiate a solution with the functional manager and project sponsor", "B": "Outsource the resources necessary to address the risk", "C": "Modify the project schedule based on the highest three-point estimate of the impact", "D": "Meet with the project sponsor to request more resources and a delay in the schedule Solution: A Negotiate a solution with the functional manager and project sponsor The functional manager is the person who will be able to reschedule, reassign or replace resources. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A ¥ B D Confidence Level: High Time Spent: 1 min 49 secs Difficulty Level: Difficult"}, "correct": "A", "explanation": "The functional manager is the person who will be able to reschedule, reassign or replace resources. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A | ¥ | B D"}, {"id": 111, "question": "meer gy Te Weetehenantess Back ‘ | h= Page } \\ \\Zave Page As... — Print Page... An agile project in its final iteration. During the standup, the project team sees that they will be unable to finish all planned tasks for a sprint. The risk response plan accounted for this situation and a fallback plan was already developed. The project team updates the fallback plan to address the current situation. What should the project manager do next in this scenario?", "options": {"A": "Meet with the project owner to discuss the issue and proposed fallback plan.", "B": "Meet with the stakeholders to discuss the issue and proposed fallback plan.", "C": "Meet with the sponsor to discuss the issue and proposed fallback plan.", "D": "Implement the fallback plan as it was already in the overall project plan."}, "correct": "A", "explanation": "the team has to be involved in the solution plan for issues A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer A Done Reviewing Your Answer"}, {"id": 112, "question": "meer gy Te Weetehenantess 4 Ni) 161 of 175 A project manager is trying to gather knowledge related to project and product requirements. Which approach is classified as tacit knowledge transfer?", "options": {"A": "A real time transfer of knowledge in the form of a solution", "B": "Coaching sessions arranged by an external company", "C": "Aread through of the project and product documentation and FAQs", "D": "Perceptions and the behaviors of end user using the system"}, "correct": "D", "explanation": "Outline expectations for working environment A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B z pb | ¥ |"}, {"id": 113, "question": "k Bac’ hh Page a mave Page As... 162 of 175 Print Page... Upon completion of a long-term contract, the project manager confirms with the release manager that all phases of the project are functioning properly as verified by the quality assurance team. The project manager informs the customer and project stakeholders. What should the project manager do next?", "options": {"A": "Update the lessons learned knowledge base", "B": "Update the risk register before informing project team members", "C": "Update and archive the final procurement file", "D": "Close out the seller performance evaluation documentation"}, "correct": "A", "explanation": "During project close out, lessons learned and knowledge gained throughout the project are transferred to the lessons learned repository for use by future projects. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A"}, {"id": 114, "question": "Back Re Page (Mave Page As... 63 of 175 Print Page... A project manager is formally closing a project that has been completed. Why should the project manager document final project activities?", "options": {"A": "To record case studies and customer references", "B": "To log final project performance metrics and quality analysis", "C": "To provide lessons learned and archive historical information", "D": "To allow the customer to submit invoices and get a receipt of final payment"}, "correct": "C", "explanation": "Closing the project is the process of finalizing all activities for the project. The key benefits of this process are the project or phase information is archived, the planned work is completed, and organizational team resources are released to pursue new endeavors. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B c | v. D"}, {"id": 115, "question": "A project manager needs to formally close a project that has been successfully delivered. What should the project manager do?", "options": {"A": "Update the bid documents with quality control measurements.", "B": "Obtain formal stakeholder acceptance and forward it to the Close Project process.", "C": "Reassign the project team and reallocate any unused funds.", "D": "Incorporate the issue log into the lessons learned register to produce the final report."}, "correct": "B", "explanation": "Deliverables that meet the acceptance criteria are formally signed off and approved by the customer or sponsor. Formal documentation received from the customer or sponsor acknowledging formal stakeholder acceptance of the project’s deliverables is forwarded to the Close Project process. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo C D"}, {"id": 116, "question": "meer gy Te Weetehenantess 4 167 of 175 A project manager must close a project that was terminated during its initiation phase due to lack of adequate resources. What should be the project manager's first step?", "options": {"A": "Inform all team members according to guidelines in the communications management plan.", "B": "Refer to the company's project closure guidelines.", "C": "Perform a risk analysis to determine the potential impact of terminating the project.", "D": "Reassign all resources and reallocate budget."}, "correct": "B", "explanation": "Project closure guidelines or requirements will contain the organization's procedures to follow. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo v C D"}, {"id": 117, "question": "Back R= Page = 30f 175 A i! | \\“ave Page As... Print Page... . A project manager has obtained final acceptance of the deliverables, completed the assessment, released project resources, and closed out all procurement-related activities. Why should the project manager update the project management information system (PMIS) next?", "options": {"A": "To record issues that required resolution in order to complete the project successfully", "B": "To manage a repository of quality reviews conducted during project execution", "C": "To document changes to the project schedule and actions taken to meet important milestones", "D": "To track planned versus actual dates and report variances in the schedule baseline"}, "correct": "D", "explanation": "A project management information system (PMIS) is the coherent organization of the information required for an organization to execute projects successfully. This should be updated with project progress right through to project completion. A Chara Contant Ceaadhack ar Raenort Errarc Correct Answer A B oD Done Reviewing Your Answer Xx"}, {"id": 118, "question": "tinea ck Ba Re Page = 71 of 175 A mave Page As... Print Page... JS Due to regulatory changes, a government agency is now a key stakeholder on a complex project. An agency representative has asked the the project manager to explain how well the advantages derived from the project align to the business strategies of the agency. What should the project manager do?", "options": {"A": "Meet with the other stakeholders to discuss the project objectives.", "B": "Review the assumption log.", "C": "Update the stakeholder engagement plan.", "D": "Refer to the benefits management plan."}, "correct": "D", "explanation": "Meetings are used to develop an understanding of significant project stakeholders. They can take the form of facilitation workshops, small group guided discussions, and virtual groups using electronics or social media technologies to share ideas and analyze data. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A B z pb | ¥ |"}, {"id": 119, "question": "A project manager is leading Project A, which is a project to update a customer’s database. The project manager is monitoring international business news and reads of pending legislation that would require companies to maintain a strict level of protection regarding customer personal data. This new level of protection is stricter than what Project A currently achieves. What should the project manager do in this scenario?", "options": {"A": "Meet with the customer to immediately update the level of customer data protection in the project contract.", "B": "Bring this information to your organization’s legal department requesting that they renegotiate the customer’s contract.", "C": "Note this information in the project risk register and work with the customer and the sponsor to develop a mitigation plan.", "D": "Work with the organization’s legal department to update the contract to include protections against the pending legislation."}, "correct": "C", "explanation": "The risk register should be regularly reviewed and as such, including the issue in the issue register will ensure that this issue is regularly monitored. There is no need to ammend the contract immediately since the legal requirements are not yet certain. Parking the issue until the next contract negotiation risks forgetting the issue. Waiting until the legal requirements are certain might be too late to act on it already. Done Reviewing Correct Answer Your Answer Le |"}, {"id": 120, "question": "Back Rew Page 174 0f 175 A | \\Save Page As... Print Page... A project management office (PMO) normally runs projects using the waterfall approach. A project currently in development is impacted by local regulations which are being updated regularly. The project team feels that implementing agile techniques would benefit the project due to the constantly changing regulations. What should the project manager do in this scenario?", "options": {"A": "Leverage budget reserves to add vendors familiar with the regulations to the project team.", "B": "Conduct an analysis on how incorporating agile methodologies will impact the project requirements.", "C": "Present this request to the PMO and the project sponsor.", "D": "Implement the request and train the project team on agile methodologies."}, "correct": "B", "explanation": "This is a typical hybrid scenario. So making a tailor made process incorporating both agile and waterfall methodologies is the best response to this scenario. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo C D"}, {"id": 121, "question": "meer gy Te Weetehenantess Back load P. no of 175 wave Page AS... Print Page... As a result of a drastic cut to the budget, a project's steering committee is replaced with a single sponsor. What should the project manager do?", "options": {"A": "Draft a new project update and share it with the project sponsor", "B": "Modify the communications management plan to reflect the change in stakeholder community", "C": "Submit a change request to the change control board (CCB) to record the change in stakeholder structure", "D": "Schedule a meeting with the sponsor to discuss the change to the budget"}, "correct": "B", "explanation": "The project manager needs to be proactive and respond to this change. The same communication that was planned for a single sponsor will not necessarily work for this steering committee. A Chara Contant Ceaadhack ar Raenort Errarc Done Reviewing Correct Answer Your Answer A Boo C D"}];
+const TOTAL = QUESTIONS.length;
+const PER_Q_SECS = 180; // 3 mins per question
+const TOTAL_SECS = 3*3600 + 50*60; // 3h 50m
+
+let current = 0;
+let state = QUESTIONS.map(() => ({
+  selected: null,
+  checked: false,
+  skipped: false,
+  marked: false,
+  perTimer: PER_Q_SECS,
+  perTimerStarted: false
+}));
+let globalSecs = TOTAL_SECS;
+let perSecs = PER_Q_SECS;
+let globalInterval, perInterval;
+let explainVisible = false;
+
+// ---- INIT ----
+document.getElementById('stat-total').textContent = TOTAL;
+buildGrid();
+loadQuestion(0);
+startGlobalTimer();
+startPerTimer();
+
+// ---- GRID ----
+function buildGrid() {
+  const grid = document.getElementById('q-grid');
+  grid.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-btn';
+    btn.id = 'qbtn-' + i;
+    btn.textContent = i + 1;
+    btn.onclick = () => goTo(i);
+    grid.appendChild(btn);
+  });
+  updateGrid();
+}
+
+function updateGrid() {
+  QUESTIONS.forEach((q, i) => {
+    const btn = document.getElementById('qbtn-' + i);
+    const s = state[i];
+    btn.className = 'q-btn';
+    if (i === current) btn.classList.add('current');
+    else if (s.checked) {
+      btn.classList.add(s.selected === q.correct ? 'correct' : 'wrong');
+    } else if (s.skipped) btn.classList.add('skipped');
+    if (s.marked) btn.classList.add('marked');
+  });
+}
+
+// ---- LOAD QUESTION ----
+function loadQuestion(idx) {
+  current = idx;
+  explainVisible = false;
+  const q = QUESTIONS[idx];
+  const s = state[idx];
+  
+  document.getElementById('q-num').textContent = 'Q' + (idx+1) + ' / ' + TOTAL;
+  document.getElementById('q-progress-fill').style.width = ((idx+1)/TOTAL*100) + '%';
+  document.getElementById('question-text').textContent = q.question;
+  
+  // Options
+  const opts = document.getElementById('options-container');
+  opts.innerHTML = '';
+  ['A','B','C','D'].forEach(letter => {
+    const div = document.createElement('div');
+    div.className = 'option' + (s.disabled ? ' disabled' : '');
+    div.id = 'opt-' + letter;
+    if (s.checked) {
+      div.classList.add('disabled');
+      if (letter === q.correct) div.classList.add('correct');
+      else if (letter === s.selected) div.classList.add('wrong');
+    } else if (s.selected === letter) {
+      div.classList.add('selected');
+    }
+    div.onclick = () => selectOption(letter);
+    div.innerHTML = '<div class="option-letter">' + letter + '</div><div class="option-text">' + q.options[letter] + '</div>';
+    opts.appendChild(div);
+  });
+  
+  // Explanation
+  const expDiv = document.getElementById('explanation');
+  expDiv.className = 'explanation' + (s.checked ? ' show' : '');
+  document.getElementById('correct-tag').textContent = '✓ Correct Answer: ' + q.correct;
+  document.getElementById('explanation-text').textContent = q.explanation;
+  
+  // Per-question timer - restore saved or reset
+  clearInterval(perInterval);
+  perSecs = s.perTimer;
+  updatePerTimerDisplay();
+  if (!s.checked && !s.skipped) startPerTimer();
+  
+  // Buttons
+  document.getElementById('btn-check').textContent = s.checked ? '✓ Answered' : 'Check Answer';
+  document.getElementById('btn-check').disabled = s.checked;
+  
+  updateStats();
+  updateGrid();
+  
+  // Scroll to top
+  document.getElementById('main-content').scrollTo(0, 0);
+}
+
+// ---- SELECT OPTION ----
+function selectOption(letter) {
+  if (state[current].checked) return;
+  state[current].selected = letter;
+  ['A','B','C','D'].forEach(l => {
+    document.getElementById('opt-' + l).classList.toggle('selected', l === letter);
+  });
+}
+
+// ---- CHECK ANSWER ----
+function checkAnswer() {
+  const s = state[current];
+  if (s.checked) return;
+  if (!s.selected) { alert('Please select an answer first.'); return; }
+  s.checked = true;
+  clearInterval(perInterval);
+  loadQuestion(current);
+}
+
+// ---- EXPLAIN ----
+function toggleExplain() {
+  const exp = document.getElementById('explanation');
+  explainVisible = !explainVisible;
+  if (explainVisible) exp.classList.add('show');
+  else exp.classList.remove('show');
+}
+
+// ---- MARK & SKIP ----
+function markQuestion() {
+  state[current].marked = !state[current].marked;
+  updateGrid();
+}
+function skipQuestion() {
+  state[current].skipped = true;
+  clearInterval(perInterval);
+  nextQuestion();
+}
+
+// ---- NAVIGATION ----
+function goTo(idx) {
+  state[current].perTimer = perSecs; // save timer
+  loadQuestion(idx);
+}
+function nextQuestion() {
+  if (current < TOTAL - 1) goTo(current + 1);
+}
+function prevQuestion() {
+  if (current > 0) goTo(current - 1);
+}
+
+// ---- STATS ----
+function updateStats() {
+  let correct = 0, wrong = 0, answered = 0;
+  state.forEach((s, i) => {
+    if (s.checked) {
+      answered++;
+      if (s.selected === QUESTIONS[i].correct) correct++;
+      else wrong++;
+    }
+  });
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-answered').textContent = answered;
+  const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  document.getElementById('stat-pct').textContent = pct + '%';
+}
+
+// ---- TIMERS ----
+function startGlobalTimer() {
+  clearInterval(globalInterval);
+  globalInterval = setInterval(() => {
+    if (globalSecs <= 0) { clearInterval(globalInterval); autoSubmit(); return; }
+    globalSecs--;
+    updateGlobalTimerDisplay();
+  }, 1000);
+}
+function updateGlobalTimerDisplay() {
+  const h = Math.floor(globalSecs / 3600);
+  const m = Math.floor((globalSecs % 3600) / 60);
+  const s = globalSecs % 60;
+  const txt = h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  const el = document.getElementById('global-timer');
+  el.textContent = txt;
+  const box = document.getElementById('global-timer-box');
+  box.className = 'timer-box';
+  if (globalSecs < 600) box.classList.add('danger');
+  else if (globalSecs < 1200) box.classList.add('warn');
+}
+
+function startPerTimer() {
+  clearInterval(perInterval);
+  perInterval = setInterval(() => {
+    if (perSecs <= 0) { clearInterval(perInterval); return; }
+    perSecs--;
+    state[current].perTimer = perSecs;
+    updatePerTimerDisplay();
+  }, 1000);
+}
+function updatePerTimerDisplay() {
+  const m = Math.floor(perSecs / 60);
+  const s = perSecs % 60;
+  const txt = '⏱ ' + m + ':' + String(s).padStart(2,'0');
+  const el = document.getElementById('q-per-timer-display');
+  el.textContent = txt;
+  el.className = 'q-per-timer';
+  if (perSecs < 30) el.classList.add('danger');
+  else if (perSecs < 60) el.classList.add('warn');
+}
+
+// ---- SUBMIT ----
+function showSubmitModal() {
+  let correct = 0, wrong = 0, answered = 0;
+  state.forEach((s, i) => {
+    if (s.checked) {
+      answered++;
+      if (s.selected === QUESTIONS[i].correct) correct++;
+      else wrong++;
+    }
+  });
+  const unanswered = TOTAL - answered;
+  const pct = answered > 0 ? Math.round(correct/answered*100) : 0;
+  document.getElementById('m-correct').textContent = correct;
+  document.getElementById('m-wrong').textContent = wrong;
+  document.getElementById('m-pct').textContent = pct + '%';
+  document.getElementById('modal-msg').textContent = unanswered > 0
+    ? `You have ${unanswered} unanswered question${unanswered>1?'s':''}. Submit anyway?`
+    : 'All questions answered. Ready to submit?';
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+function submitExam() {
+  clearInterval(globalInterval);
+  clearInterval(perInterval);
+  closeModal();
+  // Show all answers
+  state.forEach((s, i) => {
+    if (!s.checked && s.selected) { s.checked = true; }
+  });
+  showResults();
+}
+function autoSubmit() {
+  alert('Time is up! Submitting exam.');
+  submitExam();
+}
+function showResults() {
+  let correct = 0, wrong = 0, answered = 0, skipped = 0;
+  state.forEach((s, i) => {
+    if (s.checked) { answered++; if (s.selected === QUESTIONS[i].correct) correct++; else wrong++; }
+    if (s.skipped) skipped++;
+  });
+  const pct = answered > 0 ? Math.round(correct/answered*100) : 0;
+  const pass = pct >= 61;
+  
+  document.getElementById('main-content').innerHTML = `
+    <div style="max-width:600px;margin:40px auto;text-align:center;">
+      <div style="font-size:60px;margin-bottom:16px">${pass ? '🎉' : '📚'}</div>
+      <h1 style="font-size:28px;margin-bottom:8px">${pass ? 'Congratulations!' : 'Keep Practicing!'}</h1>
+      <p style="color:var(--text-muted);margin-bottom:32px">${pass ? 'You passed the practice exam!' : 'Review the explanations and try again.'}</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:32px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:var(--green)">${correct}</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Correct</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:var(--red)">${wrong}</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Wrong</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:var(--text-muted)">${skipped}</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Skipped</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:${pass?'var(--green)':'var(--red)'}">${pct}%</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Score</div>
+        </div>
+      </div>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px">Passing threshold: 61% | Use the navigator to review answers & explanations</p>
+      <button class="btn btn-primary" onclick="location.reload()">🔄 Retake Exam</button>
+    </div>
+  `;
+  updateGrid();
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight') nextQuestion();
+  if (e.key === 'ArrowLeft') prevQuestion();
+  if (['a','b','c','d'].includes(e.key.toLowerCase())) selectOption(e.key.toUpperCase());
+  if (e.key === 'Enter') checkAnswer();
+  if (e.key === 'm' || e.key === 'M') markQuestion();
+  if (e.key === 's' || e.key === 'S') skipQuestion();
+});
+</script>
+</body>
+</html>

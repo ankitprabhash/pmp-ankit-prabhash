@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIA PMP – 100 Drag & Drop Questions</title>
+<style>
+:root{--bg:#0f1117;--surface:#1a1d27;--s2:#22263a;--border:#2e3248;--accent:#5b6af0;--green:#22c55e;--red:#ef4444;--text:#e8eaf0;--muted:#7880a0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh;}
+.hdr{background:#1a1d27;border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:99;}
+.hdr h1{font-size:17px;font-weight:700;color:#fff;}
+.hdr p{font-size:12px;color:var(--muted);margin-top:2px;}
+.hdr-r{display:flex;gap:10px;align-items:center;}
+.pill{background:var(--s2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;}
+.pill span{color:var(--accent);}
+.pbar{height:3px;background:var(--s2);}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);transition:width .4s;}
+.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit;transition:all .15s;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-ghost{background:var(--s2);color:var(--text);border:1px solid var(--border);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-outline{background:transparent;color:var(--accent);border:1px solid var(--accent);}
+.wrap{max-width:920px;margin:0 auto;padding:28px 20px 80px;}
+.qnav{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:24px;}
+.qnb{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;}
+.qnb:hover{border-color:var(--accent);color:#fff;}
+.qnb.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.qnb.ok{background:#15432a;border-color:var(--green);color:var(--green);}
+.qnb.bad{background:#3d1515;border-color:var(--red);color:var(--red);}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;}
+.qmeta{display:flex;gap:8px;margin-bottom:16px;}
+.qnum{background:var(--accent);color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:5px;}
+.qtag{background:#252940;color:var(--muted);font-size:11px;font-weight:600;padding:3px 9px;border-radius:5px;text-transform:uppercase;}
+.qtitle{font-size:14px;font-weight:600;color:#fff;margin-bottom:20px;line-height:1.5;}
+.dnd{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:600px){.dnd{grid-template-columns:1fr;}}
+.col-hd{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:8px;}
+.bank{display:flex;flex-direction:column;gap:7px;min-height:40px;padding:4px;border-radius:8px;transition:background .15s;}
+.bank.over{background:rgba(91,106,240,.08);}
+.chip{background:var(--s2);border:1.5px solid var(--border);border-radius:7px;padding:9px 12px;font-size:13px;font-weight:500;cursor:grab;user-select:none;display:flex;align-items:center;gap:7px;transition:all .15s;}
+.chip::before{content:'⠿';color:var(--muted);font-size:13px;flex-shrink:0;}
+.chip:hover{border-color:var(--accent);background:#1e2235;}
+.chip.dragging{opacity:.35;}
+.targets{display:flex;flex-direction:column;gap:10px;}
+.trow{display:flex;flex-direction:column;gap:5px;}
+.tlabel{font-size:12px;color:var(--muted);font-weight:500;padding-left:3px;line-height:1.4;}
+.zone{min-height:44px;border:1.5px dashed var(--border);border-radius:7px;padding:5px;transition:all .15s;display:flex;flex-direction:column;gap:4px;}
+.zone.over{border-color:var(--accent);background:rgba(91,106,240,.07);}
+.zone .chip{cursor:pointer;}
+.zone .chip:hover{border-color:var(--red);background:#2a0e0e;}
+.zone.z-ok{border-color:var(--green);background:rgba(34,197,94,.06);}
+.zone.z-bad{border-color:var(--red);background:rgba(239,68,68,.06);}
+.chip.c-ok{border-color:var(--green);color:var(--green);background:#0e2a1a;cursor:default;}
+.chip.c-bad{border-color:var(--red);color:var(--red);background:#2a0e0e;cursor:default;}
+.hint{font-size:11px;font-weight:700;text-transform:uppercase;margin-top:3px;padding-left:3px;}
+.hint.ok{color:var(--green);}
+.hint.bad{color:var(--red);}
+.empty{font-size:12px;color:var(--border);text-align:center;padding:8px;font-style:italic;}
+.banner{display:none;padding:11px 14px;border-radius:8px;font-size:13px;font-weight:600;margin-top:14px;align-items:center;gap:7px;}
+.banner.show{display:flex;}
+.banner.ok{background:rgba(34,197,94,.1);border:1px solid var(--green);color:var(--green);}
+.banner.bad{background:rgba(239,68,68,.1);border:1px solid var(--red);color:var(--red);}
+.exp{margin-top:14px;background:#151828;border-left:3px solid var(--accent);border-radius:0 7px 7px 0;padding:13px 15px;font-size:13px;line-height:1.65;color:#b8bcd4;display:none;}
+.exp.show{display:block;}
+.exp strong{color:var(--text);}
+.actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;align-items:center;}
+.actions .btn-primary{margin-left:auto;}
+.final{display:none;text-align:center;padding:60px 20px;}
+.final.show{display:block;}
+.fcircle{width:130px;height:130px;border-radius:50%;border:4px solid var(--accent);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 22px;background:var(--surface);}
+.fcircle .pct{font-size:34px;font-weight:800;color:var(--accent);}
+.fcircle .lbl{font-size:11px;color:var(--muted);}
+.final h2{font-size:22px;font-weight:700;margin-bottom:8px;}
+.final p{color:var(--muted);margin-bottom:26px;}
+.stats{display:flex;justify-content:center;gap:30px;margin-bottom:28px;}
+.stat .v{font-size:28px;font-weight:800;}
+.stat .l{font-size:12px;color:var(--muted);}
+.v.g{color:var(--green);}
+.v.r{color:var(--red);}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1>TIA PMP — 100 Drag &amp; Drop Questions</h1><p>Ankit Prabhash · Match each item to its correct category · <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" style="color:var(--accent);text-decoration:none;">Connect on LinkedIn</a></p></div>
+  <div class="hdr-r">
+    <div class="pill">Score: <span id="sc">0</span> / <span id="at">0</span></div>
+    <button class="btn btn-ghost" onclick="resetAll()">Reset All</button>
+    <button class="btn btn-primary" onclick="showFinal()">Finish</button>
+  </div>
+</div>
+<div class="pbar"><div class="pbar-fill" id="pb" style="width:0%"></div></div>
+<div class="wrap">
+  <div class="qnav" id="nav"></div>
+  <div id="qc"></div>
+  <div class="final" id="fin">
+    <div class="fcircle"><div class="pct" id="fpct">0%</div><div class="lbl">Score</div></div>
+    <h2 id="fmsg"></h2><p id="fsub"></p>
+    <div class="stats">
+      <div class="stat"><div class="v g" id="fc">0</div><div class="l">Correct</div></div>
+      <div class="stat"><div class="v r" id="fw">0</div><div class="l">Wrong</div></div>
+      <div class="stat"><div class="v" id="fa">0</div><div class="l">Attempted</div></div>
+    </div>
+    <button class="btn btn-primary" onclick="resetAll()">Try Again</button>
+  </div>
+</div>
+<script>
+var QS = [];
+var state = { cur:0, answers:[], checked:[], results:[], score:0, total:0 };
+var dragId=null, dragFrom=null;
+
+function defQ(id,tag,ll,rl,items,targets){
+  QS.push({id:id,tag:tag,ll:ll,rl:rl,items:items,targets:targets});
+}
+
+defQ(1,"Scrum Roles","Role","Responsibility",
+  [{id:"po",t:"Product Owner"},{id:"sm",t:"Scrum Master"},{id:"dt",t:"Development Team"}],
+  [{id:"a",l:"Defines user stories and acceptance criteria.",ans:"po"},
+   {id:"b",l:"Collaborates to deliver potentially shippable increments.",ans:"dt"},
+   {id:"c",l:"Protects the team from outside interruptions.",ans:"sm"}]);
+
+defQ(2,"Methodology","Methodology","Item",
+  [{id:"ag",t:"Agile"},{id:"al",t:"All"},{id:"hy",t:"Hybrid"},{id:"tr",t:"Traditional"}],
+  [{id:"a",l:"User Stories",ans:"ag"},
+   {id:"b",l:"Blended Reporting",ans:"hy"},
+   {id:"c",l:"EVM",ans:"al"},
+   {id:"d",l:"Lessons Learned Register",ans:"al"}]);
+
+defQ(3,"Methodology","Methodology","Item",
+  [{id:"hy",t:"Hybrid"},{id:"al",t:"All"},{id:"ag",t:"Agile"},{id:"tr",t:"Traditional"}],
+  [{id:"a",l:"Daily Standups",ans:"ag"},
+   {id:"b",l:"Rolling Wave Planning",ans:"hy"},
+   {id:"c",l:"WBS",ans:"tr"},
+   {id:"d",l:"Risk Planning and Identification",ans:"al"}]);
+
+defQ(4,"Methodology","Methodology","Action",
+  [{id:"ag",t:"Agile"},{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"}],
+  [{id:"a",l:"Follows a sequential phase approach from initiation to closure.",ans:"tr"},
+   {id:"b",l:"Delivers work in iterative cycles.",ans:"ag"},
+   {id:"c",l:"Uses a project management plan and backlog.",ans:"hy"}]);
+
+defQ(5,"Impediments","Impediment","Action",
+  [{id:"lcr",t:"Lack of Clear Requirements"},{id:"sc",t:"Scope Creep"},{id:"rr",t:"Risk Realization"},{id:"cb",t:"Communication Breakdown"},{id:"rs",t:"Resource Shortage"}],
+  [{id:"a",l:"Implement a change control process to formally review and approve changes.",ans:"sc"},
+   {id:"b",l:"Establish a communication management plan.",ans:"cb"},
+   {id:"c",l:"Conduct a meeting to gather and record precise needs.",ans:"lcr"},
+   {id:"d",l:"Execute the risk response plan.",ans:"rr"},
+   {id:"e",l:"Adjust allocations or seek additional support.",ans:"rs"}]);
+
+defQ(6,"MBTI Types","Type","Description",
+  [{id:"th",t:"Thinking (T)"},{id:"se",t:"Sensing (S)"},{id:"ex",t:"Extraversion (E)"},{id:"ju",t:"Judging (J)"}],
+  [{id:"a",l:"Thrives in team meetings; gains energy from interacting with colleagues.",ans:"ex"},
+   {id:"b",l:"Makes decisions logically and objectively, analyzing data for fairness.",ans:"th"},
+   {id:"c",l:"Organized, prefers clear plans, structure and deadlines.",ans:"ju"},
+   {id:"d",l:"Detail-oriented, focuses on concrete facts and practical information.",ans:"se"}]);
+
+defQ(7,"Tools & Problems","Tool","Problem",
+  [{id:"rl",t:"Resource Leveling"},{id:"pe",t:"PERT Analysis"},{id:"cc",t:"Change Control Process"},{id:"nd",t:"Network Diagram"},{id:"gc",t:"Gantt Chart"}],
+  [{id:"a",l:"Missed Deadlines",ans:"gc"},
+   {id:"b",l:"Team members assigned more work than they can handle.",ans:"rl"},
+   {id:"c",l:"Unclear Task Dependencies",ans:"nd"},
+   {id:"d",l:"Frequent Scope Adjustments",ans:"cc"},
+   {id:"e",l:"Inaccurate Time Estimates",ans:"pe"}]);
+
+defQ(8,"Risk Attributes","Risk","Action",
+  [{id:"ur",t:"Urgency"},{id:"pr",t:"Proximity"},{id:"do",t:"Dormancy"},{id:"co",t:"Connectivity"}],
+  [{id:"a",l:"Measures the time until the risk impacts the project.",ans:"do"},
+   {id:"b",l:"Assesses the speed at which a risk requires a response.",ans:"ur"},
+   {id:"c",l:"Identifies how risks are interconnected with other project risks.",ans:"co"},
+   {id:"d",l:"Evaluates the closeness of the risk event to the present time.",ans:"pr"}]);
+
+defQ(9,"Methodology","Methodology","Item",
+  [{id:"tr",t:"Traditional"},{id:"al",t:"All"},{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"Gantt Chart",ans:"tr"},
+   {id:"b",l:"Phase Gate Reviews",ans:"tr"},
+   {id:"c",l:"Sprint Planning",ans:"ag"},
+   {id:"d",l:"Stakeholder Analysis",ans:"al"}]);
+
+defQ(10,"Methodology","Methodology","Item",
+  [{id:"ag",t:"Agile"},{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"},{id:"al",t:"All"}],
+  [{id:"a",l:"Mixed Deliverables",ans:"hy"},
+   {id:"b",l:"Resource Management Plan",ans:"tr"},
+   {id:"c",l:"Resource Management",ans:"al"},
+   {id:"d",l:"Incremental Delivery",ans:"ag"}]);
+
+defQ(11,"Tools & Problems","Tool","Problem",
+  [{id:"mo",t:"MoSCoW Method"},{id:"tb",t:"Time-Boxing"},{id:"rw",t:"Rolling Wave Planning"},{id:"kb",t:"Kanban Board"},{id:"pd",t:"PDM"}],
+  [{id:"a",l:"Uncoordinated Task Handovers",ans:"pd"},
+   {id:"b",l:"Meeting Going Off Topic",ans:"tb"},
+   {id:"c",l:"Activities Dependency Issues",ans:"rw"},
+   {id:"d",l:"Unplanned Work",ans:"kb"},
+   {id:"e",l:"Unclear Task Prioritization",ans:"mo"}]);
+
+defQ(12,"Collaboration Tools","Tool","Task",
+  [{id:"tt",t:"Time Tracking Software"},{id:"ob",t:"Online Bulletin Boards"},{id:"vc",t:"Video Conferencing"},{id:"vcs",t:"Version Control System"},{id:"cr",t:"Chat Rooms"}],
+  [{id:"a",l:"Coordinate collaborative editing to ensure version consistency.",ans:"vcs"},
+   {id:"b",l:"Display project milestones and timelines for team members to track progress.",ans:"ob"},
+   {id:"c",l:"Organise a project status update meeting with remote team members.",ans:"vc"},
+   {id:"d",l:"Facilitate real-time discussion for quick decision-making.",ans:"cr"},
+   {id:"e",l:"Monitor team members work hours and project time allocation.",ans:"tt"}]);
+
+defQ(13,"Roles","Role","Description",
+  [{id:"ba",t:"Business Analyst"},{id:"po",t:"Product Owner"},{id:"ps",t:"Project Sponsor"},{id:"pm",t:"Project Manager"},{id:"fm",t:"Functional Manager"}],
+  [{id:"a",l:"Defines acceptance criteria for project deliverables in the product backlog.",ans:"po"},
+   {id:"b",l:"Develops detailed project plans including schedules, budgets, and resource allocation.",ans:"pm"},
+   {id:"c",l:"Maps out existing business processes to identify areas for improvement.",ans:"ba"}]);
+
+defQ(14,"Risk Attributes","Risk","Action",
+  [{id:"co",t:"Connectivity"},{id:"do",t:"Dormancy"},{id:"ur",t:"Urgency"},{id:"pr",t:"Proximity"}],
+  [{id:"a",l:"Determines the potential delay before the risk materializes.",ans:"do"},
+   {id:"b",l:"Prioritizes risks that need immediate action.",ans:"ur"},
+   {id:"c",l:"Maps the risk dependencies to understand potential ripple effects.",ans:"co"},
+   {id:"d",l:"Gauges how imminent the risk event is to project execution.",ans:"pr"}]);
+
+defQ(15,"Risk Attributes","Risk","Action",
+  [{id:"do",t:"Dormancy"},{id:"co",t:"Connectivity"},{id:"ur",t:"Urgency"},{id:"pr",t:"Proximity"}],
+  [{id:"a",l:"Identifies the latency period of the risk.",ans:"do"},
+   {id:"b",l:"Evaluates the required response time for the risk.",ans:"ur"},
+   {id:"c",l:"Analyzes the links between this risk and others within the project.",ans:"co"},
+   {id:"d",l:"Assesses how soon the risk is expected to affect the project.",ans:"pr"}]);
+
+defQ(16,"Scrum Roles","Role","Responsibility",
+  [{id:"dt",t:"Development Team"},{id:"sm",t:"Scrum Master"},{id:"po",t:"Product Owner"}],
+  [{id:"a",l:"Removes external forces to keep the team productive.",ans:"sm"},
+   {id:"b",l:"Determines the order of the work.",ans:"po"},
+   {id:"c",l:"Determines how to do the actual work needed to build the product.",ans:"dt"}]);
+
+defQ(17,"Interpersonal Skills","Skill","Description",
+  [{id:"al",t:"Active Listening"},{id:"in",t:"Influencing"},{id:"ei",t:"Emotional Intelligence"},{id:"cr",t:"Conflict Resolution"},{id:"ne",t:"Negotiation"}],
+  [{id:"a",l:"Convincing stakeholders to adopt a proposed project plan.",ans:"in"},
+   {id:"b",l:"Reaching a compromise with a vendor on contract terms.",ans:"ne"},
+   {id:"c",l:"A team member fully understands another concerns in a meeting.",ans:"al"},
+   {id:"d",l:"Mediating a disagreement between two team members to find a solution.",ans:"cr"},
+   {id:"e",l:"A leader empathizes with a stressed team member to provide support.",ans:"ei"}]);
+
+defQ(18,"Methodology","Methodology","Action",
+  [{id:"hy",t:"Hybrid"},{id:"tr",t:"Traditional"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"Team does daily stand-ups with a WBS.",ans:"hy"},
+   {id:"b",l:"Adapts to changing requirements even late in development.",ans:"ag"},
+   {id:"c",l:"Conducts detailed WBS and Gantt chart planning.",ans:"tr"}]);
+
+defQ(19,"Predictive vs Agile","Description","Approach",
+  [{id:"ev",t:"Evolving throughout the project"},{id:"fx",t:"Fixed at the beginning"},{id:"mf",t:"Managed via formal change control"},{id:"ec",t:"Embraced and incorporated continuously"},{id:"mi",t:"Managed iteratively"},{id:"ap",t:"Assessed and planned upfront"},{id:"ai",t:"Actively involved throughout"},{id:"li",t:"Limited involvement after initial planning"},{id:"cd",t:"Clearly defined and controlled"},{id:"fa",t:"Flexible and adaptive"}],
+  [{id:"a",l:"Requirements - Predictive",ans:"fx"},
+   {id:"b",l:"Requirements - Agile",ans:"ev"},
+   {id:"c",l:"Changes - Predictive",ans:"mf"},
+   {id:"d",l:"Changes - Agile",ans:"ec"},
+   {id:"e",l:"Risk & Cost - Predictive",ans:"ap"},
+   {id:"f",l:"Risk & Cost - Agile",ans:"mi"},
+   {id:"g",l:"Key Stakeholders - Predictive",ans:"li"},
+   {id:"h",l:"Key Stakeholders - Agile",ans:"ai"},
+   {id:"i",l:"Project Scope - Predictive",ans:"cd"},
+   {id:"j",l:"Project Scope - Agile",ans:"fa"}]);
+
+defQ(20,"Collaboration Tools","Tool","Task",
+  [{id:"cr",t:"Chat Rooms"},{id:"vc",t:"Video Conferencing"},{id:"pct",t:"Project Collaboration Tools"},{id:"vcs",t:"Version Control System"},{id:"ob",t:"Online Bulletin Boards"}],
+  [{id:"a",l:"Track and merge code changes from multiple developers.",ans:"vcs"},
+   {id:"b",l:"Edit project documents in real-time with team members.",ans:"pct"},
+   {id:"c",l:"Collect and display team feedback and suggestions.",ans:"ob"},
+   {id:"d",l:"Resolve immediate project issues through instant messaging.",ans:"cr"},
+   {id:"e",l:"Conduct project kickoff meetings with geographically dispersed stakeholders.",ans:"vc"}]);
+
+defQ(21,"Tools & Problems","Tool","Problem",
+  [{id:"wb",t:"WBS"},{id:"ev",t:"EVM"},{id:"cp",t:"CPM"},{id:"sm",t:"Status Meetings"},{id:"sb",t:"Schedule Baseline"}],
+  [{id:"a",l:"Overlapping Activities",ans:"wb"},
+   {id:"b",l:"How Far Off Schedule",ans:"ev"},
+   {id:"c",l:"Fragmented Work",ans:"wb"},
+   {id:"d",l:"Unrealistic Deadlines",ans:"cp"},
+   {id:"e",l:"Inconsistent Reporting",ans:"sm"}]);
+
+defQ(22,"Tuckman Stages","Stage","Description",
+  [{id:"fo",t:"Forming"},{id:"st",t:"Storming"},{id:"no",t:"Norming"},{id:"pe",t:"Performing"},{id:"ad",t:"Adjourning"}],
+  [{id:"a",l:"Final stage - team reflects on achievements and transitions out.",ans:"ad"},
+   {id:"b",l:"Team works collaboratively and effectively towards common goals.",ans:"pe"},
+   {id:"c",l:"Team members develop stronger relationships and cohesion.",ans:"no"},
+   {id:"d",l:"Characterized by power struggles and competition.",ans:"st"},
+   {id:"e",l:"Initial stage - team members are polite and oriented towards the task.",ans:"fo"}]);
+
+defQ(23,"Methodology","Methodology","Item",
+  [{id:"ag",t:"Agile"},{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"}],
+  [{id:"a",l:"PM uses a PM Plan for near term while keeping future tasks high level using a product backlog.",ans:"hy"},
+   {id:"b",l:"When a significant change is submitted, PM convenes a meeting to evaluate impact and approve or reject.",ans:"tr"},
+   {id:"c",l:"At end of each sprint, team delivers a potentially shippable product increment.",ans:"ag"}]);
+
+defQ(24,"Methodology","Methodology","Item",
+  [{id:"tr",t:"Traditional"},{id:"ag",t:"Agile"},{id:"hy",t:"Hybrid"}],
+  [{id:"a",l:"Each morning, team gathers for a brief meeting to share what they did yesterday.",ans:"ag"},
+   {id:"b",l:"PM gathers all stakeholders to outline project objectives, deliverables, schedule and roles.",ans:"tr"},
+   {id:"c",l:"PM involves stakeholders continuously using Agile practices while maintaining structured scope.",ans:"hy"}]);
+
+defQ(25,"Tuckman Stages","Stage","Description",
+  [{id:"fo",t:"Forming"},{id:"st",t:"Storming"},{id:"no",t:"Norming"},{id:"pe",t:"Performing"},{id:"ad",t:"Adjourning"}],
+  [{id:"a",l:"High productivity and synergy characterize this stage.",ans:"pe"},
+   {id:"b",l:"Team members celebrate accomplishments and prepare for future endeavors.",ans:"ad"},
+   {id:"c",l:"The team builds trust and establishes working agreements.",ans:"no"},
+   {id:"d",l:"Team members are learning about the project and their roles.",ans:"fo"},
+   {id:"e",l:"Frustrations and disagreements are common as the team navigates challenges.",ans:"st"}]);
+
+defQ(26,"Roles","Role","Description",
+  [{id:"pm",t:"Project Manager"},{id:"sm",t:"Scrum Master"},{id:"fm",t:"Functional Manager"},{id:"ps",t:"Project Sponsor"},{id:"ba",t:"Business Analyst"}],
+  [{id:"a",l:"Assists the team in identifying and resolving risks.",ans:"sm"},
+   {id:"b",l:"Proactively identifies, assesses, and mitigates risks throughout the project lifecycle.",ans:"pm"},
+   {id:"c",l:"Makes high-level decisions and approves major project changes.",ans:"ps"},
+   {id:"d",l:"Approves resources to a project manager.",ans:"fm"}]);
+
+defQ(27,"Methodology","Methodology","Action",
+  [{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"Adapts and customizes practices based on project needs.",ans:"hy"},
+   {id:"b",l:"Uses a detailed project plan and timeline.",ans:"tr"},
+   {id:"c",l:"Uses sprints to manage work.",ans:"ag"}]);
+
+defQ(28,"Tools","Tool","Description",
+  [{id:"sm",t:"Smoothing Techniques"},{id:"dm",t:"Dependency Mapping"},{id:"bd",t:"Burn Down Chart"}],
+  [{id:"a",l:"Monitoring progress and predicting completion.",ans:"bd"},
+   {id:"b",l:"Adjusting activities within resource constraints.",ans:"sm"},
+   {id:"c",l:"Identifying and managing task relationships.",ans:"dm"}]);
+
+defQ(29,"Agile Documents","Document","Description",
+  [{id:"us",t:"User Stories"},{id:"sr",t:"Sprint Retrospective"},{id:"up",t:"User Personas"}],
+  [{id:"a",l:"Target Audience Demographics",ans:"up"},
+   {id:"b",l:"Understanding customer perception of value",ans:"us"},
+   {id:"c",l:"User Feedback Reports",ans:"sr"}]);
+
+defQ(30,"Tuckman Stages","Stage","Description",
+  [{id:"fo",t:"Forming"},{id:"st",t:"Storming"},{id:"no",t:"Norming"},{id:"pe",t:"Performing"},{id:"ad",t:"Adjourning"}],
+  [{id:"a",l:"The team finds consensus and begins to function more smoothly.",ans:"no"},
+   {id:"b",l:"The team completes the project and disbands, reflecting on their work.",ans:"ad"},
+   {id:"c",l:"Focus is on orientation and setting initial expectations.",ans:"fo"},
+   {id:"d",l:"The team reaches peak performance with effective collaboration.",ans:"pe"},
+   {id:"e",l:"Conflicts and confrontations arise as team dynamics are tested.",ans:"st"}]);
+
+defQ(31,"Risk Response","Risk Response","Action",
+  [{id:"tr",t:"Transfer"},{id:"mi",t:"Mitigate"},{id:"es",t:"Escalate"},{id:"av",t:"Avoid"},{id:"ac",t:"Accept"}],
+  [{id:"a",l:"Adjust plans to remove the risk or its effects.",ans:"av"},
+   {id:"b",l:"Assign the risk to another party, like through insurance.",ans:"tr"},
+   {id:"c",l:"Acknowledge the risk and deal with it if it happens.",ans:"ac"},
+   {id:"d",l:"Take steps to lessen the risk likelihood or impact.",ans:"mi"},
+   {id:"e",l:"Hand the risk over to someone with more authority.",ans:"es"}]);
+
+defQ(32,"Planning Tools","Document","Description",
+  [{id:"ha",t:"Histogram Analysis"},{id:"rw",t:"Rolling Wave Planning"},{id:"mo",t:"MoSCoW Method"}],
+  [{id:"a",l:"Detailed near-term planning while keeping long-term planning flexible.",ans:"rw"},
+   {id:"b",l:"Prioritizing tasks: must-have, should-have, could-have, and won't-have.",ans:"mo"},
+   {id:"c",l:"Analyzing resource allocation over time.",ans:"ha"}]);
+
+defQ(33,"Methodology","Methodology","Item",
+  [{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"At the start of a new sprint, team meets to discuss tasks for the upcoming iteration.",ans:"ag"},
+   {id:"b",l:"The project manager finalizes the project scope and obtains formal approval from stakeholders.",ans:"tr"},
+   {id:"c",l:"The team delivers work in short iterations while planning subsequent phases in detail.",ans:"hy"}]);
+
+defQ(34,"Tuckman Stages","Stage","Description",
+  [{id:"fo",t:"Forming"},{id:"st",t:"Storming"},{id:"no",t:"Norming"},{id:"pe",t:"Performing"},{id:"ad",t:"Adjourning"}],
+  [{id:"a",l:"The team works efficiently towards achieving project objectives.",ans:"pe"},
+   {id:"b",l:"The project ends, and the team parts ways or transitions to new tasks.",ans:"ad"},
+   {id:"c",l:"Norms are established, and the team begins to work more harmoniously.",ans:"no"},
+   {id:"d",l:"The team meets and starts to understand the project and each other.",ans:"fo"},
+   {id:"e",l:"Internal conflicts occur as team members push boundaries.",ans:"st"}]);
+
+defQ(35,"Team Impediments","Impediment","Description",
+  [{id:"ie",t:"Insufficient Expertise"},{id:"le",t:"Low Engagement"},{id:"ur",t:"Unclear Responsibilities"},{id:"od",t:"Ongoing Disputes"},{id:"md",t:"Missed Deadlines"}],
+  [{id:"a",l:"Team members feel disengaged or unmotivated.",ans:"le"},
+   {id:"b",l:"Tasks are not completed on time.",ans:"md"},
+   {id:"c",l:"Team lacks necessary skills for certain tasks.",ans:"ie"},
+   {id:"d",l:"Overlapping roles leading to confusion.",ans:"ur"},
+   {id:"e",l:"Team members have unresolved disagreements.",ans:"od"}]);
+
+defQ(36,"Methodology","Methodology","Item",
+  [{id:"hy",t:"Hybrid"},{id:"tr",t:"Traditional"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"Milestone Chart",ans:"tr"},
+   {id:"b",l:"Continuous Integration",ans:"ag"},
+   {id:"c",l:"Flexible and Fixed Scope Management",ans:"hy"}]);
+
+defQ(37,"Risk Categories","Risk Category","Description",
+  [{id:"ex",t:"External"},{id:"te",t:"Technical"},{id:"co",t:"Commercial"},{id:"ma",t:"Management"}],
+  [{id:"a",l:"Pertains to system integration, testing, and validation processes.",ans:"te"},
+   {id:"b",l:"Focuses on cost-benefit analysis, ROI, and market entry strategies.",ans:"co"},
+   {id:"c",l:"Involves project timelines, deliverable tracking, and resource management.",ans:"ma"},
+   {id:"d",l:"Considers partnerships, stakeholder expectations, and market regulations.",ans:"ex"}]);
+
+defQ(38,"Methodology","Methodology","Action",
+  [{id:"tr",t:"Traditional"},{id:"ag",t:"Agile"},{id:"hy",t:"Hybrid"}],
+  [{id:"a",l:"Implements regular retrospectives for process improvement.",ans:"ag"},
+   {id:"b",l:"Integrates Agile iterative development with traditional risk management.",ans:"hy"},
+   {id:"c",l:"Uses the critical path method (CPM) for schedule management.",ans:"tr"}]);
+
+defQ(39,"Org Terms","Term","Description",
+  [{id:"gf",t:"Governance Framework"},{id:"km",t:"Knowledge Management"},{id:"oc",t:"Organizational Culture"},{id:"pm",t:"PMO"},{id:"rm",t:"Resource Management"}],
+  [{id:"a",l:"Captures and distributes project knowledge and best practices.",ans:"km"},
+   {id:"b",l:"Standardizes project management across the organization.",ans:"pm"},
+   {id:"c",l:"Defines roles, responsibilities, and processes for project oversight.",ans:"gf"},
+   {id:"d",l:"Shared values, norms, and beliefs influencing project execution.",ans:"oc"},
+   {id:"e",l:"Efficient and effective deployment and allocation of resources.",ans:"rm"}]);
+
+defQ(40,"MBTI Types","Type","Description",
+  [{id:"fe",t:"Feeling (F)"},{id:"ex",t:"Extroversion (E)"},{id:"ju",t:"Judging (J)"},{id:"in",t:"Introversion (I)"}],
+  [{id:"a",l:"Insists on following a detailed plan and adhering strictly to deadlines.",ans:"ju"},
+   {id:"b",l:"Known for ability to connect with others.",ans:"fe"},
+   {id:"c",l:"Enjoys debating different approaches and thrives in brainstorming sessions.",ans:"ex"},
+   {id:"d",l:"Methodical, relies heavily on data and logical analysis, often prefers to work independently.",ans:"in"}]);
+
+defQ(41,"Methodology","Methodology","Item",
+  [{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"Sprint Retrospective",ans:"ag"},
+   {id:"b",l:"PERT Analysis",ans:"tr"},
+   {id:"c",l:"Product Backlog / Scope Statement",ans:"hy"}]);
+
+defQ(42,"MBTI Types","Type","Communication Style",
+  [{id:"fe",t:"Feeling (F)"},{id:"pe",t:"Perceiving (P)"},{id:"nu",t:"Intuition (N)"},{id:"in",t:"Introversion (I)"}],
+  [{id:"a",l:"Enjoys thinking about the big picture and future possibilities. Innovative with abstract ideas.",ans:"nu"},
+   {id:"b",l:"Empathetic and considers how decisions affect colleagues. Values harmony.",ans:"fe"},
+   {id:"c",l:"Adaptable, enjoys keeping options open. Comfortable with last-minute changes.",ans:"pe"},
+   {id:"d",l:"Prefers to work independently. More comfortable with one-on-one than group interactions.",ans:"in"}]);
+
+defQ(43,"MBTI Pairs","Type","Two Descriptions",
+  [{id:"in",t:"Introversion (I)"},{id:"th",t:"Thinking (T)"},{id:"ex",t:"Extraversion (E)"},{id:"se",t:"Sensing (S)"},{id:"pe",t:"Perceiving (P)"},{id:"nu",t:"Intuition (N)"},{id:"ju",t:"Judging (J)"},{id:"fe",t:"Feeling (F)"}],
+  [{id:"a",l:"Logical analysis AND enjoys working alone thinking through problems internally",ans:"th"},
+   {id:"b",l:"Prefers brainstorming sessions AND focuses on concrete practical solutions",ans:"ex"},
+   {id:"c",l:"Focuses on abstract future ideas AND likes to keep options open and adapt",ans:"nu"},
+   {id:"d",l:"Enjoys detailed project plans AND makes decisions based on values and impact on people",ans:"ju"}]);
+
+defQ(44,"Risk Categories","Risk","Description",
+  [{id:"ma",t:"Management"},{id:"te",t:"Technical"},{id:"ex",t:"External"},{id:"co",t:"Commercial"}],
+  [{id:"a",l:"Deals with the development and implementation of technology solutions.",ans:"te"},
+   {id:"b",l:"Addresses the buying, selling, and economic aspects of the project.",ans:"co"},
+   {id:"c",l:"Involves leadership and direction to meet project objectives.",ans:"ma"},
+   {id:"d",l:"Includes regulatory, environmental, and socio-political factors.",ans:"ex"}]);
+
+defQ(45,"Agile Terms","Term","Description",
+  [{id:"us",t:"User Stories"},{id:"dod",t:"DoD"},{id:"pv",t:"Product Vision"}],
+  [{id:"a",l:"List of criteria that a product should meet.",ans:"dod"},
+   {id:"b",l:"Capturing user requirements in a non-technical language.",ans:"us"},
+   {id:"c",l:"High-level description of the long-term goals and purpose of the product.",ans:"pv"}]);
+
+defQ(46,"Collaboration Tools","Tool","Task",
+  [{id:"vcs",t:"Version Control System"},{id:"vc",t:"Video Conferencing"},{id:"cr",t:"Chat Rooms"},{id:"pms",t:"Project Management Software"},{id:"ob",t:"Online Bulletin Boards"}],
+  [{id:"a",l:"Conduct virtual meetings and presentations with stakeholders in different locations.",ans:"vc"},
+   {id:"b",l:"Facilitate quick real-time communication and brainstorming sessions.",ans:"cr"},
+   {id:"c",l:"Manage changes to project documents and code ensuring all team members have latest versions.",ans:"vcs"},
+   {id:"d",l:"Post project updates and announcements for the entire team to access asynchronously.",ans:"ob"},
+   {id:"e",l:"Track project progress, assign tasks, and manage deadlines.",ans:"pms"}]);
+
+defQ(47,"Scrum Meetings","Meeting","Description",
+  [{id:"ds",t:"Daily Standup"},{id:"sr2",t:"Sprint Retrospective"},{id:"sr1",t:"Sprint Review"},{id:"sp",t:"Sprint Planning"}],
+  [{id:"a",l:"The team demonstrates the work completed during the sprint to stakeholders.",ans:"sr1"},
+   {id:"b",l:"Team members discuss progress, impediments, and plans.",ans:"ds"},
+   {id:"c",l:"The team defines the work to be accomplished in the upcoming sprint.",ans:"sp"},
+   {id:"d",l:"The team reflects on the past sprint to identify improvements.",ans:"sr2"}]);
+
+defQ(48,"Technical Practices","Practice","Scenario",
+  [{id:"ccb",t:"CCB"},{id:"gc",t:"Gantt Chart"},{id:"ll",t:"Lessons Learned"},{id:"ra",t:"RACI Chart"}],
+  [{id:"a",l:"Visualizing the project schedule, showing task durations and dependencies.",ans:"gc"},
+   {id:"b",l:"Reviewing and approving changes to the project scope, schedule, or budget.",ans:"ccb"},
+   {id:"c",l:"Defining roles and responsibilities for project tasks and deliverables.",ans:"ra"},
+   {id:"d",l:"Documenting what went well and what did not at the end of a project phase.",ans:"ll"}]);
+
+defQ(49,"Interpersonal Skills","Skill","Description",
+  [{id:"ei",t:"Emotional Intelligence"},{id:"al",t:"Active Listening"},{id:"in",t:"Influencing"},{id:"cr",t:"Conflict Resolution"},{id:"ne",t:"Negotiation"}],
+  [{id:"a",l:"Paying full attention and understanding the speaker message.",ans:"al"},
+   {id:"b",l:"Addressing and managing disagreements effectively.",ans:"cr"},
+   {id:"c",l:"Reaching mutually acceptable agreements among parties.",ans:"ne"},
+   {id:"d",l:"Persuading others to support a course of action.",ans:"in"},
+   {id:"e",l:"Recognizing and managing one own emotions and the emotions of others.",ans:"ei"}]);
+
+defQ(50,"Scrum Roles","Role","Responsibility",
+  [{id:"dt",t:"Development Team"},{id:"po",t:"Product Owner"},{id:"sm",t:"Scrum Master"}],
+  [{id:"a",l:"Removes impediments that hinder the team progress.",ans:"sm"},
+   {id:"b",l:"Self-organizes to complete the sprint goal.",ans:"dt"},
+   {id:"c",l:"Prioritizes the backlog items.",ans:"po"}]);
+
+defQ(51,"Methodology","Methodology","Item",
+  [{id:"ag",t:"Agile"},{id:"hy",t:"Hybrid"},{id:"tr",t:"Traditional"}],
+  [{id:"a",l:"PM and team identify potential risks, document in risk register, and develop mitigation strategies.",ans:"tr"},
+   {id:"b",l:"PM utilizes integrated change control for installation and uses a product backlog for development.",ans:"hy"},
+   {id:"c",l:"Midway through the sprint, the product owner and team review upcoming user stories.",ans:"ag"}]);
+
+defQ(52,"Agile Meetings","Meeting","Scenario",
+  [{id:"br",t:"Backlog Refinement"},{id:"re",t:"Retrospective"},{id:"sp",t:"Sprint Planning"}],
+  [{id:"a",l:"At start of iteration, team meets to decide tasks, review priorities, break down items and assign responsibilities.",ans:"sp"},
+   {id:"b",l:"During iteration, product owner and team gather to improve upcoming work, clarify user stories and adjust priorities.",ans:"br"},
+   {id:"c",l:"Team reflects on the past cycle discussing successes, challenges, and areas for improvement.",ans:"re"}]);
+
+defQ(53,"Schedule Terms","Term","Description",
+  [{id:"sp",t:"Self-Protection"},{id:"ss",t:"Student Syndrome"},{id:"db",t:"Dropped Baton"},{id:"pl",t:"Parkinson Law"}],
+  [{id:"a",l:"People start to fully apply themselves to a task just before the deadline.",ans:"ss"},
+   {id:"b",l:"Work expands to fill the time available for its completion.",ans:"pl"},
+   {id:"c",l:"Team members pad their estimates to protect themselves from potential delays.",ans:"sp"},
+   {id:"d",l:"A delay or failure occurs when responsibility is transferred between team members.",ans:"db"}]);
+
+defQ(54,"PM Documents","Document","Description",
+  [{id:"wb",t:"WBS"},{id:"ev",t:"EVM"},{id:"rl",t:"Resource Leveling"}],
+  [{id:"a",l:"Measuring project performance and progress against the plan.",ans:"ev"},
+   {id:"b",l:"Breaking down project deliverables into manageable tasks.",ans:"wb"},
+   {id:"c",l:"Adjusting task assignments.",ans:"rl"}]);
+
+defQ(55,"Schedule Terms","Term","Description",
+  [{id:"db",t:"Dropped Baton"},{id:"pl",t:"Parkinson Law"},{id:"sp",t:"Self-Protection"},{id:"ss",t:"Student Syndrome"}],
+  [{id:"a",l:"Team members inflate time estimates to safeguard against unforeseen delays.",ans:"sp"},
+   {id:"b",l:"Delays arising from inadequate handover of responsibilities between team members.",ans:"db"},
+   {id:"c",l:"Starting a task late due to waiting until the last minute resulting in a rush.",ans:"ss"},
+   {id:"d",l:"The duration of work expands to match the time allotted for its completion.",ans:"pl"}]);
+
+defQ(56,"Agile Meetings","Meeting","Description",
+  [{id:"sr2",t:"Sprint Retrospective"},{id:"ds",t:"Daily Standup"},{id:"sp",t:"Sprint Planning"},{id:"sr1",t:"Sprint Review"}],
+  [{id:"a",l:"Showcases the work done during the sprint and gathers feedback.",ans:"sr1"},
+   {id:"b",l:"Held after a sprint to discuss what went well, what did not, and how to improve.",ans:"sr2"},
+   {id:"c",l:"The team plans and commits to the work for the upcoming sprint.",ans:"sp"},
+   {id:"d",l:"Meeting for the team to update on progress and discuss any blockers.",ans:"ds"}]);
+
+defQ(57,"Org Structure","Term","Description",
+  [{id:"wm",t:"Weak Matrix"},{id:"sm",t:"Strong Matrix"},{id:"fs",t:"Functional Structure"},{id:"ms",t:"Matrix Structure"},{id:"ps",t:"Projectized Structure"}],
+  [{id:"a",l:"Project managers have a little more power than the functional manager.",ans:"wm"},
+   {id:"b",l:"A company where team members have dual reporting lines.",ans:"ms"},
+   {id:"c",l:"An organization where departments operate independently.",ans:"fs"},
+   {id:"d",l:"Project managers coordinate but functional managers retain control.",ans:"wm"},
+   {id:"e",l:"Employees are dedicated to projects and report to project managers.",ans:"ps"}]);
+
+defQ(58,"PM Documents","Document","Description",
+  [{id:"ll",t:"Lessons Learned Register"},{id:"sa",t:"Stakeholder Analysis"},{id:"sb",t:"Scope Baseline"}],
+  [{id:"a",l:"Defining and controlling project parameters.",ans:"sb"},
+   {id:"b",l:"Documenting insights for future reference.",ans:"ll"},
+   {id:"c",l:"Identifying and understanding stakeholders interests and impacts.",ans:"sa"}]);
+
+defQ(59,"Agile Documents","Document","Description",
+  [{id:"pv",t:"Product Vision"},{id:"us",t:"User Stories"},{id:"dod",t:"DoD"}],
+  [{id:"a",l:"Understand the value",ans:"us"},
+   {id:"b",l:"What completed work means",ans:"dod"},
+   {id:"c",l:"Long-term objectives",ans:"pv"}]);
+
+defQ(60,"Agile Meetings","Meeting","Action",
+  [{id:"sp",t:"Sprint Planning"},{id:"sr2",t:"Sprint Retrospective"},{id:"sr1",t:"Sprint Review"},{id:"ds",t:"Daily Standup"}],
+  [{id:"a",l:"Present completed work to stakeholders for feedback.",ans:"sr1"},
+   {id:"b",l:"Outline and agree on the tasks for the next sprint.",ans:"sp"},
+   {id:"c",l:"Share updates and identify any obstacles.",ans:"ds"},
+   {id:"d",l:"Reflect on the team processes and outcomes.",ans:"sr2"}]);
+
+defQ(61,"Risk Response","Risk Response","Action",
+  [{id:"ac",t:"Accept"},{id:"av",t:"Avoid"},{id:"mi",t:"Mitigate"},{id:"es",t:"Escalate"},{id:"tr",t:"Transfer"}],
+  [{id:"a",l:"Take steps to reduce the likelihood or impact of the risk.",ans:"mi"},
+   {id:"b",l:"Acknowledge the risk without taking action, allowing the project to continue.",ans:"ac"},
+   {id:"c",l:"Shift the impact of the risk to a third party through insurance or outsourcing.",ans:"tr"},
+   {id:"d",l:"Alter the project plan to eliminate the risk entirely.",ans:"av"},
+   {id:"e",l:"Raise the risk to a higher authority when it exceeds the project manager control.",ans:"es"}]);
+
+defQ(62,"Org Terms","Term","Description",
+  [{id:"os",t:"Organizational Structure"},{id:"se",t:"Stakeholder Engagement"},{id:"rf",t:"Risk Management Framework"},{id:"was",t:"Work Authorization System"},{id:"ccs",t:"Change Control System"}],
+  [{id:"a",l:"Regular updates and involvement for key stakeholders.",ans:"se"},
+   {id:"b",l:"Formal process for submitting and approving change requests.",ans:"ccs"},
+   {id:"c",l:"Hierarchy and reporting relationships outlined.",ans:"os"},
+   {id:"d",l:"Regular risk assessments and mitigation plans in place.",ans:"rf"},
+   {id:"e",l:"Formal approvals required before starting tasks.",ans:"was"}]);
+
+defQ(63,"Methodology","Methodology","Item",
+  [{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"Iterative / Incremental Development",ans:"ag"},
+   {id:"b",l:"Burn Down Chart",ans:"ag"},
+   {id:"c",l:"Scope Baseline",ans:"tr"}]);
+
+defQ(64,"Risk Response","Risk Response","Action",
+  [{id:"av",t:"Avoid"},{id:"ac",t:"Accept"},{id:"tr",t:"Transfer"},{id:"es",t:"Escalate"},{id:"mi",t:"Mitigate"}],
+  [{id:"a",l:"Delegate the risk to a third party, often through contracts or insurance.",ans:"tr"},
+   {id:"b",l:"Change the project plan to completely eliminate the risk.",ans:"av"},
+   {id:"c",l:"Report the risk to higher management when it cannot be managed at the project level.",ans:"es"},
+   {id:"d",l:"Implement actions to lessen the probability or impact of the risk.",ans:"mi"},
+   {id:"e",l:"Recognize the risk and take no proactive action, continuing with the project as planned.",ans:"ac"}]);
+
+defQ(65,"Methodology","Methodology","Item",
+  [{id:"ag",t:"Agile"},{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"}],
+  [{id:"a",l:"Risk Register",ans:"tr"},
+   {id:"b",l:"Adaptive Planning",ans:"ag"},
+   {id:"c",l:"Balanced Team Structure",ans:"hy"}]);
+
+defQ(66,"Methodology","Methodology","Item",
+  [{id:"tr",t:"Traditional"},{id:"ag",t:"Agile"},{id:"hy",t:"Hybrid"}],
+  [{id:"a",l:"Tailored Approaches",ans:"hy"},
+   {id:"b",l:"CPM",ans:"tr"},
+   {id:"c",l:"Product Backlog",ans:"ag"}]);
+
+defQ(67,"Risk Categories","Risk","Example",
+  [{id:"ma",t:"Management"},{id:"te",t:"Technical"},{id:"ex",t:"External"},{id:"co",t:"Commercial"}],
+  [{id:"a",l:"Issues with software or hardware integration.",ans:"te"},
+   {id:"b",l:"Currency exchange rate volatility.",ans:"co"},
+   {id:"c",l:"Inadequate resource allocation.",ans:"ma"},
+   {id:"d",l:"Natural disasters or extreme weather events.",ans:"ex"}]);
+
+defQ(68,"Scrum Roles","Role","Responsibility",
+  [{id:"po",t:"Product Owner"},{id:"dt",t:"Development Team"},{id:"sm",t:"Scrum Master"}],
+  [{id:"a",l:"Designs and develops features according to the backlog.",ans:"dt"},
+   {id:"b",l:"Ensures that the team adheres to Scrum practices.",ans:"sm"},
+   {id:"c",l:"Creates and maintains the product backlog.",ans:"po"}]);
+
+defQ(69,"Schedule Terms","Term","Description",
+  [{id:"ss",t:"Student Syndrome"},{id:"sp",t:"Self-Protection"},{id:"pl",t:"Parkinson Law"},{id:"db",t:"Dropped Baton"}],
+  [{id:"a",l:"Adding extra time to estimates to avoid potential overruns.",ans:"sp"},
+   {id:"b",l:"Issues arise due to poor handoff or transition of tasks between individuals.",ans:"db"},
+   {id:"c",l:"The time required for a task will expand to the amount of time available.",ans:"pl"},
+   {id:"d",l:"Procrastinating until the deadline is near before beginning a task.",ans:"ss"}]);
+
+defQ(70,"Risk Categories","Risk","Description",
+  [{id:"ma",t:"Management"},{id:"te",t:"Technical"},{id:"co",t:"Commercial"},{id:"ex",t:"External"}],
+  [{id:"a",l:"Involves the application of specialized knowledge and skills to achieve project goals.",ans:"te"},
+   {id:"b",l:"Focuses on market conditions, customer needs, and financial viability.",ans:"co"},
+   {id:"c",l:"Encompasses the planning, organizing, and controlling of project resources.",ans:"ma"},
+   {id:"d",l:"Concerns factors outside the project that can influence its success.",ans:"ex"}]);
+
+defQ(71,"Team Impediments","Impediment","Description",
+  [{id:"sc",t:"Scope Creep"},{id:"lcr",t:"Lack of Clear Requirements"},{id:"rr",t:"Risk Realization"},{id:"rs",t:"Resource Shortage"},{id:"cb",t:"Communication Breakdown"}],
+  [{id:"a",l:"Team members are unsure of project expectations.",ans:"lcr"},
+   {id:"b",l:"Insufficient resources to complete tasks.",ans:"rs"},
+   {id:"c",l:"Uncontrolled changes or continuous growth in project scope.",ans:"sc"},
+   {id:"d",l:"Team members are not effectively sharing information.",ans:"cb"},
+   {id:"e",l:"An identified risk has materialized and is impacting the project.",ans:"rr"}]);
+
+defQ(72,"Risk Response","Risk Response","Action",
+  [{id:"mi",t:"Mitigate"},{id:"ac",t:"Accept"},{id:"av",t:"Avoid"},{id:"tr",t:"Transfer"},{id:"es",t:"Escalate"}],
+  [{id:"a",l:"Change the project plan to eliminate the risk.",ans:"av"},
+   {id:"b",l:"Transfer the responsibility of the risk to a higher authority.",ans:"es"},
+   {id:"c",l:"Acknowledge the risk but take no immediate action unless it occurs.",ans:"ac"},
+   {id:"d",l:"Shift the impact of the risk to a third party.",ans:"tr"},
+   {id:"e",l:"Take actions to reduce the likelihood or impact of the risk.",ans:"mi"}]);
+
+defQ(73,"Roles","Role","Description",
+  [{id:"ba",t:"Business Analyst"},{id:"sm",t:"Scrum Master"},{id:"ps",t:"Project Sponsor"},{id:"fm",t:"Functional Manager"},{id:"pm",t:"Project Manager"},{id:"po",t:"Product Owner"}],
+  [{id:"a",l:"Assigns team members and resources from their department to the project.",ans:"fm"},
+   {id:"b",l:"Oversees scope, schedule, cost, quality, and stakeholder management.",ans:"pm"},
+   {id:"c",l:"Represents the interests of the customer and end-users.",ans:"po"},
+   {id:"d",l:"Gathers detailed requirements from stakeholders through interviews and workshops.",ans:"ba"},
+   {id:"e",l:"Ensures the team adheres to Agile principles and practices.",ans:"sm"}]);
+
+defQ(74,"Methodology","Methodology","Item",
+  [{id:"tr",t:"Traditional"},{id:"ag",t:"Agile"},{id:"hy",t:"Hybrid"}],
+  [{id:"a",l:"Throughout the day, team members update current status of tasks ensuring visibility and progress tracking.",ans:"ag"},
+   {id:"b",l:"At the end of each project phase, PM holds a review meeting and chooses a new methodology.",ans:"hy"},
+   {id:"c",l:"PM uses the critical path method to identify the longest sequence of tasks and optimize the project timeline.",ans:"tr"}]);
+
+defQ(75,"Methodology","Methodology","Item",
+  [{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"},{id:"tr",t:"Traditional"}],
+  [{id:"a",l:"The project manager reviews the project schedule, tracks task dependencies, and ensures timely progress.",ans:"tr"},
+   {id:"b",l:"The project manager uses blended reporting to report project progress.",ans:"hy"},
+   {id:"c",l:"After the sprint ends, the team holds a retrospective meeting to reflect on the past sprint.",ans:"ag"}]);
+
+defQ(76,"Tools & Problems","Tool","Problem",
+  [{id:"cp",t:"Communication Plan"},{id:"mc",t:"Milestone Chart"},{id:"ha",t:"Histogram Analysis"},{id:"sb",t:"Scope Baseline"},{id:"rr",t:"Risk Register"}],
+  [{id:"a",l:"No effective method for monitoring major task completion.",ans:"mc"},
+   {id:"b",l:"Unexpected events impact the project timeline.",ans:"rr"},
+   {id:"c",l:"Lack of timely information sharing leads to delays.",ans:"cp"},
+   {id:"d",l:"Essential team members are not available when needed.",ans:"ha"},
+   {id:"e",l:"Work Creep",ans:"sb"}]);
+
+defQ(77,"Scrum Roles","Role","Responsibility",
+  [{id:"sm",t:"Scrum Master"},{id:"po",t:"Product Owner"},{id:"dt",t:"Development Team"}],
+  [{id:"a",l:"Creates the project vision and goals to the team.",ans:"po"},
+   {id:"b",l:"Plans and executes the tasks to meet the sprint goal.",ans:"dt"},
+   {id:"c",l:"Coaches the team in agile practices.",ans:"sm"}]);
+
+defQ(78,"Methodology","Methodology","Item",
+  [{id:"hy",t:"Hybrid"},{id:"tr",t:"Traditional"},{id:"ag",t:"Agile"}],
+  [{id:"a",l:"Kanban Board",ans:"ag"},
+   {id:"b",l:"CCB",ans:"tr"},
+   {id:"c",l:"Sprint Backlog / Scope Statement",ans:"hy"}]);
+
+defQ(79,"PM Documents","Document","Description",
+  [{id:"cc",t:"Change Control Process"},{id:"rr",t:"Risk Register"},{id:"cp",t:"Communication Plan"}],
+  [{id:"a",l:"Documenting threats and planning mitigation strategies.",ans:"rr"},
+   {id:"b",l:"Managing modifications to scope, schedule, or budget.",ans:"cc"},
+   {id:"c",l:"Establishing protocols for information sharing.",ans:"cp"}]);
+
+defQ(80,"Team Impediments","Impediment","Action",
+  [{id:"ie",t:"Insufficient Expertise"},{id:"od",t:"Ongoing Disputes"},{id:"ur",t:"Unclear Responsibilities"},{id:"le",t:"Low Engagement"},{id:"md",t:"Missed Deadlines"}],
+  [{id:"a",l:"Facilitate mediation to resolve issues and restore harmony.",ans:"od"},
+   {id:"b",l:"Organise activities to boost team spirit and motivation.",ans:"le"},
+   {id:"c",l:"Arrange training sessions or bring in specialists to address deficiencies.",ans:"ie"},
+   {id:"d",l:"Clearly define and communicate specific duties and roles.",ans:"ur"},
+   {id:"e",l:"Implement stricter timeline tracking and follow-up procedures.",ans:"md"}]);
+
+defQ(81,"Tuckman Stages","Stage","Description",
+  [{id:"fo",t:"Forming"},{id:"st",t:"Storming"},{id:"no",t:"Norming"},{id:"pe",t:"Performing"},{id:"ad",t:"Adjourning"}],
+  [{id:"a",l:"Team members are getting to know each other and understanding the project goals.",ans:"fo"},
+   {id:"b",l:"Conflicts arise as team members express differing opinions and work styles.",ans:"st"},
+   {id:"c",l:"The team starts to resolve conflicts and establish routines and norms.",ans:"no"},
+   {id:"d",l:"The project is completed, and the team disbands, reflecting on accomplishments.",ans:"ad"},
+   {id:"e",l:"The team operates efficiently towards achieving project goals with minimal supervision.",ans:"pe"}]);
+
+defQ(82,"EVM Metrics","Tool","Meaning",
+  [{id:"cpi",t:"CPI"},{id:"sv",t:"SV"},{id:"spi",t:"SPI"},{id:"cv",t:"CV"}],
+  [{id:"a",l:"Difference between planned and actual schedule.",ans:"sv"},
+   {id:"b",l:"Efficiency of budgeted cost expenditure.",ans:"cpi"},
+   {id:"c",l:"Difference between budgeted and actual cost.",ans:"cv"},
+   {id:"d",l:"Efficiency of project schedule performance.",ans:"spi"}]);
+
+defQ(83,"Roles","Role","Description",
+  [{id:"po",t:"Product Owner"},{id:"ps",t:"Project Sponsor"},{id:"fm",t:"Functional Manager"},{id:"ba",t:"Business Analyst"},{id:"sm",t:"Scrum Master"}],
+  [{id:"a",l:"Evaluates the performance of team members within their department.",ans:"fm"},
+   {id:"b",l:"Provides the necessary funding and resources for the project.",ans:"ps"},
+   {id:"c",l:"Empowers the team to self-organise and make decisions.",ans:"sm"}]);
+
+defQ(84,"Org Terms","Term","Description",
+  [{id:"os",t:"Organizational Structure"},{id:"rf",t:"Risk Management Framework"},{id:"was",t:"Work Authorization System"},{id:"se",t:"Stakeholder Engagement"}],
+  [{id:"a",l:"Processes for identifying, analyzing, and responding to project risks.",ans:"rf"},
+   {id:"b",l:"Involves actively managing stakeholder expectations and relationships.",ans:"se"},
+   {id:"c",l:"Defines how activities are directed to achieve goals.",ans:"os"},
+   {id:"d",l:"Defines how project work is assigned and authorized.",ans:"was"}]);
+
+defQ(85,"Risk Response","Risk Response","Action",
+  [{id:"tr",t:"Transfer"},{id:"mi",t:"Mitigate"},{id:"ac",t:"Accept"},{id:"av",t:"Avoid"},{id:"es",t:"Escalate"}],
+  [{id:"a",l:"Implement actions to reduce the probability or impact of the risk.",ans:"mi"},
+   {id:"b",l:"Change the project plan to eliminate the risk or its impact.",ans:"av"},
+   {id:"c",l:"Shift the risk to an insurance company.",ans:"tr"},
+   {id:"d",l:"Pass the risk to a higher authority.",ans:"es"},
+   {id:"e",l:"Recognize the risk and decide to take no action unless it occurs.",ans:"ac"}]);
+
+defQ(86,"Schedule Terms","Term","Description",
+  [{id:"pl",t:"Parkinson Law"},{id:"db",t:"Dropped Baton"},{id:"sp",t:"Self-Protection"},{id:"ss",t:"Student Syndrome"}],
+  [{id:"a",l:"Estimating more time than necessary to create a buffer against delays.",ans:"sp"},
+   {id:"b",l:"Work duration increases to fill the available time.",ans:"pl"},
+   {id:"c",l:"Delaying the start of a task until the deadline is near, leading to rushed efforts.",ans:"ss"},
+   {id:"d",l:"Delays occur when tasks are not smoothly transitioned between team members.",ans:"db"}]);
+
+defQ(87,"Interpersonal Skills","Skill","Situation",
+  [{id:"cr",t:"Conflict Resolution"},{id:"ca",t:"Cultural Awareness"},{id:"dm",t:"Decision Making"},{id:"ne",t:"Negotiation"},{id:"pa",t:"Political Awareness"}],
+  [{id:"a",l:"Facilitate effective communication in a diverse, global project team.",ans:"ca"},
+   {id:"b",l:"Secure a better rate or terms with a key supplier for project materials.",ans:"ne"},
+   {id:"c",l:"Mediate a dispute between two team members over a project task approach.",ans:"cr"},
+   {id:"d",l:"Resolve a budget overrun using a management strategy.",ans:"dm"},
+   {id:"e",l:"Gain support for your project from influential internal stakeholders.",ans:"pa"}]);
+
+defQ(88,"EVM Metrics","Tool","Meaning",
+  [{id:"eac",t:"EAC"},{id:"spi",t:"SPI"},{id:"vac",t:"VAC"},{id:"cpi",t:"CPI"}],
+  [{id:"a",l:"Ratio of earned value to actual cost, indicating cost efficiency.",ans:"cpi"},
+   {id:"b",l:"Forecasted total project cost based on current performance trends.",ans:"eac"},
+   {id:"c",l:"Difference between the original budget and the estimated cost at project completion.",ans:"vac"},
+   {id:"d",l:"Ratio of earned value to planned value, reflecting schedule efficiency.",ans:"spi"}]);
+
+defQ(89,"Interpersonal Skills","Skill","Situation",
+  [{id:"dm",t:"Decision Making"},{id:"ne",t:"Negotiation"},{id:"ca",t:"Cultural Awareness"},{id:"pa",t:"Political Awareness"},{id:"cr",t:"Conflict Resolution"}],
+  [{id:"a",l:"Reach an agreement with a client on project scope changes without impacting the budget.",ans:"ne"},
+   {id:"b",l:"Resolve a scheduling conflict between two departments competing for the same resource.",ans:"cr"},
+   {id:"c",l:"Select the best vendor from three proposals for project software within a tight deadline.",ans:"dm"},
+   {id:"d",l:"Navigate office dynamics to secure additional resources from a department head.",ans:"pa"},
+   {id:"e",l:"Adapt project communication styles to accommodate a team member social preferences.",ans:"ca"}]);
+
+defQ(90,"Agile Tools","Document","Description",
+  [{id:"tb",t:"Time-Boxing"},{id:"kb",t:"Kanban Board"},{id:"pdm",t:"PDM"}],
+  [{id:"a",l:"Visualizing work in progress.",ans:"kb"},
+   {id:"b",l:"Allocating fixed periods for activities.",ans:"tb"},
+   {id:"c",l:"Visual representation of task relationships.",ans:"pdm"}]);
+
+defQ(91,"EVM Formulas","Formula","Situation",
+  [{id:"ev",t:"EV"},{id:"pe",t:"PERT"},{id:"cpi",t:"CPI"},{id:"pv",t:"PV"}],
+  [{id:"a",l:"Used to estimate task durations using optimistic, pessimistic, and most likely scenarios.",ans:"pe"},
+   {id:"b",l:"The value of work actually performed, expressed in terms of the budget.",ans:"ev"},
+   {id:"c",l:"The approved budget assigned to the work scheduled to be completed by a specific time.",ans:"pv"},
+   {id:"d",l:"A measure of cost efficiency, calculated as the ratio of earned value to actual cost.",ans:"cpi"}]);
+
+defQ(92,"Org Terms","Term","Description",
+  [{id:"km",t:"Knowledge Management"},{id:"oc",t:"Organizational Culture"},{id:"gf",t:"Governance Framework"},{id:"pm",t:"PMO"}],
+  [{id:"a",l:"Team norms and behaviors guide project work.",ans:"oc"},
+   {id:"b",l:"Central oversight of all project practices.",ans:"pm"},
+   {id:"c",l:"Systems in place for sharing lessons learned.",ans:"km"},
+   {id:"d",l:"Clearly defined decision-making processes.",ans:"gf"}]);
+
+defQ(93,"EVM Interpretation","Metric","Interpretation",
+  [{id:"cv",t:"CV"},{id:"spi",t:"SPI"},{id:"cpi",t:"CPI"},{id:"sv",t:"SV"}],
+  [{id:"a",l:"Negative value is bad for Schedule.",ans:"sv"},
+   {id:"b",l:"Positive value is good for Budget.",ans:"cv"},
+   {id:"c",l:"1 or greater means ahead of Schedule.",ans:"spi"},
+   {id:"d",l:"Under 1 means over budget.",ans:"cpi"}]);
+
+defQ(94,"EVM Status","Status","Metric Value",
+  [{id:"ub",t:"Under Budget"},{id:"os",t:"Over Schedule"},{id:"ob",t:"Over Budget"},{id:"as",t:"Ahead of Schedule"}],
+  [{id:"a",l:"SV is -200",ans:"os"},
+   {id:"b",l:"SPI is 1.4",ans:"as"},
+   {id:"c",l:"CPI is 1.5",ans:"ub"},
+   {id:"d",l:"CV is -70",ans:"ob"}]);
+
+defQ(95,"Org Structure","Term","Description",
+  [{id:"wm",t:"Weak Matrix"},{id:"ps",t:"Projectized Structure"},{id:"sm",t:"Strong Matrix"},{id:"fs",t:"Functional Structure"}],
+  [{id:"a",l:"The project manager has full authority over the project and resources.",ans:"ps"},
+   {id:"b",l:"Employees are grouped by specialization and report to a functional manager.",ans:"fs"},
+   {id:"c",l:"Project managers have limited authority.",ans:"wm"},
+   {id:"d",l:"Project managers have considerable authority.",ans:"sm"}]);
+
+defQ(96,"Collaboration Tools","Tool","Task",
+  [{id:"pms",t:"Project Management Software"},{id:"ob",t:"Online Bulletin Boards"},{id:"vc",t:"Video Conferencing"}],
+  [{id:"a",l:"Share and archive project documentation and reference materials.",ans:"ob"},
+   {id:"b",l:"Plan and allocate resources, monitor task dependencies, and track project milestones.",ans:"pms"},
+   {id:"c",l:"Host remote training sessions or workshops for team members and stakeholders.",ans:"vc"}]);
+
+defQ(97,"Schedule Terms","Term","Description",
+  [{id:"ss",t:"Student Syndrome"},{id:"db",t:"Dropped Baton"},{id:"pl",t:"Parkinson Law"},{id:"sp",t:"Self-Protection"}],
+  [{id:"a",l:"A disruption caused by poor handoff or transition of tasks between team members.",ans:"db"},
+   {id:"b",l:"Individuals add extra time to estimates to avoid the risk of missing deadlines.",ans:"sp"},
+   {id:"c",l:"Procrastination where work is delayed until the last possible moment before deadline.",ans:"ss"},
+   {id:"d",l:"Tasks take longer to complete if more time is allocated to them.",ans:"pl"}]);
+
+defQ(98,"Schedule Tools","Document","Description",
+  [{id:"cp",t:"CPM"},{id:"pe",t:"PERT"},{id:"gc",t:"Gantt Chart"}],
+  [{id:"a",l:"Visualizing project schedule and tracking task dependencies.",ans:"gc"},
+   {id:"b",l:"Identifying the longest sequence of dependent tasks and optimizing the schedule.",ans:"cp"},
+   {id:"c",l:"Estimating the amount of time to complete an activity.",ans:"pe"}]);
+
+defQ(99,"Schedule Tools","Document","Description",
+  [{id:"ft",t:"Fast Tracking"},{id:"mc",t:"Milestone Chart"},{id:"cp",t:"CPM"}],
+  [{id:"a",l:"Tracking key events and progress.",ans:"mc"},
+   {id:"b",l:"Finding the longest amount of time to complete a project.",ans:"cp"},
+   {id:"c",l:"Overlapping activities to shorten duration.",ans:"ft"}]);
+
+defQ(100,"Agile Engineering","Tool","Description",
+  [{id:"sp",t:"Spike"},{id:"cd",t:"Continuous Delivery"},{id:"tdd",t:"TDD"}],
+  [{id:"a",l:"Writing assessments before developing code to ensure functionality.",ans:"tdd"},
+   {id:"b",l:"Time-boxed research task to explore or investigate solutions.",ans:"sp"},
+   {id:"c",l:"Ongoing integration, testing, and delivery of software in development.",ans:"cd"}]);
+
+// Init state
+state.answers = QS.map(function(){return {};});
+state.checked = QS.map(function(){return false;});
+state.results = QS.map(function(){return null;});
+
+function getItem(q,id){
+  for(var i=0;i<q.items.length;i++) if(q.items[i].id===id) return q.items[i];
+  return null;
+}
+
+function renderNav(){
+  var nav=document.getElementById('nav');
+  var html='';
+  for(var i=0;i<QS.length;i++){
+    var cls='qnb';
+    if(i===state.cur) cls+=' active';
+    else if(state.results[i]==='correct') cls+=' ok';
+    else if(state.results[i]==='wrong') cls+=' bad';
+    html+='<button class="'+cls+'" onclick="goto('+i+')">'+(i+1)+'</button>';
+  }
+  nav.innerHTML=html;
+}
+
+function renderQ(idx){
+  var q=QS[idx];
+  var ans=state.answers[idx];
+  var chk=state.checked[idx];
+  var placed={};
+  for(var k in ans) placed[ans[k]]=true;
+  var bankItems=q.items.filter(function(it){return !placed[it.id];});
+
+  var bankHtml='';
+  if(bankItems.length===0){
+    bankHtml='<div class="empty">All items placed</div>';
+  } else {
+    bankItems.forEach(function(it){
+      bankHtml+='<div class="chip" draggable="true" id="chip_'+idx+'_'+it.id+'" ondragstart="dstart(event,\''+it.id+'\','+idx+',null)">'+it.t+'</div>';
+    });
+  }
+
+  var zonesHtml='';
+  q.targets.forEach(function(t){
+    var pid=ans[t.id]||null;
+    var item=pid?getItem(q,pid):null;
+    var correct=chk&&pid&&pid===t.ans;
+    var wrong=chk&&pid&&pid!==t.ans;
+    var zc='zone'+(correct?' z-ok':wrong?' z-bad':'');
+    var inner='';
+    if(item){
+      var cc='chip'+(correct?' c-ok':wrong?' c-bad':'');
+      if(!chk){
+        inner='<div class="'+cc+'" draggable="true" ondragstart="dstart(event,\''+pid+'\','+idx+',\''+t.id+'\')" onclick="returnBank('+idx+',\''+t.id+'\')">'+item.t+'</div>';
+      } else {
+        inner='<div class="'+cc+'">'+item.t+'</div>';
+        if(wrong){
+          var cor=getItem(q,t.ans);
+          inner+='<div class="hint bad">Correct: '+(cor?cor.t:t.ans)+'</div>';
+        } else if(correct){
+          inner+='<div class="hint ok">Correct!</div>';
+        }
+      }
+    } else {
+      inner='<div class="empty">'+(chk?'—':'Drop here')+'</div>';
+    }
+    zonesHtml+='<div class="trow"><div class="tlabel">'+t.l+'</div><div class="'+zc+'" ondragover="dover(event)" ondragleave="dleave(event)" ondrop="ddrop(event,'+idx+',\''+t.id+'\')">'+inner+'</div></div>';
+  });
+
+  var correct_count=q.targets.filter(function(t){return ans[t.id]===t.ans;}).length;
+  var all_ok=chk&&correct_count===q.targets.length;
+  var some_bad=chk&&correct_count<q.targets.length;
+
+  var expHtml='';
+  q.targets.forEach(function(t){
+    var cor=getItem(q,t.ans);
+    expHtml+='<div style="margin-bottom:6px"><strong>'+(cor?cor.t:t.ans)+'</strong> &rarr; '+t.l+'</div>';
+  });
+
+  var actHtml='';
+  if(!chk) actHtml+='<button class="btn btn-green" onclick="checkAns('+idx+')">Check Answer</button>';
+  actHtml+='<button class="btn btn-ghost" onclick="resetQ('+idx+')">Reset</button>';
+  actHtml+='<button class="btn btn-outline" onclick="toggleExp('+idx+')">Explain</button>';
+  if(idx<QS.length-1) actHtml+='<button class="btn btn-primary" onclick="goto('+(idx+1)+')">Next &rarr;</button>';
+  else actHtml+='<button class="btn btn-primary" onclick="showFinal()">Finish Quiz</button>';
+
+  var html='<div class="card"><div class="qmeta"><span class="qnum">Q'+q.id+'</span><span class="qtag">'+q.tag+'</span></div>';
+  html+='<div class="qtitle">Match each <strong>'+q.ll+'</strong> to the correct <strong>'+q.rl+'</strong></div>';
+  html+='<div class="dnd"><div><div class="col-hd">'+q.ll+'</div><div class="bank" id="bank_'+idx+'" ondragover="dover(event)" ondragleave="dleave(event)" ondrop="dbank(event,'+idx+')">'+bankHtml+'</div></div>';
+  html+='<div><div class="col-hd">'+q.rl+'</div><div class="targets">'+zonesHtml+'</div></div></div>';
+  if(chk) html+='<div class="banner '+(all_ok?'ok':'bad')+' show">'+(all_ok?'All correct!':correct_count+' / '+q.targets.length+' correct. See corrections above.')+'</div>';
+  html+='<div class="exp" id="exp_'+idx+'">'+expHtml+'</div>';
+  html+='<div class="actions">'+actHtml+'</div></div>';
+
+  document.getElementById('qc').innerHTML=html;
+  updatePB();
+}
+
+function goto(i){state.cur=i;renderNav();renderQ(i);}
+
+function dstart(e,id,qidx,fromZone){
+  dragId=id; dragFrom=fromZone;
+  e.dataTransfer.setData('text',id);
+  e.dataTransfer.effectAllowed='move';
+}
+function dover(e){e.preventDefault();e.currentTarget.classList.add('over');}
+function dleave(e){e.currentTarget.classList.remove('over');}
+
+function ddrop(e,qidx,tid){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  if(state.checked[qidx]) return;
+  var id=e.dataTransfer.getData('text')||dragId;
+  if(!id) return;
+  var ans=state.answers[qidx];
+  if(dragFrom) delete ans[dragFrom];
+  ans[tid]=id;
+  dragId=null; dragFrom=null;
+  renderQ(qidx);
+}
+
+function dbank(e,qidx){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  if(state.checked[qidx]||!dragFrom) return;
+  delete state.answers[qidx][dragFrom];
+  dragId=null; dragFrom=null;
+  renderQ(qidx);
+}
+
+function returnBank(qidx,tid){
+  if(state.checked[qidx]) return;
+  delete state.answers[qidx][tid];
+  renderQ(qidx);
+}
+
+function checkAns(idx){
+  var q=QS[idx];
+  var ans=state.answers[idx];
+  state.checked[idx]=true;
+  var ok=q.targets.every(function(t){return ans[t.id]===t.ans;});
+  var prev=state.results[idx];
+  state.results[idx]=ok?'correct':'wrong';
+  if(prev===null){state.total++;if(ok)state.score++;}
+  else{if(prev!=='correct'&&ok)state.score++;if(prev==='correct'&&!ok)state.score--;}
+  document.getElementById('sc').textContent=state.score;
+  document.getElementById('at').textContent=state.total;
+  renderNav(); renderQ(idx);
+}
+
+function toggleExp(idx){
+  var el=document.getElementById('exp_'+idx);
+  if(el) el.classList.toggle('show');
+}
+
+function resetQ(idx){
+  state.answers[idx]={};
+  state.checked[idx]=false;
+  if(state.results[idx]!==null){
+    if(state.results[idx]==='correct') state.score--;
+    state.results[idx]=null; state.total--;
+  }
+  document.getElementById('sc').textContent=state.score;
+  document.getElementById('at').textContent=state.total;
+  renderNav(); renderQ(idx);
+}
+
+function resetAll(){
+  state.cur=0; state.score=0; state.total=0;
+  state.answers=QS.map(function(){return {};});
+  state.checked=QS.map(function(){return false;});
+  state.results=QS.map(function(){return null;});
+  document.getElementById('sc').textContent=0;
+  document.getElementById('at').textContent=0;
+  document.getElementById('fin').classList.remove('show');
+  document.getElementById('qc').style.display='block';
+  document.getElementById('nav').style.display='flex';
+  renderNav(); renderQ(0);
+}
+
+function showFinal(){
+  var att=state.results.filter(function(r){return r!==null;}).length;
+  var cor=state.results.filter(function(r){return r==='correct';}).length;
+  var wrg=state.results.filter(function(r){return r==='wrong';}).length;
+  var pct=att>0?Math.round(cor/att*100):0;
+  document.getElementById('fpct').textContent=pct+'%';
+  document.getElementById('fc').textContent=cor;
+  document.getElementById('fw').textContent=wrg;
+  document.getElementById('fa').textContent=att;
+  document.getElementById('fmsg').textContent=pct>=80?'Exam ready!':pct>=60?'Good progress, keep going!':'More practice needed.';
+  document.getElementById('fsub').textContent='You attempted '+att+' of 100 questions.';
+  document.getElementById('qc').style.display='none';
+  document.getElementById('nav').style.display='none';
+  document.getElementById('fin').classList.add('show');
+}
+
+function updatePB(){
+  var done=state.results.filter(function(r){return r!==null;}).length;
+  document.getElementById('pb').style.width=(done/QS.length*100)+'%';
+}
+
+renderNav(); renderQ(0);
+</script>
+</body>
+</html>
