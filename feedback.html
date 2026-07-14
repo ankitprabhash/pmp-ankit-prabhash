@@ -117,20 +117,19 @@
 
       <div class="btn-row">
         <button type="submit" class="btn-primary">Send feedback</button>
-        <span class="hint">Opens your email app, sent to ankit.prabhash@gmail.com</span>
+        <span class="hint">Opens Gmail in a new tab, sent to ankit.prabhash@gmail.com</span>
       </div>
     </form>
 
     <div class="note">
-      This site has no backend, so there is no server-side form. Clicking send just opens your own email app with everything filled in - you still need to hit send there.
+      This site has no backend, so there is no server-side form. Clicking send opens a pre-filled Gmail compose window in a new tab - you still need to hit send there. If Gmail doesn't open, <a href="#" id="mailtoFallback" style="color:#5A4420; font-weight:600;">click here to use your default email app instead</a>.
     </div>
     <p style="margin-top:20px; font-size:0.8rem; color:var(--ink-faint);">Made by <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener" style="color:var(--ink-faint); text-decoration:underline; text-underline-offset:2px;">Ankit Prabhash</a></p>
   </div>
 </main>
 
 <script>
-  document.getElementById('feedbackForm').addEventListener('submit', function(e){
-    e.preventDefault();
+  function buildFeedback(){
     var name = document.getElementById('name').value.trim() || 'Not shared';
     var mock = document.getElementById('mock').value;
     var type = document.getElementById('type').value;
@@ -143,10 +142,27 @@
       'Type: ' + type + '\n\n' +
       'Message:\n' + (message || '(no message written)');
 
-    var mailto = 'mailto:ankit.prabhash@gmail.com'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body=' + encodeURIComponent(body);
+    return { subject: subject, body: body };
+  }
 
+  document.getElementById('feedbackForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var msg = buildFeedback();
+
+    var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1'
+      + '&to=' + encodeURIComponent('ankit.prabhash@gmail.com')
+      + '&su=' + encodeURIComponent(msg.subject)
+      + '&body=' + encodeURIComponent(msg.body);
+
+    window.open(gmailUrl, '_blank');
+  });
+
+  document.getElementById('mailtoFallback').addEventListener('click', function(e){
+    e.preventDefault();
+    var msg = buildFeedback();
+    var mailto = 'mailto:ankit.prabhash@gmail.com'
+      + '?subject=' + encodeURIComponent(msg.subject)
+      + '&body=' + encodeURIComponent(msg.body);
     window.location.href = mailto;
   });
 </script>
