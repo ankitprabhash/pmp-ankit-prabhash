@@ -172,7 +172,7 @@ defQ(8,"Risk Attributes","Risk","Action",
 defQ(9,"Methodology","Methodology","Item",
   [{id:"tr",t:"Traditional"},{id:"al",t:"All"},{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"}],
   [{id:"a",l:"Gantt Chart",ans:"tr"},
-   {id:"b",l:"Phase Gate Reviews",ans:"tr"},
+   {id:"b",l:"Phase Gate Reviews",ans:"hy"},
    {id:"c",l:"Sprint Planning",ans:"ag"},
    {id:"d",l:"Stakeholder Analysis",ans:"al"}]);
 
@@ -262,7 +262,7 @@ defQ(20,"Collaboration Tools","Tool","Task",
 
 defQ(21,"Tools & Problems","Tool","Problem",
   [{id:"wb",t:"WBS"},{id:"ev",t:"EVM"},{id:"cp",t:"CPM"},{id:"sm",t:"Status Meetings"},{id:"sb",t:"Schedule Baseline"}],
-  [{id:"a",l:"Overlapping Activities",ans:"wb"},
+  [{id:"a",l:"Overlapping Activities",ans:"sb"},
    {id:"b",l:"How Far Off Schedule",ans:"ev"},
    {id:"c",l:"Fragmented Work",ans:"wb"},
    {id:"d",l:"Unrealistic Deadlines",ans:"cp"},
@@ -509,7 +509,7 @@ defQ(56,"Agile Meetings","Meeting","Description",
 
 defQ(57,"Org Structure","Term","Description",
   [{id:"wm",t:"Weak Matrix"},{id:"sm",t:"Strong Matrix"},{id:"fs",t:"Functional Structure"},{id:"ms",t:"Matrix Structure"},{id:"ps",t:"Projectized Structure"}],
-  [{id:"a",l:"Project managers have a little more power than the functional manager.",ans:"wm"},
+  [{id:"a",l:"Project managers have a little more power than the functional manager.",ans:"sm"},
    {id:"b",l:"A company where team members have dual reporting lines.",ans:"ms"},
    {id:"c",l:"An organization where departments operate independently.",ans:"fs"},
    {id:"d",l:"Project managers coordinate but functional managers retain control.",ans:"wm"},
@@ -552,7 +552,7 @@ defQ(62,"Org Terms","Term","Description",
 
 defQ(63,"Methodology","Methodology","Item",
   [{id:"tr",t:"Traditional"},{id:"hy",t:"Hybrid"},{id:"ag",t:"Agile"}],
-  [{id:"a",l:"Iterative / Incremental Development",ans:"ag"},
+  [{id:"a",l:"Iterative / Incremental Development",ans:"hy"},
    {id:"b",l:"Burn Down Chart",ans:"ag"},
    {id:"c",l:"Scope Baseline",ans:"tr"}]);
 
