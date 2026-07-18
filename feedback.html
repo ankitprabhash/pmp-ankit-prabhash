@@ -69,21 +69,28 @@
   label .optional{font-weight:400; color:var(--ink-faint);}
   input, select, textarea{
     width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:8px;
-    font-family:'Inter', sans-serif; font-size:0.95rem; color:var(--ink); background:#fff;
+    font-family:'Inter', sans-serif; font-size:0.95rem; color:var(--ink); background:var(--bg);
   }
   input:focus, select:focus, textarea:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:var(--accent);}
   textarea{resize:vertical; min-height:120px;}
   .btn-row{margin-top:30px; display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
   .btn-primary{
-    background:var(--ink); color:#fff; border:none; padding:13px 26px; border-radius:8px;
+    background:var(--ink); color:var(--bg); border:none; padding:13px 26px; border-radius:8px;
     font-weight:600; font-size:0.95rem; cursor:pointer; transition:transform .15s, box-shadow .15s;
   }
   .btn-primary:hover{transform:translateY(-1px); box-shadow:var(--shadow);}
   .hint{font-size:0.85rem; color:var(--ink-faint);}
 
   .note{
-    margin-top:24px; background:var(--accent-soft); border:1px solid #E8D7B5; border-radius:10px;
-    padding:16px 20px; font-size:0.88rem; color:#5A4420;
+    margin-top:24px; background:var(--accent-soft); border:1px solid var(--line); border-radius:10px;
+    padding:16px 20px; font-size:0.88rem; color:var(--ink-soft);
+  }
+
+  @media (max-width:560px){
+    main{padding:40px 0 56px;}
+    h1{font-size:1.6rem;}
+    form{padding:22px;}
+    .back{font-size:0.82rem;}
   }
 </style>
 </head>
