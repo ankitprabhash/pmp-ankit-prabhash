@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4MN1JWWWRP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-4MN1JWWWRP");
+</script>
+<script>
+  (function(){
+    var saved = localStorage.getItem('pmp-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a 1:1 Call - PMP Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF8; --surface:#FFFFFF; --ink:#16213E; --ink-soft:#4A5568; --ink-faint:#8890A0;
+    --accent:#A9762C; --accent-soft:#F3E9D8; --line:#E6E4DD;
+    --shadow: 0 1px 2px rgba(22,33,62,0.04), 0 8px 24px rgba(22,33,62,0.06);
+  }
+  [data-theme="dark"]{
+    --bg:#12141C; --surface:#1A1D27; --ink:#EDEEF2; --ink-soft:#AEB3C4; --ink-faint:#6E7387;
+    --accent:#D3A85C; --accent-soft:#2A2417; --line:#2C303F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.3);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--ink); font-family:'Inter', system-ui, sans-serif; line-height:1.6; transition:background .2s ease, color .2s ease;}
+  h1,h2{font-family:'Lora', Georgia, serif; font-weight:600;}
+  a{color:inherit;}
+  .wrap{max-width:900px; margin:0 auto; padding:0 24px;}
+
+  header{border-bottom:1px solid var(--line); background:rgba(250,250,248,0.9); backdrop-filter:blur(8px); position:sticky; top:0; z-index:50;}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1080px; margin:0 auto;}
+  .brand{font-family:'Lora', serif; font-weight:700; font-size:1.15rem; text-decoration:none;}
+  .brand span{color:var(--accent);}
+  .back{font-size:0.9rem; color:var(--ink-soft); text-decoration:none; font-weight:500;}
+  .back:hover{color:var(--ink);}
+  .nav-right{display:flex; align-items:center; gap:20px;}
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:8px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink-soft); cursor:pointer;
+    font-size:16px; transition:border-color .15s, color .15s;
+  }
+  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
+
+  main{padding:56px 0 80px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--accent);}
+  h1{font-size:2.2rem; margin-bottom:14px; max-width:640px;}
+  main > .wrap > p.lede{color:var(--ink-soft); margin-bottom:40px; font-size:1.05rem; max-width:560px;}
+
+  .layout{display:grid; grid-template-columns:320px 1fr; gap:28px; align-items:start;}
+  @media (max-width:760px){.layout{grid-template-columns:1fr;}}
+
+  .info-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:26px;
+  }
+  .price{font-family:'Lora', serif; font-size:2.4rem; font-weight:700; color:var(--ink); margin-bottom:2px;}
+  .price span{font-size:0.95rem; font-weight:500; color:var(--ink-faint); font-family:'Inter', sans-serif;}
+  .price-note{font-size:0.85rem; color:var(--ink-faint); margin-bottom:22px;}
+  .includes{list-style:none; margin-bottom:22px;}
+  .includes li{
+    display:flex; gap:10px; align-items:flex-start; font-size:0.92rem; color:var(--ink-soft);
+    margin-bottom:12px; line-height:1.5;
+  }
+  .includes li::before{content:'✓'; color:var(--accent); font-weight:700; flex-shrink:0;}
+  .pay-note{
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:10px;
+    padding:14px 16px; font-size:0.85rem; color:var(--ink-soft); line-height:1.6;
+  }
+  .pay-note strong{color:var(--ink); display:block; margin-bottom:4px;}
+
+  .booking-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    min-height:640px; display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .booking-embed{width:100%; height:700px; border:none;}
+  .booking-placeholder{text-align:center; color:var(--ink-faint); font-size:0.92rem; max-width:320px; padding:20px;}
+  .booking-placeholder code{
+    display:block; background:var(--bg); border:1px solid var(--line); border-radius:6px;
+    padding:8px 10px; margin-top:10px; font-size:0.8rem; word-break:break-all;
+  }
+
+  footer{padding:36px 0; border-top:1px solid var(--line); margin-top:20px;}
+  .footer-note{font-size:0.85rem; color:var(--ink-faint); text-align:center;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="brand">PMP<span>.</span>Practice</a>
+    <div class="nav-right">
+      <a href="index.html" class="back">← Back to home</a>
+      <button class="theme-toggle" id="themeToggle" title="Switch theme" aria-label="Toggle dark or light theme">☀</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow">1:1 Consultation</div>
+    <h1>Book a 60-minute call with me</h1>
+    <p class="lede">Straight talk on your PMP application, exam strategy, and where to focus your remaining prep time - plus full access to my study material and mock exams.</p>
+
+    <div class="layout">
+      <div class="info-card">
+        <div class="price">₹499 <span>/ session</span></div>
+        <div class="price-note">One-time, per 60-min call</div>
+        <ul class="includes">
+          <li>1:1 support on your PMI application - project descriptions, experience hours, audit prep</li>
+          <li>Personal exam strategy based on where you're stuck</li>
+          <li>Access to my study material and all mock exams</li>
+          <li>Direct Q&A - ask anything, no fixed agenda</li>
+        </ul>
+        <div class="pay-note">
+          <strong>How payment works</strong>
+          Pick a slot on the right. You'll get a confirmation email, and I'll personally send you a UPI QR code to pay before the call - no card details needed anywhere on this site.
+        </div>
+      </div>
+
+      <div class="booking-card">
+        <iframe class="booking-embed" src="https://calendly.com/ankit-prabhash/new-meeting?hide_gdpr_banner=1"></iframe>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="footer-note">Payment is collected personally via UPI, not through this website. This is an independent resource and not affiliated with PMI.</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('themeToggle');
+    function updateIcon(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      btn.textContent = cur === 'dark' ? '☾' : '☀';
+    }
+    updateIcon();
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pmp-theme', next);
+      updateIcon();
+    });
+  });
+</script>
+
+</body>
+</html>
