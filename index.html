@@ -9,6 +9,12 @@
   gtag("js", new Date());
   gtag("config", "G-4MN1JWWWRP");
 </script>
+<script>
+  (function(){
+    var saved = localStorage.getItem('pmp-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PMP Practice - Free Mock Tests</title>
@@ -27,6 +33,17 @@
     --line:#E6E4DD;
     --shadow: 0 1px 2px rgba(22,33,62,0.04), 0 8px 24px rgba(22,33,62,0.06);
   }
+  [data-theme="dark"]{
+    --bg:#12141C;
+    --surface:#1A1D27;
+    --ink:#EDEEF2;
+    --ink-soft:#AEB3C4;
+    --ink-faint:#6E7387;
+    --accent:#D3A85C;
+    --accent-soft:#2A2417;
+    --line:#2C303F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.3);
+  }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
   body{
@@ -35,7 +52,15 @@
     font-family:'Inter', system-ui, sans-serif;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    transition:background .2s ease, color .2s ease;
   }
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:8px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink-soft); cursor:pointer;
+    font-size:16px; transition:border-color .15s, color .15s;
+  }
+  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
   h1,h2,h3{font-family:'Lora', Georgia, serif; color:var(--ink); font-weight:600;}
   a{color:inherit;}
   .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
@@ -48,6 +73,7 @@
     border-bottom:1px solid var(--line);
   }
   .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px;}
+  .nav-right{display:flex; align-items:center; gap:24px;}
   .brand{font-family:'Lora', serif; font-weight:700; font-size:1.15rem; letter-spacing:-0.01em; text-decoration:none;}
   .brand span{color:var(--accent);}
   .nav-links{display:flex; gap:28px; font-size:0.92rem; font-weight:500;}
@@ -135,6 +161,18 @@
   .mock-go{margin-top:16px; font-weight:600; font-size:0.9rem; color:var(--ink); display:flex; align-items:center; gap:6px;}
   .mock-card:hover .mock-go{color:var(--accent);}
 
+  /* Consultation callout */
+  .consult-card{
+    background:#16213E; color:#fff; border-radius:16px; padding:36px 40px;
+    display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap;
+  }
+  .consult-card .eyebrow{color:#D3A85C; margin-bottom:10px;}
+  .consult-card .eyebrow::before{background:#D3A85C;}
+  .consult-card h2{color:#fff; font-size:1.6rem; margin-bottom:10px;}
+  .consult-card p{color:rgba(255,255,255,0.72); font-size:0.97rem; max-width:440px;}
+  .consult-card .btn-primary{background:#D3A85C; color:#16213E; white-space:nowrap; flex-shrink:0;}
+  .consult-card .btn-primary:hover{background:#c08a3a;}
+
   /* Story section */
   .story{background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
   .story-inner{max-width:680px;}
@@ -192,12 +230,16 @@
 <header>
   <div class="nav wrap">
     <a href="#top" class="brand">PMP<span>.</span>Practice</a>
-    <div class="nav-links">
-      <a href="#mindset">The mindset</a>
-      <a href="#mocks">Mock tests</a>
-      <a href="#story">Why free</a>
-      <a href="#about">About the creator</a>
-      <a href="feedback.html">Feedback</a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#mindset">The mindset</a>
+        <a href="#mocks">Mock tests</a>
+        <a href="#story">Why free</a>
+        <a href="#about">About the creator</a>
+        <a href="book-a-call.html">Book a call</a>
+        <a href="feedback.html">Feedback</a>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Switch theme" aria-label="Toggle dark or light theme">☀</button>
     </div>
   </div>
 </header>
@@ -295,6 +337,19 @@
     </div>
   </section>
 
+  <section id="consult">
+    <div class="wrap">
+      <div class="consult-card">
+        <div>
+          <div class="eyebrow">Want more than the mocks?</div>
+          <h2>Book a 1:1 call with me</h2>
+          <p>60 minutes on your PMI application, exam strategy, and whatever you're stuck on - plus full access to all my study material.</p>
+        </div>
+        <a href="book-a-call.html" class="btn btn-primary">Book a call - ₹499 →</a>
+      </div>
+    </div>
+  </section>
+
   <section id="story" class="story">
     <div class="wrap">
       <div class="section-head">
@@ -348,5 +403,22 @@
   </div>
 </footer>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('themeToggle');
+    function updateIcon(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      btn.textContent = cur === 'dark' ? '☾' : '☀';
+    }
+    updateIcon();
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pmp-theme', next);
+      updateIcon();
+    });
+  });
+</script>
 </body>
 </html>
