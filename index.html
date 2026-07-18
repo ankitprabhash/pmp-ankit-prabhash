@@ -79,6 +79,11 @@
   .nav-links{display:flex; gap:28px; font-size:0.92rem; font-weight:500;}
   .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .15s;}
   .nav-links a:hover{color:var(--ink);}
+  .hamburger{
+    display:none; width:36px; height:36px; border-radius:8px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink); cursor:pointer; align-items:center; justify-content:center;
+    font-size:18px; flex-shrink:0;
+  }
 
   /* Hero */
   .hero{padding:88px 0 56px;}
@@ -104,7 +109,7 @@
     text-decoration:none; transition:transform .15s, box-shadow .15s;
     border:1px solid transparent; cursor:pointer;
   }
-  .btn-primary{background:var(--ink); color:#fff;}
+  .btn-primary{background:var(--ink); color:var(--bg);}
   .btn-primary:hover{transform:translateY(-1px); box-shadow:var(--shadow);}
   .btn-secondary{background:transparent; border-color:var(--line); color:var(--ink);}
   .btn-secondary:hover{border-color:var(--ink-soft);}
@@ -137,8 +142,8 @@
   .mindset-grid p{color:var(--ink-soft); margin-bottom:16px; font-size:1.01rem;}
   .mindset-grid p:last-child{margin-bottom:0;}
   .callout{
-    background:var(--accent-soft); border:1px solid #E8D7B5; border-radius:10px;
-    padding:22px 24px; font-size:0.95rem; color:#5A4420;
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:10px;
+    padding:22px 24px; font-size:0.95rem; color:var(--ink-soft);
   }
   .callout strong{display:block; margin-bottom:6px; color:var(--ink);}
 
@@ -149,7 +154,7 @@
     padding:26px; display:flex; flex-direction:column; text-decoration:none;
     transition:transform .15s, box-shadow .15s, border-color .15s;
   }
-  .mock-card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:#D8D4C8;}
+  .mock-card:hover{transform:translateY(-3px); box-shadow:var(--shadow); border-color:var(--ink-faint);}
   .mock-tag{
     font-family:'IBM Plex Mono', monospace; font-size:0.72rem; letter-spacing:0.04em;
     color:var(--accent); text-transform:uppercase; margin-bottom:14px;
@@ -186,7 +191,7 @@
     background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:32px;
   }
   .about-avatar{
-    width:56px; height:56px; border-radius:50%; background:var(--ink); color:#fff;
+    width:56px; height:56px; border-radius:50%; background:var(--ink); color:var(--bg);
     display:flex; align-items:center; justify-content:center; font-family:'Lora', serif;
     font-weight:600; font-size:1.2rem; flex-shrink:0;
   }
@@ -216,12 +221,26 @@
 
   @media (max-width: 560px){
     .about{grid-template-columns:1fr;}
+    .consult-card{padding:28px 24px; text-align:center; justify-content:center;}
+    .consult-card p{margin:0 auto;}
   }
 
-  @media (max-width: 800px){
+  @media (max-width: 760px){
     .mindset-grid{grid-template-columns:1fr;}
     .mock-grid{grid-template-columns:1fr;}
-    .nav-links{gap:16px; font-size:0.85rem;}
+    .hamburger{display:flex;}
+    .nav-links{
+      display:none;
+      position:absolute; top:100%; left:0; right:0;
+      background:var(--surface); border-bottom:1px solid var(--line);
+      flex-direction:column; gap:0; padding:4px 24px 12px; box-shadow:var(--shadow);
+    }
+    .nav-links.open{display:flex;}
+    .nav-links a{padding:13px 0; border-bottom:1px solid var(--line); font-size:0.95rem;}
+    .nav-links a:last-child{border-bottom:none;}
+    .hero{padding:48px 0 40px;}
+    .hero-cta{flex-direction:column; align-items:stretch;}
+    .hero-cta .btn{justify-content:center;}
   }
 </style>
 </head>
@@ -231,7 +250,7 @@
   <div class="nav wrap">
     <a href="#top" class="brand">PMP<span>.</span>Practice</a>
     <div class="nav-right">
-      <div class="nav-links">
+      <div class="nav-links" id="navLinks">
         <a href="#mindset">The mindset</a>
         <a href="#mocks">Mock tests</a>
         <a href="#story">Why free</a>
@@ -240,6 +259,7 @@
         <a href="feedback.html">Feedback</a>
       </div>
       <button class="theme-toggle" id="themeToggle" title="Switch theme" aria-label="Toggle dark or light theme">☀</button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
     </div>
   </div>
 </header>
@@ -418,6 +438,21 @@
       localStorage.setItem('pmp-theme', next);
       updateIcon();
     });
+
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.getElementById('navLinks');
+    if(hamburger && navLinks){
+      hamburger.addEventListener('click', function(){
+        navLinks.classList.toggle('open');
+        hamburger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+      });
+      navLinks.querySelectorAll('a').forEach(function(link){
+        link.addEventListener('click', function(){
+          navLinks.classList.remove('open');
+          hamburger.textContent = '☰';
+        });
+      });
+    }
   });
 </script>
 </body>
