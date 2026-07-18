@@ -9,6 +9,12 @@
   gtag("js", new Date());
   gtag("config", "G-4MN1JWWWRP");
 </script>
+<script>
+  (function(){
+    var saved = localStorage.getItem('pmp-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feedback - PMP Practice</title>
@@ -21,8 +27,13 @@
     --accent:#A9762C; --accent-soft:#F3E9D8; --line:#E6E4DD;
     --shadow: 0 1px 2px rgba(22,33,62,0.04), 0 8px 24px rgba(22,33,62,0.06);
   }
+  [data-theme="dark"]{
+    --bg:#12141C; --surface:#1A1D27; --ink:#EDEEF2; --ink-soft:#AEB3C4; --ink-faint:#6E7387;
+    --accent:#D3A85C; --accent-soft:#2A2417; --line:#2C303F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.3);
+  }
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{background:var(--bg); color:var(--ink); font-family:'Inter', system-ui, sans-serif; line-height:1.6;}
+  body{background:var(--bg); color:var(--ink); font-family:'Inter', system-ui, sans-serif; line-height:1.6; transition:background .2s ease, color .2s ease;}
   h1,h2{font-family:'Lora', Georgia, serif; font-weight:600;}
   a{color:inherit;}
   .wrap{max-width:640px; margin:0 auto; padding:0 24px;}
@@ -33,6 +44,14 @@
   .brand span{color:var(--accent);}
   .back{font-size:0.9rem; color:var(--ink-soft); text-decoration:none; font-weight:500;}
   .back:hover{color:var(--ink);}
+  .nav-right{display:flex; align-items:center; gap:20px;}
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:8px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink-soft); cursor:pointer;
+    font-size:16px; transition:border-color .15s, color .15s;
+  }
+  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
 
   main{padding:64px 0 80px;}
   .eyebrow{
@@ -73,7 +92,10 @@
 <header>
   <div class="nav">
     <a href="index.html" class="brand">PMP<span>.</span>Practice</a>
-    <a href="index.html" class="back">← Back to home</a>
+    <div class="nav-right">
+      <a href="index.html" class="back">← Back to home</a>
+      <button class="theme-toggle" id="themeToggle" title="Switch theme" aria-label="Toggle dark or light theme">☀</button>
+    </div>
   </div>
 </header>
 
@@ -128,6 +150,23 @@
   </div>
 </main>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('themeToggle');
+    function updateIcon(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      btn.textContent = cur === 'dark' ? '☾' : '☀';
+    }
+    updateIcon();
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pmp-theme', next);
+      updateIcon();
+    });
+  });
+</script>
 <script>
   function buildFeedback(){
     var name = document.getElementById('name').value.trim() || 'Not shared';
