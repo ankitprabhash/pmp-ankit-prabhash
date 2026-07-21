@@ -101,6 +101,7 @@ body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-ser
       <div class="stat"><div class="v r" id="fw">0</div><div class="l">Wrong</div></div>
       <div class="stat"><div class="v" id="fa">0</div><div class="l">Attempted</div></div>
     </div>
+    <div id="shareRow" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
     <button class="btn btn-primary" onclick="resetAll()">Try Again</button>
   </div>
 </div>
@@ -816,6 +817,26 @@ state.answers = QS.map(function(){return {};});
 state.checked = QS.map(function(){return false;});
 state.results = QS.map(function(){return null;});
 
+// ── Progress save/resume ────────────────────────────────────
+var PROGRESS_KEY_100 = 'pmp100-progress';
+function saveProgress100(){
+  try{
+    localStorage.setItem(PROGRESS_KEY_100, JSON.stringify({
+      cur: state.cur, answers: state.answers, checked: state.checked,
+      results: state.results, score: state.score, total: state.total
+    }));
+  }catch(e){}
+}
+function clearProgress100(){
+  try{ localStorage.removeItem(PROGRESS_KEY_100); }catch(e){}
+}
+function loadSavedProgress100(){
+  try{
+    var raw = localStorage.getItem(PROGRESS_KEY_100);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+
 function getItem(q,id){
   for(var i=0;i<q.items.length;i++) if(q.items[i].id===id) return q.items[i];
   return null;
@@ -907,7 +928,7 @@ function renderQ(idx){
   updatePB();
 }
 
-function goto(i){state.cur=i;renderNav();renderQ(i);}
+function goto(i){state.cur=i;renderNav();renderQ(i);saveProgress100();}
 
 function dstart(e,id,qidx,fromZone){
   dragId=id; dragFrom=fromZone;
@@ -957,6 +978,7 @@ function checkAns(idx){
   document.getElementById('sc').textContent=state.score;
   document.getElementById('at').textContent=state.total;
   renderNav(); renderQ(idx);
+  saveProgress100();
 }
 
 function toggleExp(idx){
@@ -981,6 +1003,7 @@ function resetAll(){
   state.answers=QS.map(function(){return {};});
   state.checked=QS.map(function(){return false;});
   state.results=QS.map(function(){return null;});
+  clearProgress100();
   document.getElementById('sc').textContent=0;
   document.getElementById('at').textContent=0;
   document.getElementById('fin').classList.remove('show');
@@ -994,12 +1017,16 @@ function showFinal(){
   var cor=state.results.filter(function(r){return r==='correct';}).length;
   var wrg=state.results.filter(function(r){return r==='wrong';}).length;
   var pct=att>0?Math.round(cor/att*100):0;
+  clearProgress100();
   document.getElementById('fpct').textContent=pct+'%';
   document.getElementById('fc').textContent=cor;
   document.getElementById('fw').textContent=wrg;
   document.getElementById('fa').textContent=att;
   document.getElementById('fmsg').textContent=pct>=80?'Exam ready!':pct>=60?'Good progress, keep going!':'More practice needed.';
   document.getElementById('fsub').textContent='You attempted '+att+' of 100 questions.';
+  document.getElementById('shareRow').innerHTML=
+    '<a href="https://wa.me/?text='+encodeURIComponent('I scored '+pct+'% on the free PMP 100 drag-and-drop mock - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')+'" target="_blank" rel="noopener" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>'+
+    '<a href="https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')+'" target="_blank" rel="noopener" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>';
   document.getElementById('qc').style.display='none';
   document.getElementById('nav').style.display='none';
   document.getElementById('fin').classList.add('show');
@@ -1010,7 +1037,23 @@ function updatePB(){
   document.getElementById('pb').style.width=(done/QS.length*100)+'%';
 }
 
-renderNav(); renderQ(0);
+(function(){
+  var saved = loadSavedProgress100();
+  var answeredCount = saved ? saved.results.filter(function(r){return r!==null;}).length : 0;
+  if(saved && answeredCount > 0 && answeredCount < QS.length){
+    var resume = confirm('Resume your previous attempt?\n\nYou were on question ' + (saved.cur+1) + ' of ' + QS.length + ', with ' + answeredCount + ' answered.\n\nOK = Resume, Cancel = Start fresh');
+    if(resume){
+      state.cur = saved.cur; state.answers = saved.answers; state.checked = saved.checked;
+      state.results = saved.results; state.score = saved.score; state.total = saved.total;
+      document.getElementById('sc').textContent = state.score;
+      document.getElementById('at').textContent = state.total;
+    } else {
+      clearProgress100();
+    }
+  }
+})();
+
+renderNav(); renderQ(state.cur);
 </script>
 </body>
 </html>
