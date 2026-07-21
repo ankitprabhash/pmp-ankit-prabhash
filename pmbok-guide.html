@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4MN1JWWWRP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-4MN1JWWWRP");
+</script>
+<script>
+  (function(){
+    var saved = localStorage.getItem('pmp-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMBOK Editions Explained - PMP Practice</title>
+<meta name="description" content="A plain-English explanation of PMBOK editions and what they mean for your PMP exam prep - do you need the latest edition to pass?">
+<link rel="canonical" href="https://ankitprabhash.github.io/pmp-ankit-prabhash/pmbok-guide.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PMBOK Editions Explained">
+<meta property="og:description" content="A plain-English explanation of PMBOK editions and what they mean for your PMP exam prep.">
+<meta property="og:image" content="https://ankitprabhash.github.io/pmp-ankit-prabhash/og-image.png">
+<meta property="og:url" content="https://ankitprabhash.github.io/pmp-ankit-prabhash/pmbok-guide.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF8; --surface:#FFFFFF; --ink:#16213E; --ink-soft:#4A5568; --ink-faint:#8890A0;
+    --accent:#A9762C; --accent-soft:#F3E9D8; --line:#E6E4DD;
+    --shadow: 0 1px 2px rgba(22,33,62,0.04), 0 8px 24px rgba(22,33,62,0.06);
+  }
+  [data-theme="dark"]{
+    --bg:#12141C; --surface:#1A1D27; --ink:#EDEEF2; --ink-soft:#AEB3C4; --ink-faint:#6E7387;
+    --accent:#D3A85C; --accent-soft:#2A2417; --line:#2C303F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.3);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:'Inter', system-ui, sans-serif; line-height:1.6; transition:background .2s ease, color .2s ease;}
+  h1,h2{font-family:'Lora', Georgia, serif; font-weight:600;}
+  a{color:inherit;}
+  .wrap{max-width:680px; margin:0 auto; padding:0 24px;}
+
+  header{border-bottom:1px solid var(--line); background:rgba(250,250,248,0.9); backdrop-filter:blur(8px); position:sticky; top:0; z-index:50;}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1080px; margin:0 auto;}
+  .brand{font-family:'Lora', serif; font-weight:700; font-size:1.15rem; text-decoration:none;}
+  .brand span{color:var(--accent);}
+  .back{font-size:0.9rem; color:var(--ink-soft); text-decoration:none; font-weight:500;}
+  .back:hover{color:var(--ink);}
+  .nav-right{display:flex; align-items:center; gap:20px;}
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:8px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink-soft); cursor:pointer;
+    font-size:16px; transition:border-color .15s, color .15s;
+  }
+  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
+
+  main{padding:56px 0 80px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--accent);}
+  h1{font-size:2.1rem; margin-bottom:14px;}
+  main > .wrap > p.lede{color:var(--ink-soft); margin-bottom:40px; font-size:1.03rem; max-width:540px;}
+
+  article p{color:var(--ink-soft); font-size:0.98rem; margin-bottom:18px; line-height:1.75;}
+  article h2{font-size:1.25rem; margin:36px 0 14px;}
+  article strong{color:var(--ink);}
+
+  .table-wrap{overflow-x:auto; margin:24px 0;}
+  table{width:100%; border-collapse:collapse; font-size:0.9rem;}
+  th{
+    text-align:left; padding:10px 14px; background:var(--surface); border:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-faint);
+  }
+  td{padding:12px 14px; border:1px solid var(--line); color:var(--ink-soft);}
+
+  .note-box{
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:10px;
+    padding:20px 22px; margin:32px 0; font-size:0.94rem; color:var(--ink-soft); line-height:1.65;
+  }
+  .note-box strong{color:var(--ink); display:block; margin-bottom:6px;}
+
+  .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:20px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:8px;
+    font-weight:600; font-size:0.92rem; text-decoration:none; transition:transform .15s;
+  }
+  .btn-primary{background:var(--ink); color:var(--bg);}
+  .btn-primary:hover{transform:translateY(-1px);}
+
+  footer{padding:36px 0; border-top:1px solid var(--line); margin-top:20px;}
+  .footer-note{font-size:0.85rem; color:var(--ink-faint); text-align:center;}
+
+  @media (max-width:560px){
+    main{padding:40px 0 60px;}
+    h1{font-size:1.6rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="brand">PMP<span>.</span>Practice</a>
+    <div class="nav-right">
+      <a href="index.html" class="back">← Back to home</a>
+      <button class="theme-toggle" id="themeToggle" title="Switch theme" aria-label="Toggle dark or light theme">☀</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow">Straight answer</div>
+    <h1>Do you need the latest PMBOK edition to pass the PMP?</h1>
+    <p class="lede">Short answer: no. Here's what actually matters and what doesn't.</p>
+
+    <article>
+      <p>PMI updates the PMBOK Guide periodically, and every time a new edition comes out, the same question shows up in every PMP prep group: <strong>"Do my old notes still work? Do I need to buy the new edition?"</strong></p>
+
+      <h2>What actually changes between editions</h2>
+      <p>Recent editions haven't rewritten the exam's core logic. What typically changes is the framing - more case-study style scenario questions, and a shift in how heavily each of the three exam domains (People, Process, Business Environment) is weighted. The underlying skill being tested - reading a project scenario and picking the response a good PM would actually take - stays the same.</p>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>What changes</th><th>What doesn't</th></tr>
+          <tr><td>Question format (more scenario-based, some drag-and-drop/matching)</td><td>The judgement-based nature of the exam</td></tr>
+          <tr><td>Domain weightage on the exam</td><td>Core concepts like risk response, EVM, org structures, stakeholder management</td></tr>
+          <tr><td>Emphasis on Agile/hybrid framing</td><td>The need to think like a PM, not memorize definitions</td></tr>
+        </table>
+      </div>
+
+      <h2>So what should you actually do?</h2>
+      <p>Use current, PMI-authorized training material for your 35 contact hours - that's non-negotiable for your application. Beyond that, practice with scenario-based mock questions regardless of which edition they were written against, since the skill being tested has stayed consistent. Don't burn time re-buying every edition update if you already have solid notes from a recent one.</p>
+
+      <div class="note-box">
+        <strong>The practical takeaway</strong>
+        These mock exams were built from PMBOK 7th edition prep. The format holds up for current exam practice - the goal was always judgement over memorization, and that hasn't changed across editions.
+      </div>
+
+      <div class="cta-row">
+        <a href="index.html#mocks" class="btn btn-primary">Try the mocks →</a>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="footer-note">Disagree, or want to add something? <a href="feedback.html" style="color:var(--accent); font-weight:600;">Send feedback</a>.</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('themeToggle');
+    function updateIcon(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      btn.textContent = cur === 'dark' ? '☾' : '☀';
+    }
+    updateIcon();
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pmp-theme', next);
+      updateIcon();
+    });
+  });
+</script>
+
+</body>
+</html>

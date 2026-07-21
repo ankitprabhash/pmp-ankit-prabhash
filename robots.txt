@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ankitprabhash.github.io/pmp-ankit-prabhash/sitemap.xml

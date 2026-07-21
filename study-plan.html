@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4MN1JWWWRP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-4MN1JWWWRP");
+</script>
+<script>
+  (function(){
+    var saved = localStorage.getItem('pmp-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Simple PMP Study Plan - PMP Practice</title>
+<meta name="description" content="A simple, no-fluff plan for using these free PMP mock exams in the final weeks before your exam - what to do each week and how to read your results.">
+<link rel="canonical" href="https://ankitprabhash.github.io/pmp-ankit-prabhash/study-plan.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A Simple PMP Study Plan">
+<meta property="og:description" content="A no-fluff plan for using free PMP mock exams in the final weeks before your exam.">
+<meta property="og:image" content="https://ankitprabhash.github.io/pmp-ankit-prabhash/og-image.png">
+<meta property="og:url" content="https://ankitprabhash.github.io/pmp-ankit-prabhash/study-plan.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAFAF8; --surface:#FFFFFF; --ink:#16213E; --ink-soft:#4A5568; --ink-faint:#8890A0;
+    --accent:#A9762C; --accent-soft:#F3E9D8; --line:#E6E4DD;
+    --shadow: 0 1px 2px rgba(22,33,62,0.04), 0 8px 24px rgba(22,33,62,0.06);
+  }
+  [data-theme="dark"]{
+    --bg:#12141C; --surface:#1A1D27; --ink:#EDEEF2; --ink-soft:#AEB3C4; --ink-faint:#6E7387;
+    --accent:#D3A85C; --accent-soft:#2A2417; --line:#2C303F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.2), 0 8px 24px rgba(0,0,0,0.3);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:'Inter', system-ui, sans-serif; line-height:1.6; transition:background .2s ease, color .2s ease;}
+  h1,h2{font-family:'Lora', Georgia, serif; font-weight:600;}
+  a{color:inherit;}
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px;}
+
+  header{border-bottom:1px solid var(--line); background:rgba(250,250,248,0.9); backdrop-filter:blur(8px); position:sticky; top:0; z-index:50;}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1080px; margin:0 auto;}
+  .brand{font-family:'Lora', serif; font-weight:700; font-size:1.15rem; text-decoration:none;}
+  .brand span{color:var(--accent);}
+  .back{font-size:0.9rem; color:var(--ink-soft); text-decoration:none; font-weight:500;}
+  .back:hover{color:var(--ink);}
+  .nav-right{display:flex; align-items:center; gap:20px;}
+  .theme-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:36px; height:36px; border-radius:8px; border:1px solid var(--line);
+    background:var(--surface); color:var(--ink-soft); cursor:pointer;
+    font-size:16px; transition:border-color .15s, color .15s;
+  }
+  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
+
+  main{padding:56px 0 80px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); margin-bottom:18px;
+  }
+  .eyebrow::before{content:''; width:16px; height:1px; background:var(--accent);}
+  h1{font-size:2.1rem; margin-bottom:14px; max-width:600px;}
+  main > .wrap > p.lede{color:var(--ink-soft); margin-bottom:44px; font-size:1.03rem; max-width:540px;}
+
+  .week{
+    display:grid; grid-template-columns:90px 1fr; gap:20px;
+    padding:24px 0; border-top:1px solid var(--line);
+  }
+  .week:last-of-type{border-bottom:1px solid var(--line);}
+  .week-label{font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--accent); font-weight:600; padding-top:2px;}
+  .week h3{font-size:1.08rem; margin-bottom:8px; font-family:'Inter',sans-serif; font-weight:700;}
+  .week p{color:var(--ink-soft); font-size:0.94rem; margin-bottom:8px;}
+  .week ul{margin:8px 0 0 18px; color:var(--ink-soft); font-size:0.94rem;}
+  .week li{margin-bottom:4px;}
+
+  .note-box{
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:10px;
+    padding:20px 22px; margin:36px 0; font-size:0.94rem; color:var(--ink-soft); line-height:1.65;
+  }
+  .note-box strong{color:var(--ink); display:block; margin-bottom:6px;}
+
+  .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:36px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:8px;
+    font-weight:600; font-size:0.92rem; text-decoration:none; transition:transform .15s;
+  }
+  .btn-primary{background:var(--ink); color:var(--bg);}
+  .btn-primary:hover{transform:translateY(-1px);}
+  .btn-secondary{background:transparent; border:1px solid var(--line); color:var(--ink);}
+
+  footer{padding:36px 0; border-top:1px solid var(--line); margin-top:20px;}
+  .footer-note{font-size:0.85rem; color:var(--ink-faint); text-align:center;}
+
+  @media (max-width:560px){
+    main{padding:40px 0 60px;}
+    h1{font-size:1.7rem;}
+    .week{grid-template-columns:1fr; gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="brand">PMP<span>.</span>Practice</a>
+    <div class="nav-right">
+      <a href="index.html" class="back">← Back to home</a>
+      <button class="theme-toggle" id="themeToggle" title="Switch theme" aria-label="Toggle dark or light theme">☀</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow">A simple plan</div>
+    <h1>How to actually use these mocks</h1>
+    <p class="lede">Not a rigid schedule - a rough shape for your last few weeks before the exam. Adjust the pace to however much time you have left.</p>
+
+    <div class="week">
+      <div class="week-label">WEEK 1</div>
+      <div>
+        <h3>Baseline - find out where you actually stand</h3>
+        <p>Take the 121-question mock cold, no notes, timed if you can manage it. Don't study for it first. The point isn't to score well - it's to find your weak domains honestly.</p>
+        <ul>
+          <li>Note which questions you got wrong, not just the score</li>
+          <li>Look for patterns - is it People, Process, or Business Environment questions tripping you up?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-label">WEEK 2</div>
+      <div>
+        <h3>Drill the weak spots</h3>
+        <p>Use the 200-question bank, but don't grind it top to bottom. Focus on the domain that hurt you most in Week 1. Read the explanation for every question you get wrong, right or not - understanding why matters more than the answer.</p>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-label">WEEK 3</div>
+      <div>
+        <h3>Get comfortable with the newer question styles</h3>
+        <p>Run through the 100 drag-and-drop set. PMI's current exam mixes in matching, ordering, and multi-select formats - if your prep so far has only been plain MCQ, this is where that gets fixed.</p>
+      </div>
+    </div>
+
+    <div class="week">
+      <div class="week-label">WEEK 4</div>
+      <div>
+        <h3>Full mock, under real conditions</h3>
+        <p>Retake the 121-question mock, this time timed and without interruptions - phone away, one sitting, like the real thing. Compare this score to Week 1. The gap is your actual progress, not a guess.</p>
+        <ul>
+          <li>If you're consistently above your target score with 2+ full run-throughs, you're likely ready</li>
+          <li>If specific domains are still weak, go back to the 200-question bank for those areas only</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>The one thing that actually matters</strong>
+      PMP questions test judgement, not recall. When you get one wrong, don't just memorize the correct option - ask what principle made it correct. That's the thing that transfers to a question you haven't seen before.
+    </div>
+
+    <div class="cta-row">
+      <a href="index.html#mocks" class="btn btn-primary">Start with the mocks →</a>
+      <a href="book-a-call.html" class="btn btn-secondary">Or book a 1:1 call</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="footer-note">Questions about this plan? <a href="feedback.html" style="color:var(--accent); font-weight:600;">Send feedback</a>.</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var btn = document.getElementById('themeToggle');
+    function updateIcon(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      btn.textContent = cur === 'dark' ? '☾' : '☀';
+    }
+    updateIcon();
+    btn.addEventListener('click', function(){
+      var cur = document.documentElement.getAttribute('data-theme');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('pmp-theme', next);
+      updateIcon();
+    });
+  });
+</script>
+
+</body>
+</html>
