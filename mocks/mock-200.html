@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-4MN1JWWWRP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag("js", new Date());
-  gtag("config", "G-4MN1JWWWRP");
-</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PMP Mock Questions 200 by Ankit Prabhash</title>
@@ -403,6 +395,37 @@ let multiSel=[]; // temp multi selections before submit
 let marked=[];
 const total=QS.length;
 
+// ── Progress save/resume ────────────────────────────────────
+const PROGRESS_KEY_200 = 'pmp200-progress';
+function saveProgress200(){
+  try{
+    localStorage.setItem(PROGRESS_KEY_200, JSON.stringify({cur, score, wrong, answered, marked, timeLeft, lastBreakAt}));
+  }catch(e){}
+}
+function clearProgress200(){
+  try{ localStorage.removeItem(PROGRESS_KEY_200); }catch(e){}
+}
+function loadSavedProgress200(){
+  try{
+    var raw = localStorage.getItem(PROGRESS_KEY_200);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+(function(){
+  var saved = loadSavedProgress200();
+  var answeredCount = saved ? saved.answered.filter(function(a){return a!==undefined;}).length : 0;
+  if(saved && answeredCount > 0 && answeredCount < total){
+    var resume = confirm('Resume your previous attempt?\n\nYou were on question ' + (saved.cur+1) + ' of ' + total + ', with ' + answeredCount + ' answered.\n\nOK = Resume, Cancel = Start fresh');
+    if(resume){
+      cur = saved.cur; score = saved.score; wrong = saved.wrong;
+      answered = saved.answered; marked = saved.marked;
+      timeLeft = saved.timeLeft; lastBreakAt = saved.lastBreakAt;
+    } else {
+      clearProgress200();
+    }
+  }
+})();
+
 function updateHeader(){
   document.getElementById('s-cur').textContent=(cur+1)+' / '+total;
   document.getElementById('s-right').textContent=score;
@@ -539,6 +562,7 @@ function submitMulti(){
   if(correct) score++; else wrong++;
   checkBreak();
   render();
+  saveProgress200();
 }
 
 function selectOpt(i){
@@ -548,6 +572,7 @@ function selectOpt(i){
   multiSel=[];
   checkBreak();
   render();
+  saveProgress200();
 }
 
 function skipQ(){
@@ -557,6 +582,7 @@ function skipQ(){
   // Check break based on non-skip answered count
   checkBreak();
   if(cur<total-1){cur++;render();window.scrollTo(0,0);}
+  saveProgress200();
 }
 
 function checkBreak(){
@@ -569,7 +595,7 @@ function checkBreak(){
 function next(){if(cur<total-1){cur++;multiSel=[];render();window.scrollTo(0,0);}}
 function prev(){if(cur>0){cur--;multiSel=[];render();window.scrollTo(0,0);}}
 function jump(i){cur=i;multiSel=[];render();window.scrollTo(0,0);}
-function toggleMark(){marked[cur]=!marked[cur];render();}
+function toggleMark(){marked[cur]=!marked[cur];render();saveProgress200();}
 
 // ── Topic Analysis ───────────────────────────────────────────
 const TOPICS = {
@@ -599,6 +625,7 @@ function getTopicForQuestion(q){
 function showDone(){
   pauseTimer();
   updateHeader();
+  clearProgress200();
   const pct=Math.round(score/total*100);
   const pass=pct>=70;
 
@@ -659,6 +686,10 @@ function showDone(){
     ${pass?'Great job! You\'re likely ready for the PMP exam.':'Keep studying — aim for 70%+ before taking the real exam.'}
   </div></div>
   <div style="font-size:13px;color:#888;margin:0.5rem 0 1rem;text-align:center">Ankit Prabhash says: 70%+ on these ultra-hard questions means you should pass the real PMP exam easily.</div>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem">
+    <a href="https://wa.me/?text=${encodeURIComponent('I scored ' + pct + '% on the free PMP 200-question mock bank - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>
+  </div>
   <div class="done-btns">
     <button class="btn primary" onclick="restart()">↺ Restart Quiz</button>
     <button class="btn" onclick="reviewWrong()">Review Wrong (${wrong})</button>
@@ -669,7 +700,7 @@ function showDone(){
 ${analysisHtml}`;
 }
 
-function restart(){cur=0;score=0;wrong=0;answered=[];marked=[];multiSel=[];timeLeft=TOTAL_SECS;lastBreakAt=0;pauseTimer();updateTimerDisplay();render();}
+function restart(){cur=0;score=0;wrong=0;answered=[];marked=[];multiSel=[];timeLeft=TOTAL_SECS;lastBreakAt=0;pauseTimer();updateTimerDisplay();clearProgress200();render();}
 function reviewWrong(){const f=answered.findIndex((a,i)=>a!==undefined&&a!=='skip'&&!isCorrect(QS[i],a));if(f>=0){cur=f;multiSel=[];render();window.scrollTo(0,0);}}
 function reviewMarked(){const f=marked.findIndex(Boolean);if(f>=0){cur=f;multiSel=[];render();window.scrollTo(0,0);}}
 function reviewSkipped(){const f=answered.findIndex(a=>a==='skip');if(f>=0){cur=f;answered[f]=undefined;multiSel=[];render();window.scrollTo(0,0);}}
