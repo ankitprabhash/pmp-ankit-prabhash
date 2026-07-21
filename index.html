@@ -91,9 +91,32 @@
   .nav-right{display:flex; align-items:center; gap:24px;}
   .brand{font-family:'Lora', serif; font-weight:700; font-size:1.15rem; letter-spacing:-0.01em; text-decoration:none;}
   .brand span{color:var(--accent);}
-  .nav-links{display:flex; gap:28px; font-size:0.92rem; font-weight:500;}
+  .nav-links{display:flex; align-items:center; gap:28px; font-size:0.92rem; font-weight:500;}
   .nav-links a{text-decoration:none; color:var(--ink-soft); transition:color .15s;}
   .nav-links a:hover{color:var(--ink);}
+  .nav-dropdown{position:relative;}
+  .nav-drop-btn{
+    background:none; border:none; font:inherit; color:var(--ink-soft); cursor:pointer;
+    display:flex; align-items:center; gap:4px; padding:0; font-size:0.92rem; font-weight:500;
+    font-family:'Inter', system-ui, sans-serif;
+  }
+  .nav-drop-btn:hover{color:var(--ink);}
+  .caret{font-size:0.65rem; transition:transform .15s; color:var(--ink-faint);}
+  .nav-dropdown.open .caret, .nav-dropdown:hover .caret{transform:rotate(180deg);}
+  .dropdown-menu{
+    display:none; position:absolute; top:100%; left:0; margin-top:14px;
+    background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow);
+    padding:8px; min-width:180px; flex-direction:column; gap:2px; z-index:60;
+  }
+  .dropdown-menu a{
+    display:block; padding:9px 12px; border-radius:6px; font-size:0.88rem;
+    color:var(--ink-soft); text-decoration:none; white-space:nowrap;
+  }
+  .dropdown-menu a:hover{background:var(--bg); color:var(--accent);}
+  .nav-dropdown.open .dropdown-menu{display:flex;}
+  @media (hover:hover) and (pointer:fine){
+    .nav-dropdown:hover .dropdown-menu{display:flex;}
+  }
   .hamburger{
     display:none; width:36px; height:36px; border-radius:8px; border:1px solid var(--line);
     background:var(--surface); color:var(--ink); cursor:pointer; align-items:center; justify-content:center;
@@ -253,6 +276,14 @@
     .nav-links.open{display:flex;}
     .nav-links a{padding:13px 0; border-bottom:1px solid var(--line); font-size:0.95rem;}
     .nav-links a:last-child{border-bottom:none;}
+    .nav-dropdown{border-bottom:1px solid var(--line);}
+    .nav-drop-btn{width:100%; justify-content:space-between; padding:13px 0; font-size:0.95rem;}
+    .dropdown-menu{
+      position:static; display:none; box-shadow:none; border:none; margin-top:0;
+      padding:0 0 10px 8px; background:transparent; min-width:0;
+    }
+    .nav-dropdown.open .dropdown-menu{display:flex;}
+    .dropdown-menu a{padding:9px 0; border-bottom:none; color:var(--ink-soft);}
     .hero{padding:48px 0 40px;}
     .hero-cta{flex-direction:column; align-items:stretch;}
     .hero-cta .btn{justify-content:center;}
@@ -270,6 +301,14 @@
         <a href="#mocks">Mock tests</a>
         <a href="#story">Why free</a>
         <a href="#about">About the creator</a>
+        <div class="nav-dropdown" id="resourcesDropdown">
+          <button class="nav-drop-btn" id="resourcesBtn" aria-haspopup="true" aria-expanded="false">Resources <span class="caret">▾</span></button>
+          <div class="dropdown-menu" id="resourcesMenu">
+            <a href="study-plan.html">📅 Study plan</a>
+            <a href="pmbok-guide.html">📘 PMBOK guide</a>
+            <a href="faq.html">❓ FAQ</a>
+          </div>
+        </div>
         <a href="book-a-call.html">Book a call</a>
         <a href="feedback.html">Feedback</a>
       </div>
@@ -429,12 +468,9 @@
   <div class="wrap footer-inner">
     <div>
       <p class="footer-note">This is an independent, free resource and is not affiliated with or endorsed by PMI or the Project Management Institute. PMP is a registered mark of PMI.</p>
-      <p class="made-by">Made by <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener">Ankit Prabhash</a></p>
+      <p class="made-by">Made by <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener">Ankit Prabhash</a> · <span id="visitorCount">2,384</span> visits so far</p>
     </div>
     <div class="footer-links">
-      <a href="study-plan.html">Study plan</a>
-      <a href="pmbok-guide.html">PMBOK guide</a>
-      <a href="faq.html">FAQ</a>
       <a href="feedback.html">Give feedback</a>
       <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" rel="noopener">LinkedIn</a>
     </div>
@@ -470,6 +506,39 @@
           hamburger.textContent = '☰';
         });
       });
+    }
+
+    var resourcesDropdown = document.getElementById('resourcesDropdown');
+    var resourcesBtn = document.getElementById('resourcesBtn');
+    if(resourcesDropdown && resourcesBtn){
+      resourcesBtn.addEventListener('click', function(e){
+        e.stopPropagation();
+        var isOpen = resourcesDropdown.classList.toggle('open');
+        resourcesBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', function(e){
+        if(!resourcesDropdown.contains(e.target)){
+          resourcesDropdown.classList.remove('open');
+          resourcesBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+      resourcesDropdown.querySelectorAll('.dropdown-menu a').forEach(function(link){
+        link.addEventListener('click', function(){
+          resourcesDropdown.classList.remove('open');
+        });
+      });
+    }
+
+    // Visitor counter - starts at 2384, increments once per page load
+    var counterEl = document.getElementById('visitorCount');
+    if(counterEl){
+      fetch('https://api.countapi.xyz/hit/ankitprabhash-pmp-practice/visits')
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          var total = 2384 + data.value;
+          counterEl.textContent = total.toLocaleString();
+        })
+        .catch(function(){ /* keep the static fallback of 2,384 already in the HTML */ });
     }
   });
 </script>
