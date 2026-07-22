@@ -530,12 +530,14 @@
     }
 
     // Visitor counter - starts at 2384, increments once per page load
+    // (countapi.xyz shut down, switched to counterapi.com)
     var counterEl = document.getElementById('visitorCount');
     if(counterEl){
-      fetch('https://api.countapi.xyz/hit/ankitprabhash-pmp-practice/visits')
+      fetch('https://counterapi.com/api/ankitprabhash-pmp-practice/hit/visits')
         .then(function(res){ return res.json(); })
         .then(function(data){
-          var total = 2384 + data.value;
+          var hits = data.value || data.count || 0;
+          var total = 2384 + hits;
           counterEl.textContent = total.toLocaleString();
         })
         .catch(function(){ /* keep the static fallback of 2,384 already in the HTML */ });
