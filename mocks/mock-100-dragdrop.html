@@ -949,6 +949,7 @@ function ddrop(e,qidx,tid){
   ans[tid]=id;
   dragId=null; dragFrom=null;
   renderQ(qidx);
+  saveProgress100();
 }
 
 function dbank(e,qidx){
@@ -958,6 +959,7 @@ function dbank(e,qidx){
   delete state.answers[qidx][dragFrom];
   dragId=null; dragFrom=null;
   renderQ(qidx);
+  saveProgress100();
 }
 
 function returnBank(qidx,tid){
@@ -1040,7 +1042,8 @@ function updatePB(){
 (function(){
   var saved = loadSavedProgress100();
   var answeredCount = saved ? saved.results.filter(function(r){return r!==null;}).length : 0;
-  if(saved && answeredCount > 0 && answeredCount < QS.length){
+  var hasAnyProgress = saved && (saved.cur > 0 || answeredCount > 0 || saved.answers.some(function(a){return Object.keys(a).length > 0;}));
+  if(hasAnyProgress){
     var resume = confirm('Resume your previous attempt?\n\nYou were on question ' + (saved.cur+1) + ' of ' + QS.length + ', with ' + answeredCount + ' answered.\n\nOK = Resume, Cancel = Start fresh');
     if(resume){
       state.cur = saved.cur; state.answers = saved.answers; state.checked = saved.checked;
