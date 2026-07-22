@@ -443,7 +443,8 @@ buildGrid();
 (function(){
   var saved = loadSavedProgress();
   var answeredCount = saved ? saved.state.filter(function(s){return s.checked || s.skipped;}).length : 0;
-  if(saved && answeredCount > 0 && answeredCount < TOTAL){
+  var hasAnyProgress = saved && (saved.current > 0 || saved.state.some(function(s){return s.selected || s.checked || s.skipped;}));
+  if(hasAnyProgress){
     var resume = confirm('Resume your previous attempt?\n\nYou were on question ' + (saved.current+1) + ' of ' + TOTAL + ', with ' + answeredCount + ' answered.\n\nOK = Resume, Cancel = Start fresh');
     if(resume){
       state = saved.state;
