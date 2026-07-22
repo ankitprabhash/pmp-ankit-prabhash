@@ -414,7 +414,8 @@ function loadSavedProgress200(){
 (function(){
   var saved = loadSavedProgress200();
   var answeredCount = saved ? saved.answered.filter(function(a){return a!==undefined;}).length : 0;
-  if(saved && answeredCount > 0 && answeredCount < total){
+  var hasAnyProgress = saved && (saved.cur > 0 || answeredCount > 0);
+  if(hasAnyProgress){
     var resume = confirm('Resume your previous attempt?\n\nYou were on question ' + (saved.cur+1) + ' of ' + total + ', with ' + answeredCount + ' answered.\n\nOK = Resume, Cancel = Start fresh');
     if(resume){
       cur = saved.cur; score = saved.score; wrong = saved.wrong;
