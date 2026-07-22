@@ -289,6 +289,20 @@
     .hero-cta .btn{justify-content:center;}
   }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "PMP Practice",
+  "url": "https://ankitprabhash.github.io/pmp-ankit-prabhash/",
+  "description": "Free PMP mock exams built by someone who just cleared the exam - no sign up, no catch.",
+  "author": {
+    "@type": "Person",
+    "name": "Ankit Prabhash",
+    "sameAs": "https://www.linkedin.com/in/ankitprabhash/"
+  }
+}
+</script>
 </head>
 <body>
 
@@ -530,13 +544,13 @@
     }
 
     // Visitor counter - starts at 2384, increments once per page load
-    // (countapi.xyz shut down, switched to counterapi.com)
+    // (countapi.xyz shut down; using the verified-working mileshilliard.com replacement)
     var counterEl = document.getElementById('visitorCount');
     if(counterEl){
-      fetch('https://counterapi.com/api/ankitprabhash-pmp-practice/hit/visits')
+      fetch('https://countapi.mileshilliard.com/api/v1/hit/ankitprabhash-pmp-practice-visits')
         .then(function(res){ return res.json(); })
         .then(function(data){
-          var hits = data.value || data.count || 0;
+          var hits = parseInt(data.value, 10) || 0;
           var total = 2384 + hits;
           counterEl.textContent = total.toLocaleString();
         })
