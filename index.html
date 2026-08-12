@@ -186,7 +186,7 @@
   .callout strong{display:block; margin-bottom:6px; color:var(--ink);}
 
   /* Mock cards */
-  .mock-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;}
+  .mock-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;}
   .mock-card{
     background:var(--surface); border:1px solid var(--line); border-radius:12px;
     padding:26px; display:flex; flex-direction:column; text-decoration:none;
@@ -261,6 +261,10 @@
     .about{grid-template-columns:1fr;}
     .consult-card{padding:28px 24px; text-align:center; justify-content:center;}
     .consult-card p{margin:0 auto;}
+  }
+
+  @media (max-width: 980px) and (min-width: 761px){
+    .mock-grid{grid-template-columns:repeat(2, 1fr);}
   }
 
   @media (max-width: 760px){
@@ -383,8 +387,8 @@
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow">Pick a mock</div>
-        <h2>Three formats, same goal - think like a PM under a clock</h2>
-        <p>All three open in a new tab. Your answers and score stay in that tab only, nothing is saved or sent anywhere.</p>
+        <h2>Four formats, same goal - think like a PM under a clock</h2>
+        <p>All four open in a new tab. Your answers and score stay in that tab only, nothing is saved or sent anywhere.</p>
       </div>
       <div class="mock-grid">
 
@@ -394,6 +398,17 @@
           <p>Closest to the real exam feel. Scenario-based questions across all five process groups, timed like the actual test.</p>
           <div class="mock-meta">
             <span>121 questions</span>
+            <span>MCQ</span>
+          </div>
+          <div class="mock-go">Take this mock →</div>
+        </a>
+
+        <a href="mocks/mock-180.html" target="_blank" rel="noopener" class="mock-card">
+          <div class="mock-tag">Scenario-heavy</div>
+          <h3>180-Question Practice Set</h3>
+          <p>Deep on conflict resolution, leadership styles, ethics, and agile roles - with a full explanation for every question, right or wrong.</p>
+          <div class="mock-meta">
+            <span>180 questions</span>
             <span>MCQ</span>
           </div>
           <div class="mock-go">Take this mock →</div>
