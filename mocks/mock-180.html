@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4MN1JWWWRP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "G-4MN1JWWWRP");
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free PMP 180-Question Practice Exam - PMP Practice</title>
+<meta name="description" content="A free, scenario-heavy 180-question PMP practice exam covering conflict, leadership, ethics, and agile - with explanations and instant scoring. No sign up required.">
+<link rel="canonical" href="https://ankitprabhash.github.io/pmp-ankit-prabhash/mocks/mock-180.html">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free PMP 180-Question Practice Exam">
+<meta property="og:description" content="A full-length timed PMP mock exam with explanations and instant scoring. Free, no sign up.">
+<meta property="og:image" content="https://ankitprabhash.github.io/pmp-ankit-prabhash/og-image.png">
+<meta property="og:url" content="https://ankitprabhash.github.io/pmp-ankit-prabhash/mocks/mock-180.html">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --text: #e8eaf0;
+    --text-muted: #8890a8;
+    --accent: #6c63ff;
+    --accent-glow: rgba(108,99,255,0.18);
+    --green: #22c55e;
+    --green-bg: rgba(34,197,94,0.12);
+    --red: #ef4444;
+    --red-bg: rgba(239,68,68,0.12);
+    --yellow: #f59e0b;
+    --yellow-bg: rgba(245,158,11,0.12);
+    --blue: #3b82f6;
+    --blue-bg: rgba(59,130,246,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    flex-wrap: wrap;
+  }
+  .logo { font-weight: 700; font-size: 16px; color: var(--accent); letter-spacing: -.5px; white-space: nowrap; }
+  .logo span { color: var(--text-muted); font-weight: 400; }
+  
+  .stats-bar {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap; flex: 1;
+  }
+  .stat-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .stat-pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+  .dot-blue { background: var(--blue); }
+  .stat-pill strong { font-size: 14px; }
+  
+  .timers {
+    display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  }
+  .timer-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 12px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .timer-box label { display: block; color: var(--text-muted); font-size: 10px; text-transform: uppercase; letter-spacing: .5px; }
+  .timer-box .time { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .timer-box.warn .time { color: var(--yellow); }
+  .timer-box.danger .time { color: var(--red); }
+  
+  /* MAIN LAYOUT */
+  .main { display: flex; height: calc(100vh - 64px); }
+  
+  /* SIDEBAR - question navigator */
+  .sidebar {
+    width: 320px; min-width: 280px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--text-muted);
+    position: sticky; top: 0;
+    background: var(--surface);
+    z-index: 10;
+  }
+  .legend {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 10px; color: var(--text-muted);
+  }
+  .leg-box { width: 12px; height: 12px; border-radius: 3px; border: 1px solid; }
+  .leg-default { background: var(--surface2); border-color: var(--border); }
+  .leg-correct { background: var(--green-bg); border-color: var(--green); }
+  .leg-wrong { background: var(--red-bg); border-color: var(--red); }
+  .leg-marked { background: var(--yellow-bg); border-color: var(--yellow); }
+  .leg-skip { background: var(--surface2); border-color: var(--text-muted); }
+  .leg-current { background: var(--accent-glow); border-color: var(--accent); }
+  
+  .q-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    padding: 12px 16px;
+    flex: 1;
+    align-content: start;
+  }
+  .q-btn {
+    aspect-ratio: 1;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-muted);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .q-btn:hover { border-color: var(--accent); color: var(--text); }
+  .q-btn.current { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); }
+  .q-btn.correct { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+  .q-btn.wrong { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+  .q-btn.marked { background: var(--yellow-bg); border-color: var(--yellow); color: var(--yellow); }
+  .q-btn.marked::after { content: "★"; position: absolute; top: 1px; right: 2px; font-size: 7px; }
+  .q-btn.skipped { border-color: var(--text-muted); }
+  
+  /* QUESTION AREA */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 32px;
+    max-width: 860px;
+  }
+  
+  .q-header {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+  }
+  .q-num {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  .q-progress {
+    flex: 1; height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden;
+  }
+  .q-progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .3s; }
+  .q-per-timer {
+    font-size: 12px; color: var(--text-muted); white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .q-per-timer.warn { color: var(--yellow); }
+  .q-per-timer.danger { color: var(--red); animation: pulse 1s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+  
+  .question-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+  
+  .options {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .option {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .15s;
+    background: var(--surface);
+  }
+  .option:hover:not(.disabled) { border-color: var(--accent); background: var(--accent-glow); }
+  .option.selected { border-color: var(--accent); background: var(--accent-glow); }
+  .option.correct { border-color: var(--green) !important; background: var(--green-bg) !important; }
+  .option.wrong { border-color: var(--red) !important; background: var(--red-bg) !important; }
+  .option.disabled { cursor: default; }
+  .option-letter {
+    width: 28px; height: 28px; border-radius: 6px;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    flex-shrink: 0;
+    transition: all .15s;
+    background: var(--surface2);
+  }
+  .option.selected .option-letter { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .option.correct .option-letter { background: var(--green); border-color: var(--green); color: #fff; }
+  .option.wrong .option-letter { background: var(--red); border-color: var(--red); color: #fff; }
+  .option-text { font-size: 15px; line-height: 1.55; padding-top: 3px; }
+  
+  /* EXPLANATION */
+  .explanation {
+    display: none;
+    margin-bottom: 24px;
+    padding: 18px 20px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+  }
+  .explanation.show { display: block; }
+  .explanation-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .8px;
+    color: var(--accent); font-weight: 700; margin-bottom: 8px;
+  }
+  .explanation-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+  .correct-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--green-bg); border: 1px solid var(--green);
+    color: var(--green); border-radius: 20px;
+    padding: 2px 10px; font-size: 12px; font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  /* ACTIONS */
+  .actions {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding-top: 4px;
+    border-top: 1px solid var(--border);
+    padding-bottom: 24px;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { opacity: .9; }
+  .btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: transparent; color: var(--red); border-color: var(--red); }
+  .btn-danger:hover { background: var(--red-bg); }
+  .btn-yellow { background: transparent; color: var(--yellow); border-color: var(--yellow); }
+  .btn-yellow:hover { background: var(--yellow-bg); }
+  .btn-green { background: var(--green); color: #fff; border-color: var(--green); }
+  .btn-green:hover { opacity: .9; }
+  .spacer { flex: 1; }
+  
+  /* SUBMIT MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.7); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 500px;
+    width: 90%;
+  }
+  .modal h2 { font-size: 20px; margin-bottom: 6px; }
+  .modal p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+  .modal-stats {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px; margin-bottom: 24px;
+  }
+  .modal-stat {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .modal-stat .val { font-size: 28px; font-weight: 700; }
+  .modal-stat .lbl { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+  
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  
+  @media (max-width: 700px) {
+    .sidebar { width: 220px; min-width: 180px; }
+    .content { padding: 16px; }
+    .q-grid { grid-template-columns: repeat(4, 1fr); }
+    .question-text { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">PMP <span>Practice Exam</span><div style="font-size:12px;font-weight:400;color:#7880a0;margin-top:2px;">by Ankit Prabhash · <a href="https://www.linkedin.com/in/ankitprabhash/" target="_blank" style="color:inherit;text-decoration:underline;">Connect on LinkedIn</a></div></div>
+  <div class="stats-bar">
+    <div class="stat-pill"><div class="dot dot-green"></div><strong id="stat-correct">0</strong> Correct</div>
+    <div class="stat-pill"><div class="dot dot-red"></div><strong id="stat-wrong">0</strong> Wrong</div>
+    <div class="stat-pill"><div class="dot dot-blue"></div><strong id="stat-pct">0%</strong> Score</div>
+    <div class="stat-pill"><strong id="stat-answered">0</strong>/<strong id="stat-total">0</strong> Answered</div>
+  </div>
+  <div class="timers">
+    <div class="timer-box" id="global-timer-box">
+      <label>Total Time</label>
+      <div class="time" id="global-timer">3:50:00</div>
+    </div>
+    <div class="timer-box" id="per-timer-box">
+      <label>This Question</label>
+      <div class="time" id="per-timer">3:00</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-header">Question Navigator (180)</div>
+    <div class="legend">
+      <div class="legend-item"><div class="leg-box leg-current"></div>Current</div>
+      <div class="legend-item"><div class="leg-box leg-correct"></div>Correct</div>
+      <div class="legend-item"><div class="leg-box leg-wrong"></div>Wrong</div>
+      <div class="legend-item"><div class="leg-box leg-marked"></div>Marked</div>
+      <div class="legend-item"><div class="leg-box leg-skip"></div>Skipped</div>
+    </div>
+    <div class="q-grid" id="q-grid"></div>
+  </div>
+  
+  <div class="content" id="main-content">
+    <div class="q-header">
+      <div class="q-num" id="q-num">Q1 / 180</div>
+      <div class="q-progress"><div class="q-progress-fill" id="q-progress-fill" style="width:0%"></div></div>
+      <div class="q-per-timer" id="q-per-timer-display">⏱ 3:00</div>
+    </div>
+    
+    <div class="question-text" id="question-text"></div>
+    
+    <div class="options" id="options-container"></div>
+    
+    <div class="explanation" id="explanation">
+      <div class="explanation-title">💡 Coach Explanation</div>
+      <div class="correct-tag" id="correct-tag">✓ Correct Answer: X</div>
+      <div class="explanation-text" id="explanation-text"></div>
+    </div>
+    
+    <div class="actions">
+      <button class="btn btn-primary" id="btn-check" onclick="checkAnswer()">Check Answer</button>
+      <button class="btn btn-secondary" id="btn-explain" onclick="toggleExplain()">💬 Explain</button>
+      <button class="btn btn-yellow" onclick="markQuestion()">★ Mark for Review</button>
+      <button class="btn btn-secondary" onclick="skipQuestion()">⏭ Skip</button>
+      <div class="spacer"></div>
+      <button class="btn btn-secondary" onclick="prevQuestion()">← Prev</button>
+      <button class="btn btn-primary" onclick="nextQuestion()">Next →</button>
+      <button class="btn btn-danger" onclick="showSubmitModal()">Submit Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- Submit Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h2>Submit Exam?</h2>
+    <p id="modal-msg">You have unanswered questions. Are you sure you want to submit?</p>
+    <div class="modal-stats">
+      <div class="modal-stat"><div class="val" style="color:var(--green)" id="m-correct">0</div><div class="lbl">Correct</div></div>
+      <div class="modal-stat"><div class="val" style="color:var(--red)" id="m-wrong">0</div><div class="lbl">Wrong</div></div>
+      <div class="modal-stat"><div class="val" style="color:var(--accent)" id="m-pct">0%</div><div class="lbl">Score</div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-green" onclick="submitExam()">Submit & See Results</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [{"id": 1, "question": "A project manager discovered a disagreement between a technical specialist and a key business partner. It is very important to maintain a long-term relationship with this business partner. What is the best conflict resolution option for the project manager given this situation?", "options": {"A": "Confronting", "B": "Collaborating", "C": "Compromising", "D": "Smoothing"}, "correct": "A", "explanation": "Confronting or problem solving treats the conflict as a project to be solved. It is useful when the relationship between parties is important, and they trust each other's ability to problem-solve."}, {"id": 2, "question": "Faced with competing point of views, a project manager tried hard to resolve a conflict by seeing things from various perspectives. He took the time to listen to all project team members. What conflict resolution method did the project manager use?", "options": {"A": "Problem solving", "B": "Collaborating", "C": "Compromising", "D": "Smoothing"}, "correct": "B", "explanation": "Collaborating considers multiple point of views about the conflict. It is an effective method when parties trust each other and there is no urgency to resolve the issue."}, {"id": 3, "question": "After several heated discussions, the project team concluded that it will be extremely difficult to resolve a disagreement between two stakeholders of equal importance. What should the project manager to do resolve the conflict?", "options": {"A": "Collaborating", "B": "Compromising", "C": "Accommodating", "D": "Forcing"}, "correct": "B", "explanation": "If both parties of equal power cannot be satisfied, they can compromise if there is willingness to give and take to avoid escalating the problem."}, {"id": 4, "question": "A project manager disagrees with the project sponsor on the development approach. However, they need to set aside their differences to maintain their focus on the overall objective of the mission-critical project. How should the project manager handle this conflict?", "options": {"A": "Avoid the situation altogether", "B": "Yield to the project sponsor", "C": "Smooth the disagreement", "D": "Agree on a compromise"}, "correct": "C", "explanation": "If there is a major power disparity between parties and the overall goal is more important than the disagreement, it is best to smooth the situation."}, {"id": 5, "question": "The engineering team wanted to spend more time to analyze a problem. However, the lead project engineer must immediately decide to comply with a serious health and safety problem. What conflict resolution method should the project manager suggest to the lead project engineer?", "options": {"A": "Give the engineering team more time to analyze the problem", "B": "Balance the needs of the project team and the lead engineer", "C": "Force the engineering team to resolve the issue as soon as possible", "D": "Analyze the problem while hoping that it goes away on its own"}, "correct": "C", "explanation": "If there is not enough time to collaborate and if one party has more power than the other and if delaying the resolution can result in serious health and safety concerns, forcing a decision to solve a conflict is the best option."}, {"id": 6, "question": "In a no-win conflict scenario or if the project team believes that the problem will eventually go away on its own, how should the project manager resolve the problem?", "options": {"A": "Withdraw/avoid", "B": "Confront/problem solve", "C": "Collaborate", "D": "Compromise"}, "correct": "A", "explanation": "If a conflict will likely go away on its own or people just need a bit of time to cool down or if it is no-win situation, it is best to withdraw or avoid the issue."}, {"id": 7, "question": "A project manager allows the team to make their own decisions and establish their own goals. What kind of leadership style is this hands-off approach?", "options": {"A": "Laissez-faire", "B": "Transactional", "C": "Servant leader", "D": "Transformational"}, "correct": "A", "explanation": "A laissez-faire leadership approach allows the project team to make their own decisions and establish their own goals. Don't confuse it with a servant leader who demonstrates commitment to serve and put other people first."}, {"id": 8, "question": "The project team informed the new project manager that the previous project manager focused on goals, feedback, and accomplishments to determine rewards. It was clearly a transactional leadership style. How did the previous project manager likely manage the project?", "options": {"A": "Being enthusiastic and confident", "B": "Sharing transformational approaches", "C": "Managing the project by exception", "D": "Empowering via idealized attributes"}, "correct": "C", "explanation": "Transactional leaders manage by exception. They focus on identifying and handling cases that deviate from the norm."}, {"id": 9, "question": "Which type of project managers demonstrate commitment to serve and put other people first? They concentrate on relationships, community, and collaboration.", "options": {"A": "Servant leader", "B": "Transformational", "C": "Charismatic", "D": "Interactional"}, "correct": "A", "explanation": "Servant leaders demonstrates commitment to serve and put other people first. They concentrate on other people's growth, learning, development, autonomy, and well-being."}, {"id": 10, "question": "A project manager aspires to find a balance by managing by exceptions, encouraging innovation, and holding strong convictions. What type of leader is this project manager trying to become?", "options": {"A": "Laissez-faire", "B": "Servant leader", "C": "Charismatic", "D": "Interactional"}, "correct": "D", "explanation": "An interactional leader combines transactional, transformational, and charismatic leadership styles."}, {"id": 11, "question": "The Project Management Office (PMO) hired a consultant to train their project managers to become better leaders. The consultant recommended that the project managers concentrate on removing obstacles, serving as diversion shields, and encouraging development opportunities for their team members. These behaviors are indicative of what leadership style?", "options": {"A": "Laissez-faire", "B": "Servant leader", "C": "Charismatic", "D": "Interactional"}, "correct": "B", "explanation": "Servant leaders remove obstacles, serve as diversion shields, and encourage development opportunities for project team members."}, {"id": 12, "question": "Some of the young programmers on the project asked the project manager to mentor them based on an action plan for personal development. The potential mentees defined their long-term goals, listed their current skills, identified options for attaining their desired outcomes, focused on specific improvements, and suggested regular meetings to review their progress. What coaching and mentoring model should the project manager use?", "options": {"A": "Situational Leadership", "B": "OSCAR Model", "C": "Tuckman Ladder", "D": "Team Performance Model"}, "correct": "B", "explanation": "Karen Whittleworth and Andrew Gilbert developed the OSCAR coaching and mentoring model. The model focuses on outcome, situation, choices/consequences, actions, and review, all of which were expressed by the potential mentees."}, {"id": 13, "question": "A project manager organized a kickoff meeting to allow the team members to get to know each other by sharing their skill sets and relevant professional details. What is the next stage of team development that the project manager should focus on after the kick-off meeting?", "options": {"A": "Forming", "B": "Storming", "C": "Norming", "D": "Performing"}, "correct": "B", "explanation": "Forming, the first team development stage according to Bruce Tuckman, might occur during in the kickoff meeting. The storming stage follows the forming stage."}, {"id": 14, "question": "The project team members jockey for position on the team. After resolving the team's conflicts and struggles, what should the project manager focus on next?", "options": {"A": "Get the team to meet each other", "B": "Help members function as a team", "C": "Become operationally efficient", "D": "Complete the work and disperse"}, "correct": "B", "explanation": "Jockeying for position characterizes the storming stage of team development. After this stage, the project manager must focus on the next stage, norming, by ushering the project team to function as a collective body."}, {"id": 15, "question": "During the performing stage of team development, what's the primary focus of the project manager?", "options": {"A": "Get the team to meet each other", "B": "Help members function as a team", "C": "Become operationally efficient", "D": "Complete the work and disperse"}, "correct": "C", "explanation": "During the performing stage, the project team members accomplish more and produce a high-quality product. The primary objective during this stage is to become operationally efficient."}, {"id": 16, "question": "The team members are jockeying for position on the project as their personalities, strengths, and weaknesses start to come out. What should the project manager focus on next after the team leaves this stage of team development?", "options": {"A": "Form the team by organizing a kickoff meeting", "B": "Resolve all team conflicts and struggles", "C": "Support the team as they work together", "D": "Focus on efficiency and team synergy"}, "correct": "C", "explanation": "If the team members are jockeying for position, they are on the storming stage of team development. Therefore, the project should focus on the norming stage next, that is, to help the team function as a collective body."}, {"id": 17, "question": "A project manager completed the first four of seven steps of a team performance model. As a result, the project team starts to define plans to achieve the goals. What is the logical next step for the project manager to guide the team in decomposing the high-level plans into a detailed schedule or backlog?", "options": {"A": "Trust building", "B": "Goal clarification", "C": "Commitment", "D": "Implementation"}, "correct": "D", "explanation": "The first four steps of the Drexler/Sibbet Team Performance Model focus on creating a project team: orientation, trust building, goal clarification, and commitment. Steps 5 to 7 include implementation, high performance, and renewal respectively. The implementation step decomposes high-level plans into detailed schedule or backlog to produce deliverables."}, {"id": 18, "question": "What can a project manager expect from a team during the commitment step of team performance development?", "options": {"A": "Answers the question of why", "B": "Answers the question of who", "C": "Addresses the question of how", "D": "Clarifies answers to what"}, "correct": "C", "explanation": "During the commitment step (step 4 of 7 of Drexler/Sibbet Team Performance Model), the team addresses the question of how. They start to define plans to achieve the project goals."}, {"id": 19, "question": "During the kickoff meeting, a technical specialist shared her intrinsic motivations when she introduced herself to the team. To ensure that the specialist performs well on the project, what should the project manager focus on dealing with this team member?", "options": {"A": "Autonomy, mastery, and purpose", "B": "Compensation, recognition, and power", "C": "Autonomy, recognition, and power", "D": "Salary, mastery, and purpose"}, "correct": "A", "explanation": "Daniel Pink listed three intrinsic motivations: autonomy, mastery, and purposes. In contrast, extrinsic motivations are compensation, recognition, and power."}, {"id": 20, "question": "A company pays their employees well especially those who are working on high-profile projects. What should the project manager do to keep the team members motivated?", "options": {"A": "Encourage senior management to offer performance bonuses", "B": "Provide opportunities for self-management and development", "C": "Recognize team members for outstanding contributions", "D": "Downplay the community benefits that the project will make"}, "correct": "B", "explanation": "Daniel Pink stated that while extrinsic rewards such as compensation, recognition, and power motivate to a certain extent, intrinsic motivators such as autonomy, mastery, and purpose are far longer lasting and more effective."}, {"id": 21, "question": "What aspects should the project manager look for to achieve a win-win outcome when negotiating within a project?", "options": {"A": "Character, trust, and approach", "B": "Determination and willingness", "C": "Win-lose/lose-win perspectives", "D": "Lose-lose avoidance at all costs"}, "correct": "A", "explanation": "Within the context of negotiation, Steven Covey presented a model with win-win, win-lose/lose-win, and lose-lose outcomes. A win-win perspective generally includes presence of character (e.g., integrity), trust, and approach (i.e., willingness to see the situation from each other's point of view)."}, {"id": 22, "question": "A project manager has been working on her emotional intelligence to better work with people. Having made excellent progress in understanding her own emotions and suspending snap judgements, what other areas can the project manager focus on?", "options": {"A": "Expressing empathy to others and managing groups of people", "B": "Conducting a self-assessment and avoiding impulsive decisions", "C": "Controlling disruptive feelings and building social networks", "D": "Understanding own motivations and redirecting disruptive feelings"}, "correct": "A", "explanation": "Emotional intelligence converge on four areas: self-awareness, self-management, social awareness, and social skill. The project manager has made excellent progress on the first two areas, so it is logical to improve the last two areas by expressing empathy (social awareness) and managing groups of people (social skill)."}, {"id": 23, "question": "The project manager impressed the project sponsor by remaining calm and productive during complex and difficult conversations with senior executives and external stakeholders. Such composure demonstrates mastery of which areas of emotional intelligence?", "options": {"A": "Self-awareness and self-management", "B": "Self-management and social awareness", "C": "Social awareness and social skill", "D": "Social skill and self-awareness"}, "correct": "A", "explanation": "By remaining calm and productive during difficult situations, the project manager showed maturity in the self-awareness and self-management areas of emotional intelligence."}, {"id": 24, "question": "During a daily standup, the product owner didn't notice that one team member kept his arms crossed the entire time. He also rolled his eyes when a member of the QA team pointed out a potential defect in the product. Which area of emotional intelligence should the product owner try to improve for the next daily standup?", "options": {"A": "Social skill", "B": "Social awareness", "C": "Self-management", "D": "Self-awareness"}, "correct": "B", "explanation": "Social awareness deals with empathy and understanding and considering other people's feelings including the ability to read nonverbal cues and body language."}, {"id": 25, "question": "The project sponsor indicated a strong preference for formal and verbal types of communication. Which of the following options should the project manager choose to best meet the project sponsor's request?", "options": {"A": "Brief notes, email, and instant messaging", "B": "Progress reports and business case", "C": "Conversations and ad hoc discussions", "D": "Presentations and brainstorming"}, "correct": "D", "explanation": "Options for formal and verbal communication include presentations, project reviews, briefings, product demos, and brainstorming."}, {"id": 26, "question": "To quickly resolve issues, gain clarity, and get agreement, a young project manager often relies on conversations and ad hoc discussions. What type of communication is the project manager using?", "options": {"A": "Verbal, formal", "B": "Verbal, informal", "C": "Written, formal", "D": "Written, informal"}, "correct": "B", "explanation": "Conversations and ad hoc discussions are examples of verbal and informal types of communication."}, {"id": 27, "question": "A group of busy stakeholders have limited time to review project updates. However, they sometimes need project information to make rapid decisions. What communication method should the project manager offer to best meet their needs?", "options": {"A": "Push", "B": "Pull", "C": "Written", "D": "Formal"}, "correct": "B", "explanation": "A push communication method may overwhelm the busy stakeholders. By offering pull communication, they can retrieve the project information whenever they need it to make rapid decisions."}, {"id": 28, "question": "The quality manager highlighted a substantial gap between the cost of compliance and noncompliance to quality requirements. The project spends 1/3 on the cost of compliance and 2/3 on the cost of noncompliance. Where should the project manager invest more effort to achieve a reasonable balance?", "options": {"A": "External failure and internal failure", "B": "Internal failure and appraisal", "C": "Appraisal and prevention", "D": "Prevention and external failure"}, "correct": "C", "explanation": "The cost of quality (COQ) includes the cost of compliance to quality requirements (prevention and appraisal costs) and cost of noncompliance (internal and external failure costs). To balance the COQ, more effort should be allocated to the cost of compliance, therefore, appraisal and prevention costs."}, {"id": 29, "question": "Which risk responses can be applied to both threats and opportunities?", "options": {"A": "Avoid and exploit", "B": "Exploit and transfer", "C": "Enhance and share", "D": "Escalate and accept"}, "correct": "D", "explanation": "Escalating and accepting can be used as risk responses for both threats and opportunities."}, {"id": 30, "question": "A project has a defined lower and upper limit to order goods and services within a fixed period. Which contract should the project manager establish to meet this need?", "options": {"A": "Fixed-price contracts", "B": "Cost-reimbursable contracts", "C": "Time and materials (T&M)", "D": "Indefinite delivery indefinite quantity (IDIQ)"}, "correct": "D", "explanation": "An indefinite delivery indefinite quantity (IDIQ) provides for an indefinite quantity of goods and services, with a stated lower and upper limit, and within a fixed period."}, {"id": 31, "question": "Memorandum of understanding (MOU), memorandum of agreement (MOA), service level agreement (SLA), and basic ordering agreement (BOA) can be considered as what type of agreements or contracts?", "options": {"A": "Other agreements", "B": "Time and materials (T&M)", "C": "Cost-reimbursable contracts", "D": "Fixed-price contracts"}, "correct": "A", "explanation": "Other agreements include memorandum of understanding (MOU), memorandum of agreement (MOA), service level agreement (SLA), and basic ordering agreement (BOA) among others."}, {"id": 32, "question": "Before the chief financial officer (CFO) can allocate the funds, the accounting director must check the project's budget to ensure that it meets the financial requirements of the organization. If the accounting director's review is a predecessor task to the CFO's allocation of funds, what activity relationship should the project manager use?", "options": {"A": "Mandatory", "B": "Discretionary", "C": "External", "D": "Internal"}, "correct": "A", "explanation": "The project manager must make the accounting director's review a mandatory activity prior to the CFO's allocation of funds."}, {"id": 33, "question": "Activity B has a discretionary dependency to Activity A. To finish the project earlier, what is the best solution that the project manager can implement?", "options": {"A": "Reverse the dependency", "B": "Stagger the activities", "C": "Perform them in parallel", "D": "Reduce the estimated effort"}, "correct": "B", "explanation": "Although performing both activities in parallel is a valid option, staggering them is a better option given that the dependency is discretionary."}, {"id": 34, "question": "A functional manager informed the project manager that the project's implementation must be scheduled during the factory's operational shutdown twice a year, two weeks at the end of June or December. How should the project manager represent the production deployment in the schedule?", "options": {"A": "Mandatory dependency", "B": "Discretionary dependency", "C": "External dependency", "D": "Internal dependency"}, "correct": "C", "explanation": "The factory's operational shutdown is a non-project activity so the project's implementation to the production environment must have an external dependency to it."}, {"id": 35, "question": "If a project needs to use both iterative and incremental development approaches, which life cycle should the project manager use?", "options": {"A": "Predictive", "B": "Iterative", "C": "Incremental", "D": "Agile"}, "correct": "D", "explanation": "Agile uses both iterative and incremental approaches."}, {"id": 36, "question": "What can the project team expect from their activities on a project that uses a predictive life cycle approach?", "options": {"A": "Performed once for the entire project", "B": "Repeated until correct", "C": "Performed once for a given increment", "D": "Relatively slow compared to agile"}, "correct": "A", "explanation": "A project using a predictive life cycle approach will perform activities once for the entire project."}, {"id": 37, "question": "The product owner wanted to realize customer value via frequent deliverables and feedback. Which life cycle approach should the project manager implement?", "options": {"A": "Predictive", "B": "Iterative", "C": "Incremental", "D": "Agile"}, "correct": "D", "explanation": "An agile life cycle approach focuses on customer value via frequent deliveries and feedback."}, {"id": 38, "question": "What life cycle options are available to a project who needs smaller but frequent deliveries?", "options": {"A": "Predictive and iterative", "B": "Iterative and incremental", "C": "Incremental and agile", "D": "Agile and predictive"}, "correct": "C", "explanation": "Incremental and agile life cycle approaches allow for frequent smaller deliveries."}, {"id": 39, "question": "The project sponsor mandated the project manager to focus on delivering the project results as soon as possible. What's the best life cycle approach for this given goal?", "options": {"A": "Predictive", "B": "Iterative", "C": "Incremental", "D": "Agile"}, "correct": "C", "explanation": "If the project's primary goal is speed, use an incremental life cycle approach."}, {"id": 40, "question": "When is it appropriate to use an agile life cycle in a project?", "options": {"A": "Low frequency of delivery and low degree of change", "B": "High frequency of delivery and low degree of change", "C": "Low frequency of delivery and high degree of change", "D": "High frequency of delivery and high degree of change"}, "correct": "D", "explanation": "An agile life cycle is ideal for projects with a high frequency of delivery and a high degree of change."}, {"id": 41, "question": "A project manager working on a project with a high frequency of delivery but with a low degree of change must choose a life cycle approach. What's the best option for this project?", "options": {"A": "Incremental", "B": "Agile", "C": "Predictive", "D": "Iterative"}, "correct": "A", "explanation": "An incremental approach is ideal for project with a high frequency of delivery and a low degree of change."}, {"id": 42, "question": "Projects with low frequency of delivery, regardless of the degree of change, can use which life cycle approach?", "options": {"A": "Incremental and agile", "B": "Agile and iterative", "C": "Iterative and predictive", "D": "Predictive and incremental"}, "correct": "C", "explanation": "Predictive and iterative life cycle approaches can be used for projects that do not require frequent delivery."}, {"id": 43, "question": "If a project expects a high degree of change, which life cycle approach should the project manager implement?", "options": {"A": "Agile and iterative", "B": "Incremental and predictive", "C": "Incremental and agile", "D": "Predictive and iterative"}, "correct": "A", "explanation": "Agile and iterative life cycle approaches are ideal for projects that expect a high degree of change."}, {"id": 44, "question": "In what sequence should the project manager organize the activities in a project that uses a predictive life cycle approach?", "options": {"A": "Analyze, design, prototype, build, deliver", "B": "Analyze, design, build, test, deliver", "C": "Requirements, analysis, design, build, test", "D": "Features in the WIP limit and then repeat"}, "correct": "B", "explanation": "A predictive life cycle has the following activities in sequence: analyze, design, build, test, and deliver."}, {"id": 45, "question": "Which two activities are unique to a project that uses an iterative life cycle?", "options": {"A": "Prototype and refine", "B": "Analyze and design", "C": "Timebox and repetition", "D": "WIP limit and repetition"}, "correct": "A", "explanation": "In an iterative life cycle, prototype occurs during analysis and design, and refinement happens during build and test."}, {"id": 46, "question": "What should the project manager consider when preparing estimates?", "options": {"A": "Range and accuracy", "B": "Quality and quantity", "C": "Precision and currency", "D": "Inflation and confidence"}, "correct": "A", "explanation": "The project's phase in the life cycle impacts range, accuracy, precision, and confidence."}, {"id": 47, "question": "An estimate that states \"within this month\" instead of the \"second week of this month\" demonstrates which estimating aspect?", "options": {"A": "Range", "B": "Accuracy", "C": "Precision", "D": "Confidence"}, "correct": "C", "explanation": "The second week of the month is more precise compared to sometime this month. Take note that precision is different from accuracy which has a time element, that is, less accurate estimates at the beginning of the project compared to later in the project."}, {"id": 48, "question": "Which estimating aspect increases with experience?", "options": {"A": "Range", "B": "Accuracy", "C": "Precision", "D": "Confidence"}, "correct": "D", "explanation": "Estimating confidence increases with experience."}, {"id": 49, "question": "What kind of estimating range should a project manager have if the project is well along in the life cycle?", "options": {"A": "-25% to +75%", "B": "-50% to +100%", "C": "-5% to +10%", "D": "-25% to +25%"}, "correct": "C", "explanation": "Projects which are well along the life cycle should have an estimating range of -5% to +10%."}, {"id": 50, "question": "An estimate with a range, statement of confidence, and probability distribution can be considered as what type of estimate?", "options": {"A": "Probabilistic", "B": "Deterministic", "C": "Absolute", "D": "Relative"}, "correct": "A", "explanation": "Probabilistic estimates contain three metrics: a point estimate with a range, a statement of confidence, and a probability distribution."}, {"id": 51, "question": "A project manager was asked to present a deterministic estimate for a very important project activity. Which of the following estimates should the project manager give?", "options": {"A": "12 months", "B": "One year +2 months/-1 month", "C": "12 months with a 95% confidence level", "D": "12 months based on 20 days per month"}, "correct": "A", "explanation": "A deterministic estimate has a single number or amount (e.g., 12 months) without any range (e.g., +2 months/-1 month), confidence level (e.g., 95% confidence level) or qualifier (e.g., 20 days per month)."}, {"id": 52, "question": "A project manager needs to identify a list of ideas in a short period of time. What data gathering technique should the project manager use?", "options": {"A": "Interviews", "B": "Brainstorming", "C": "Focus groups", "D": "Checklists"}, "correct": "B", "explanation": "Brainstorming is used to identify a list of ideas in a short period of time."}, {"id": 53, "question": "A business analyst suggested using focus groups to gather requirements. What should the project manger do next?", "options": {"A": "Identify a list of ideas in a short period of time", "B": "Bring together stakeholders and subject matter experts", "C": "Obtain information on high-level requirements", "D": "Use standardized checklists based on previous experience"}, "correct": "B", "explanation": "Focus groups bring together stakeholders and subject matter experts to learn more about the project in a more conversational way."}, {"id": 54, "question": "The project needs to obtain information on high-level requirements, assumptions or constraints, approved criteria, and other information from stakeholders. What data gathering technique should the project manager facilitate?", "options": {"A": "Benchmarking", "B": "Brainstorming", "C": "Focus groups", "D": "Interviews"}, "correct": "D", "explanation": "The project manager should facilitate interviews to obtain information on high-level requirements, assumptions or constraints, approved criteria, and other information from stakeholders."}, {"id": 55, "question": "A project is controlling the quality of the deliverables. They need a data gathering tool or technique to facilitate the effective collection of useful data about a potential quality problem. Which one from following list should the project manager recommend?", "options": {"A": "Checklists", "B": "Check sheets", "C": "Statistical sampling", "D": "Questionnaires"}, "correct": "B", "explanation": "Check sheets, also known as tally sheets, are used to organize facts in a manner that will facilitate the effective collection of useful data about a potential quality problem."}, {"id": 56, "question": "What data analysis technique should the project manager use to select the corrective actions or a combination of corrective and preventive actions to implement when a deviation occurs?", "options": {"A": "Alternative analysis", "B": "Cost-benefit analysis", "C": "Earned value analysis", "D": "Root cause analysis"}, "correct": "A", "explanation": "Alternative analysis is used to select the corrective actions or a combination of corrective and preventive actions to implement when a deviation occurs."}, {"id": 57, "question": "What must the project manager do when using affinity diagrams to represent project data?", "options": {"A": "Allow large numbers of ideas to be classified for review and analysis", "B": "Consolidate ideas created through individual brainstorming sessions", "C": "Display the sequence of steps and the branching possibilities", "D": "Present a visual representation of an organization's data"}, "correct": "A", "explanation": "Affinity diagrams allow for large numbers of ideas to be classified for review and analysis."}, {"id": 58, "question": "The project needs to find the strength of relationships among different factors, causes, and objectives that exist between the rows and columns that form a matrix to identify the key quality metrics of a project. What matrix diagram shapes can the project manager use?", "options": {"A": "A, B, D", "B": "E and roof-shaped", "C": "L, T, Y, X, C", "D": "Bingo patterns"}, "correct": "B", "explanation": "Shapes of matrix diagrams include L, T, Y, X, C, and roof-shaped."}, {"id": 59, "question": "The product owner takes the responsibility for making the decision for the entire project. What type of decision-making technique is it?", "options": {"A": "Voting", "B": "Autocratic decision making", "C": "Multicriteria decision analysis", "D": "Plurality"}, "correct": "B", "explanation": "Autocratic decision making occurs when one individual takes responsibility for making the decision for the group."}, {"id": 60, "question": "A project manager wanted to decide based on the largest number of stakeholders even if a majority cannot be reached. What is the best collective decision-making technique for this situation?", "options": {"A": "Unanimity", "B": "Majority", "C": "Plurality", "D": "Multicriteria"}, "correct": "C", "explanation": "In a plurality collective decision-making situation, the largest block in a group decides, even if a majority cannot be achieved."}, {"id": 61, "question": "Emerging trends and practices in modern project quality management seek to minimize variation and deliver results that meet defined stakeholder requirements. What is the practice in modern project quality management that creates value, optimizes costs and resources, and meets the customer's needs and expectations through joint relationships?", "options": {"A": "Management accountability and responsibility", "B": "Continual improvement such as PDCA", "C": "Mutually Beneficial partnership with suppliers", "D": "Customer satisfaction by meeting expectations"}, "correct": "C", "explanation": "An organization and its suppliers are interdependent. Relationships based on partnership and cooperation with the supplier is more beneficial to the organization and to the suppliers than traditional supplier management. Mutually beneficial partnerships with suppliers will meet and exceed customer needs and expectations, optimize costs and resources, and create value for each other."}, {"id": 62, "question": "The role of the servant leader or team facilitator is typically responsible for creating and promoting a stable work environment for a team working on an agile project. What type of team members should the project manager recruit to foster such working environment?", "options": {"A": "Subject matter experts", "B": "Highly specialized skills", "C": "Generalists-specialists", "D": "Technical generalists"}, "correct": "C", "explanation": "Agile projects benefit from project team structure that improves collaboration among team members. To achieve the best outcomes for the project, agile advocates the use of \"generalist-specialists.\" These team members have a specialized set of skills in one area and general knowledge in other areas of project requirements. This is especially useful when back-ups are required, and team members need to support each other for the successful delivery of the project."}, {"id": 63, "question": "Transparency and open collaboration are critical success factors in agile or adaptive projects. Team members are encouraged to discuss and share their work throughout the project. How can a project manager demonstrate transparency in agile/adaptive projects?", "options": {"A": "Praise positive behaviors publicly and reprimand negative outcomes privately.", "B": "Set a clear vision for the project and foster friendly competitions across teams.", "C": "Encourage individual accountability to ensure ownership of mistakes and errors.", "D": "Promote aggressive transparency by openly sharing issues regardless of the impact."}, "correct": "D", "explanation": "Aggressive transparency promotes the acceleration of sharing information within and across the organization. This can include but not limited to inviting stakeholders to project meetings and review, posting artifacts in open spaces so that any misalignments, issues, dependencies related to the project can be surfaced as quickly as possible. Depending on the severity and impact of the issue, the information may also be shared with senior and executive management as appropriate."}, {"id": 64, "question": "What is a basic system or structure of ideas or facts that support an approach?", "options": {"A": "Framework", "B": "Methodology", "C": "Practice", "D": "Principle"}, "correct": "A", "explanation": "Many project management frameworks have emerged to cater to a variety of project needs. Some frameworks are more formalized than others. Frameworks can support both predictive and adaptive approaches. Scrum, extreme programming, DSDM, Kanban, and Scrumban are examples of project frameworks. Selecting the most appropriate framework depending on the needs of the project will be vital to the success of the project."}, {"id": 65, "question": "A project manager needs to provide a high-level summary timeline of the release schedule based on the product roadmap. What should the project manager do next?", "options": {"A": "Prepare an agile release plan", "B": "Meet with the product owner", "C": "Assess the schedule impact", "D": "Address outstanding defects"}, "correct": "A", "explanation": "Agile release planning provides a high-level summary timeline of the release schedule (typically 3 to 6 months) based on the product roadmap and the product vision for the product's evolution. With inputs from the customer, this high-level timeline is created by the product owner in concert with the team. The high-level release schedule will determine how many sprints the team will need to complete a releasable product."}, {"id": 66, "question": "Who can be considered as agile practitioners?", "options": {"A": "People who embrace the agile mindset who collaborates with like-minded colleagues", "B": "Certified agile practitioners who work on adaptive or hybrid project environments", "C": "Project managers, business analysts, and software testers in a traditional project", "D": "Team members who think fast, make decisions quickly, and collaborate easily"}, "correct": "A", "explanation": "An agile practitioner is a broad term that describes those involved in agile practices. This term is not limited to a servant leader, however, a servant leader would be considered an agile practitioner. According to the Agile Practice Guide, an agile practitioner is \"a person embracing the agile mindset who collaborates with like-minded colleagues in cross-functional teams.\" An agile practitioner can also be referred to as an agilest."}, {"id": 67, "question": "A cross-functional team works in different locations. Some team members work in small clusters. What is this team structure called?", "options": {"A": "Virtual teams", "B": "Colocated teams", "C": "Dispersed teams", "D": "Distributed teams"}, "correct": "D", "explanation": "Distributed teams have cross-functional team members, at times in small clusters, working in different locations whereas dispersed teams may have each team member working from a different location. Due to the globalization of projects, it is no longer viable to only consider colocated teams for agile/adaptive projects."}, {"id": 68, "question": "A project manager introduced a system of practices, techniques, procedures, and rules for the project. What did the project manager introduce to the project?", "options": {"A": "Methodology", "B": "Framework", "C": "Tailoring", "D": "Standard"}, "correct": "A", "explanation": "A basic system or structure of ideas or facts that support an approach is called a framework. Tailoring is known as using the appropriate combination of processes, inputs, tools, techniques, outputs, and life cycle phases. A standard is a document established by an authority, custom, or general consent as a model for example. A methodology is a system of practices, techniques, procedures, and rules used by those who work in a discipline."}, {"id": 69, "question": "What is a process decision framework that integrates several agile best practices into a comprehensive model?", "options": {"A": "Adaptive Framework", "B": "Disciplined Agile", "C": "Enterprise Scrum", "D": "Comprehensive Agile"}, "correct": "B", "explanation": "Disciplined Agile blends various agile techniques and follows the principles of putting people first; encourages collaborative improvement; promotes full delivery life cycle; it is goal-driven; it offers guidance at an enterprise level, and it is scalable covering multiple dimensions of program complexity."}, {"id": 70, "question": "A project needs a holistic Scrum approach that extends beyond a single project. Such approach can also be scaled if needed. What should the project manager recommend to the project?", "options": {"A": "Enterprise Scrum", "B": "Disciplined Agile", "C": "Flexible Scrum", "D": "Agile PMO"}, "correct": "A", "explanation": "Enterprise Scrum can be utilized in various sizes of organizations including small, medium, and large companies. It is viewed as a holistic approach that extends beyond a single project, and its techniques can be generalized and customized to fit the needs of the organization. It can also be scaled as necessary."}, {"id": 71, "question": "Who can best prepare the team charter?", "options": {"A": "Project manager", "B": "Project team", "C": "Agile coach", "D": "Team mentor"}, "correct": "B", "explanation": "A team charter works best when the team prepares it. It provides structure, guidelines, and basic team operating principles and agreements. The team charter can guide how the team will make decisions, conduct meetings, and resolve conflicts. A team charter can be used in both predictive as well as agile and adaptive projects."}, {"id": 72, "question": "What is a multidisciplinary group or department that extends beyond the discipline of project management?", "options": {"A": "Scrum CCB", "B": "Generalists-specialists", "C": "Agile PMO", "D": "Cross-functional team"}, "correct": "C", "explanation": "An agile PMO is multidisciplinary with competencies that extend beyond the discipline of project management. They help with multi-project management, coordinate between agile teams, and collaborate on various items."}, {"id": 73, "question": "A procurement-heavy government project is using agile and adaptive approaches. What concerns should the project manager consider, address, and manage?", "options": {"A": "Certifications, inspections, mitigations, and insurance", "B": "Regulatory compliance, privacy laws, and penalty clauses", "C": "Selection processes and contract negotiations", "D": "Risks, issues, contracts, and product knowledge"}, "correct": "D", "explanation": "Depending on the size, scale, and capabilities of the organization at times it may be best to outsource the project delivery to a vendor. Agile and adaptive projects can be successfully delivered using vendors provided the risks and issues are carefully considered and managed. Contracts should also be carefully crafted so that equitable financial viability is considered for all parties."}, {"id": 74, "question": "Which one of the following agile practices embraces osmotic communications?", "options": {"A": "Scrum", "B": "Kanban", "C": "DSDM", "D": "Crystal"}, "correct": "D", "explanation": "Osmotic communication was first embraced by the founder of crystal methods. It contends with communicating via osmosis where team members can hear conversations and pick up relevant information as necessary. This occurs when the team is working in colocated workspaces."}, {"id": 75, "question": "Scrum of scrums is a technique that is used when two more scrum teams consisting of three to nine members each need to coordinate their work instead of establishing one large scrum team which can be inefficient. What is another term that can be used to describe Scrum of Scrums?", "options": {"A": "Macro scrum", "B": "Meta scrum", "C": "Mega scrum", "D": "Scaled scrum"}, "correct": "B", "explanation": "Scrum of scrum also known as \"meta scrum.\" It is a scaling technique to coordinate multiple scrum teams. It can be scaled to support multiple scrum teams at the project, program, and portfolio levels."}, {"id": 76, "question": "Which one of the following agile methods uses the role of a flow master?", "options": {"A": "Scrum", "B": "Kanban", "C": "Extreme programming", "D": "Feature Driven Development"}, "correct": "B", "explanation": "The Kanban Method uses the role of a flow master to manage the flow of work. This role can also be referred to as a service request manager or a team coach. The flow master is focused on helping and supporting the team like the scrum master on scum projects."}, {"id": 77, "question": "Which statement describes the continuum of project life cycles?", "options": {"A": "The series of phases that a project passes through from its start to its completion.", "B": "A form of project life cycle in which the project scope, time and cost are determined.", "C": "An approach that is both iterative and incremental to refine work items and delivery frequently.", "D": "A life cycle that provides finished deliverables to the customer may be able to use immediately."}, "correct": "A", "explanation": "A project life cycles can range along a continuum from predictive approaches at one end to adaptive or agile approaches at the other. The series of phases that a project passes through from its inception to completion is called life cycle."}, {"id": 78, "question": "Due to the exploratory nature of this project, both adaptive and predictive methods can be considered. What should a project manager do to best suit the needs of the organization?", "options": {"A": "Choose adaptive methods", "B": "Use predictive methods", "C": "Implement a hybrid approach", "D": "Consider project tailoring"}, "correct": "D", "explanation": "At times it may be necessary to tailor an approach to best suit the needs of the organization. Due to the exploratory nature of this project, both adaptive and predictive methods can be considered. Prior to selecting and potentially tailoring multiple approaches, it is best to learn about agile project management and then craft the best approach that will be most beneficial to the organization."}, {"id": 79, "question": "Who can be considered as agile practitioners?", "options": {"A": "People who embrace the agile mindset who collaborates with like-minded colleagues", "B": "Certified agile practitioners who work on adaptive or hybrid project environments", "C": "Project managers, business analysts, and software testers in a traditional project", "D": "Team members who think fast, make decisions quickly, and collaborate easily"}, "correct": "A", "explanation": "An agile practitioner is a broad term that describes those involved in agile practices."}, {"id": 80, "question": "A project manager needs to provide a high-level summary timeline of the release schedule based on the product roadmap. What should the project manager do next?", "options": {"A": "Prepare an agile release plan", "B": "Meet with the product owner", "C": "Assess the schedule impact", "D": "Address outstanding defects"}, "correct": "A", "explanation": "Agile release planning provides a high-level summary timeline of the release schedule based on the product roadmap and the product vision."}, {"id": 81, "question": "How does the buyer inform the seller that the deliverables have been accepted or rejected?", "options": {"A": "Verbal confirmation", "B": "Written communication", "C": "Formal written notice", "D": "Change request"}, "correct": "C", "explanation": "Formal written notice is provided by the buyer to the seller as evidence of acceptance or rejection."}, {"id": 82, "question": "Professional project managers are expected to align their daily performance with four values that have been identified as the most important to the project management community. Which of the following is not part of those four values?", "options": {"A": "Responsibility", "B": "Modesty", "C": "Respect", "D": "Honesty"}, "correct": "B", "explanation": "Responsibility, respect, and honesty, as well as fairness, are the four desirable values identified by the project management community. Although modesty is desirable, it is not one of the listed values."}, {"id": 83, "question": "A project manager is systematically gathering and analyzing information to determine whose interests should be considered throughout the project. He is also organizing profile analysis meetings. What will he produce because of these activities?", "options": {"A": "Project charter", "B": "Project interest profiles", "C": "Stakeholder register", "D": "Organizational process assets"}, "correct": "C", "explanation": "Stakeholder analysis systematically gathers and analyzes information to determine whose interests should be considered throughout the project. Stakeholder analysis and profile analysis meetings are tools and techniques of the Identify Stakeholders process."}, {"id": 84, "question": "If a project manager uses expert judgment, meetings, and data analysis when planning stakeholder engagement, what output will be produced?", "options": {"A": "Project management plan", "B": "Self-organizing team", "C": "Stakeholder engagement plan", "D": "Project team charter"}, "correct": "C", "explanation": "Tools and techniques of the Plan Stakeholder Engagement process include expert judgment, data gathering, data analysis, decision making, data representation, and meetings. Stakeholder engagement plan is an output of the Plan Stakeholder Engagement process."}, {"id": 85, "question": "Which of the following is not a valid classification for analyzing the engagement level of stakeholders?", "options": {"A": "Unaware", "B": "Unknown", "C": "Resistant", "D": "Neutral"}, "correct": "B", "explanation": "The engagement level of stakeholders can be classified as unaware, resistant, neutral, supportive, and leading. Unknown is not one of the valid classifications for analyzing the engagement level of stakeholders."}, {"id": 86, "question": "A project sponsor has a high authority and high interest on the project. If he engages actively to ensure the success of the project, his engagement level can be classified as __________.", "options": {"A": "Leading", "B": "Supportive", "C": "Neutral", "D": "Unaware"}, "correct": "A", "explanation": "A stakeholder is considered leading if he is aware of the project impacts and actively supports its success."}, {"id": 87, "question": "You notice that a team leader on one of your projects has been communicating with another member of the team in an abusive manner. Your duty as a project manager is to __________.", "options": {"A": "Ignore this behavior to keep the project going smoothly", "B": "Ask the team leader to stop this behavior", "C": "Ignore this behavior to keep your good relationship with the team intact", "D": "Record the facts regarding this to substantiate the team leader's behavior and report the team leader to his or her functional manager"}, "correct": "D", "explanation": "Abusive behavior should be recorded and substantiated so that it can be reported in a factual manner to the appropriate functional manager."}, {"id": 88, "question": "As a project manager, in which of the following situations would you pursue disciplinary action?", "options": {"A": "A member of the project team reports non-ethical behavior of another team member", "B": "A member of the project team complains that he or she is the subject of unethical abuse by another member of the team", "C": "A member of the project team retaliates against a colleague who raised an ethical complaint against him or her", "D": "A member of the project team files an ethics-related complaint without substantiating it with facts"}, "correct": "C", "explanation": "When a member of the project retaliates against a colleague who raised an ethical complaint against him or her, a disciplinary action is justified."}, {"id": 89, "question": "You have been asked by the program manager to manage a highly sensitive project related to building a nuclear reactor. You have never worked in that industry before, although you managed several defense projects in other conventional areas. Which of the following is the most appropriate action for you to consider?", "options": {"A": "Take on the project and start self-learning about the nuclear industry without letting anyone know", "B": "Inform the program manager that you do not have experience in working in the nuclear industry and that you are prepared to learn on the job", "C": "Tell your manager that you will learn on the job and ask him or her not to inform the customer that you do not have the right knowledge, so your company will not lose the opportunity", "D": "Refuse the project because you do not have the right experience"}, "correct": "B", "explanation": "Inform the program manager that you do not have experience working in the nuclear industry and that you are prepared to learn on the job. By doing this you fulfill your ethnical obligation and leave him or her to make the decision concerning how to proceed."}, {"id": 90, "question": "You completed an advanced technology project for one customer. You moved on to manage a related project for another customer, and you wanted to copy some of the work products to use in the second project without telling the first customer. What should you do?", "options": {"A": "Copy the work products and ask your management not to tell the first customer", "B": "Copy the work products because it is part of the organizational process assets", "C": "Do not copy the work products without asking the first customer for permission", "D": "Ask a member of the first project team to copy the work products for you"}, "correct": "C", "explanation": "The correct answer to the question is to ask for permission before copying work products. This corresponds to guidelines on intellectual property rights."}, {"id": 91, "question": "You are reading a document that was produced by the previous project manager. The document listed the current and desired engagement levels of key stakeholders, information to be distributed to stakeholders, and time frame and frequency for the distribution. What document are you reading?", "options": {"A": "Stakeholder engagement assessment matrix", "B": "Memorandum of understanding", "C": "Project management plan", "D": "Stakeholder engagement plan"}, "correct": "A", "explanation": "The stakeholder engagement assessment matrix classifies the stakeholders based on their engagement levels such as unaware, resistant, neutral, supportive, and leading."}, {"id": 92, "question": "You are managing a large international project that pays well. Your uncle asked you to hire his son in the project, even though that cousin does not have the necessary skills. Hiring the cousin would constitute which type of conflict of interest?", "options": {"A": "Fairness/mandatory", "B": "Responsibility/aspirational", "C": "Honesty/mandatory", "D": "Respect/mandatory"}, "correct": "A", "explanation": "The fairness/mandatory value standard states that \"When we realize that we have a real or potential conflict of interest, we refrain from engaging in the decision-making process.\" Conflicts of interest must be avoided out of the principle of fairness to all parties involved."}, {"id": 93, "question": "Several accidents in a nuclear energy project led to the loss of life on several occasions, under the same project managers. Which of the following values did the project managers betray?", "options": {"A": "Fairness", "B": "Integrity", "C": "Respect", "D": "Honesty"}, "correct": "C", "explanation": "Project managers are expected to uphold the value of respect, that is, to show high regard for oneself, others, and the people who are working on the project directly and indirectly. Safety of others is part of the resources entrusted to us."}, {"id": 94, "question": "A newly assigned project manager discovered a discrepancy in the budget that was prepared by the previous project manager. If he communicates the discrepancy to the project sponsor, the project will most likely be canceled immediately and his contract will be terminated prematurely. Which value would he be violating the most if he delays the disclosure of the budget discrepancy until he can find a replacement contract?", "options": {"A": "Responsibility", "B": "Respect", "C": "Fairness", "D": "Honesty"}, "correct": "D", "explanation": "The correct option is honesty because one of its aspirational standards entails providing information in a timely manner."}, {"id": 95, "question": "As a professional project manager, you were faced with a decision involving potential conflicts of interest. All the following statements are necessary preconditions for engaging in this decision-making process except __________.", "options": {"A": "Making full disclosure to the affected stakeholders", "B": "Having an approved mitigation plan", "C": "Obtaining the consent of the stakeholders to proceed", "D": "Reporting the situation to the PMI"}, "correct": "D", "explanation": "As a professional project manager, before any decisions involving potential conflict of interest you should make a full disclosure to the affected stakeholders, have an approved mitigation plan, and obtain the consent of the stakeholders to proceed. It is not necessary to report such a situation to the PMI."}, {"id": 96, "question": "A project manager promised team members bonuses he never intended to deliver. Which type of value does this behavior contradict?", "options": {"A": "Responsibility/aspirational", "B": "Sportsmanship/mandatory", "C": "Fairness/aspirational", "D": "Modesty/aspirational"}, "correct": "A", "explanation": "The responsibility/aspirational standard states that \"We fulfill commitments that we undertake, we do what we say we will do.\""}, {"id": 97, "question": "Thomas is managing an international project that will span many years. He is anticipating that inflation will impact the labor costs in at least two other countries where the project will be implemented. The price of fuel, a key component in the project, may fluctuate as well. What would be the most appropriate contract given the nature of his project?", "options": {"A": "Cost-reimbursable contracts", "B": "Firm fixed-price (FFP)", "C": "Fixed-price incentive fee (FPIF)", "D": "Fixed-price with economic price adjustment (FP-EPA)"}, "correct": "D", "explanation": "Given the long duration and the international nature of the project, FP-EPA is the most appropriate contract because it can address the economic fluctuations that may occur during the execution of the project."}, {"id": 98, "question": "As manager of a large project, you needed to recruit a junior project manager with specific skills. After the new junior project manager had a few months on the job, you realized that he did not have all the skills he claimed to have. Which of the following value standards did his behavior violate?", "options": {"A": "Fairness/mandatory", "B": "Sportsmanship/mandatory", "C": "Respect/aspirational", "D": "Responsibility/aspirational"}, "correct": "C", "explanation": "Respect/aspirational deals with our behaviors and attitudes toward others. We base our decisions and actions on the best interests of society, public safety, and the environment, and our acceptance of assignments consistent with our background, experience, skills, and qualifications."}, {"id": 99, "question": "If the procurement decision will be based primarily on price, which procurement document would be most appropriate?", "options": {"A": "Invitation for bid (IFB) or request for quotation (RFQ)", "B": "Request for proposal (RFP) or request for information (RFI)", "C": "Request for information (RFI) or invitation for bid (IFB)", "D": "Invitation for bid (IFB) or request for proposal (RFP)"}, "correct": "A", "explanation": "Bid or quotation often applies to procurement where the primary consideration is price. Hence, invitation for bid (IFB) or request for quotation (RFQ) is the correct option."}, {"id": 100, "question": "The contract life cycle consists of which four stages?", "options": {"A": "Form, norm, storm, and adjourn", "B": "Initiate, plan, monitor, and close", "C": "Requirement, requisition, solicitation, and award", "D": "Plan, assure, control, and close"}, "correct": "C", "explanation": "The four stages of a contract life cycle are requirement, requisition, solicitation, and award."}, {"id": 101, "question": "Your company needs to decide whether to spend $120K to build a new mobile app or to enhance an existing one for $50K. With the new mobile app, there is a 60 percent chance to generate revenue of $200K if the app store reviews are positive. Your company expects revenue of $90K if the reviews are not so positive. If the company enhances the existing mobile app, the expected revenue is $120K and $60K respectively with the same probabilities as the building of a new mobile app. What is the scenario probability for enhancing the existing mobile app with app store reviews that are not so positive?", "options": {"A": "16 percent", "B": "24 percent", "C": "36 percent", "D": "40 percent"}, "correct": "D", "explanation": "If the scenario probability for enhancing the existing mobile app with positive app reviews is 60 percent, then the not so positive scenario probability is 40% (100 percent minus 60 percent equals 40 percent)."}, {"id": 102, "question": "Your company needs to decide whether to spend $120K to build a new mobile app or to enhance an existing one for $50K. With the new mobile app, there is a 60 percent chance to generate revenue of $200K if the app store reviews are positive. Your company expects revenue of $90K if the reviews are not so positive. What is the expected monetary value (EMV) for building a new mobile app?", "options": {"A": "$36K", "B": "$46K", "C": "-$80K", "D": "-$30K"}, "correct": "A", "explanation": "Net path value for positive reviews = $200K minus $120K = $80K; net path value for not so positive reviews = $90K minus $120K = -$30K; expected monetary value for building a new mobile app = 0.60 ($80K) + 0.40 (-$30K) = $36K."}, {"id": 103, "question": "As a project manager, you are expected to take ownership for the decisions you make or fail to make, the actions you take or fail to take, and the resulting consequences. What best fits this description of the conduct of a project manager?", "options": {"A": "Responsibility", "B": "Respectability", "C": "Competency", "D": "Consistency"}, "correct": "A", "explanation": "Taking ownership for the decisions we make or fail to make, the actions we take or fail to take, and the resulting consequences is defined as the responsibility of project managers."}, {"id": 104, "question": "Your company needs to decide whether to spend $120K to build a new mobile app or to enhance an existing one for $50K, with expected revenue of $120K and $60K respectively at the same probabilities described previously. What is the decision expected monetary value (EMV)?", "options": {"A": "$46K", "B": "$50K", "C": "$0K", "D": "$170K"}, "correct": "A", "explanation": "Enhancing an existing mobile app: net path value for positive reviews = $120K minus $50K = $70K; net path value for not so positive reviews = $60K minus $50K = $10K; expected monetary value = 0.60 ($70K) + 0.40 ($10K) = $46K. The decision expected monetary value is the larger of the two decision nodes which is $46K."}, {"id": 105, "question": "It is the duty of project managers to show high regard for themselves, for others, and for the resources entrusted to them. This behavior can be referred to as __________.", "options": {"A": "Honesty", "B": "Responsibility", "C": "Respect", "D": "Fairness"}, "correct": "C", "explanation": "As project managers, showing high regard for ourselves, for others, and for the resources entrusted is respect."}, {"id": 106, "question": "In project meetings, you often take time to listen to others' points of view, seeking to understand them. How would you classify this behavior?", "options": {"A": "Aspirational responsibility", "B": "Mandatory responsibility", "C": "Mandatory respect", "D": "Aspirational respect"}, "correct": "D", "explanation": "Taking time to listen to others' point of view, seeking to understand them, is aspirational respect."}, {"id": 107, "question": "You are in a project meeting, and another project manager acts in a way that is abusive to another member of the team. You decide to remind the team member, outside the meeting, that this is a breach of which professional standard?", "options": {"A": "Mandatory responsibility", "B": "Mandatory respect", "C": "Mandatory fairness", "D": "Mandatory honesty"}, "correct": "B", "explanation": "Acting in a way that is abusive to another member of the team is a breach of the mandatory respect standard."}, {"id": 108, "question": "It is the duty of a project manager to act impartially and objectively when making decisions and otherwise behaving. This value can be classified as __________.", "options": {"A": "Fairness", "B": "Honesty", "C": "Respect", "D": "Responsibility"}, "correct": "A", "explanation": "Making decisions and acting impartially and objectively is defined as the value of fairness."}, {"id": 109, "question": "You advise your team to behave in a manner that provides equal access to information to those who are authorized to have the information. This behavior can be considered as following the value of __________.", "options": {"A": "Aspirational respect", "B": "Aspirational fairness", "C": "Aspirational honesty", "D": "Aspirational responsibility"}, "correct": "B", "explanation": "Providing equal access to information to those who are authorized to have the information is an example of aspirational fairness."}, {"id": 110, "question": "While negotiating a contract with a supplier, you realize that you already know one of the other parties in a professional capacity. You decide you must disclose this as a potential conflict of interest. What professional standard are you applying in this situation?", "options": {"A": "Mandatory honesty", "B": "Mandatory respect", "C": "Mandatory fairness", "D": "Mandatory responsibility"}, "correct": "C", "explanation": "Disclosure of potential conflict of interest is an example of mandatory fairness."}, {"id": 111, "question": "It is the duty of a project manager to try to understand the truth and act in a truthful manner in both communications and conduct. Such behavior can be considered as following the value of __________.", "options": {"A": "Fairness", "B": "Responsibility", "C": "Respect", "D": "Honesty"}, "correct": "D", "explanation": "To try to understand the truth and act in a truthful manner in both communications and conduct is a definition of honesty."}, {"id": 112, "question": "When describing the culture that you try to encourage in the project team, you identify trying to create an environment in which others feel safe to tell the truth as an example of appropriate behavior. This behavior can be referred as following the value of __________.", "options": {"A": "Aspirational honesty", "B": "Aspirational respect", "C": "Mandatory honesty", "D": "Mandatory respect"}, "correct": "A", "explanation": "Creating an environment in which others feel safe to tell the truth is an example of aspirational honesty."}, {"id": 113, "question": "While managing the contracts for a project, you become aware that a team member is engaging in dishonest behavior for personal gain. You decide that you must disclose this behavior. What professional standard are you applying in this situation?", "options": {"A": "Aspirational fairness", "B": "Mandatory honesty", "C": "Mandatory respect", "D": "Aspirational responsibility"}, "correct": "B", "explanation": "Engaging in dishonest behavior for personal gain is a breach of the mandatory honesty code."}, {"id": 114, "question": "Conduct by team members that result in others feeling humiliated is an example of __________.", "options": {"A": "Abusive manner", "B": "Passive aggressiveness", "C": "Aspirational standards", "D": "Mandatory standards"}, "correct": "A", "explanation": "Conduct by a team member that results in others feeling humiliated is an example of abusive manner. This is not allowable behavior, and it is not permitted by any aspirational or mandatory standard."}, {"id": 115, "question": "In a RACI (responsible, accountable, consult, and inform) chart, which role should be assigned only once to a deliverable or activity?", "options": {"A": "Accountable", "B": "Consult", "C": "None", "D": "Inform"}, "correct": "A", "explanation": "Only one person must be held accountable for any one deliverable or task to avoid confusion of responsibility."}, {"id": 116, "question": "As you introduce a new team member to the organization, you describe one of the requirements of the role of project manager as responsibility, both legally and morally, to promote the best interests of the organization. What does this type of behavior describe?", "options": {"A": "Aspirational respect", "B": "Duty of loyalty", "C": "Employment contract", "D": "Good practice"}, "correct": "B", "explanation": "A project manager's responsibility, both legally and morally, to promote the best interests of the organization is known as the duty of loyalty."}, {"id": 117, "question": "What is the most common logical relationship in a precedence diagramming method (PDM)?", "options": {"A": "Finish-to-start (FS)", "B": "Start-to-finish (SF)", "C": "Finish-to-finish (FF)", "D": "Start-to-start (SS)"}, "correct": "A", "explanation": "The most used dependency in a precedence diagramming method is finish-to-start (FS)."}, {"id": 118, "question": "Activity-on-node (AON) is one method of representing a __________.", "options": {"A": "Schedule performance index", "B": "Precedence diagram", "C": "Work breakdown structure", "D": "Activity-on-arrow"}, "correct": "B", "explanation": "Activity-on-node (AON) is one method of representing a precedence diagram."}, {"id": 119, "question": "A project activity cannot start until after the resolution of a pending lawsuit. The dependency of the project activity to the lawsuit resolution is an example of a __________ dependency.", "options": {"A": "Discretionary internal", "B": "Mandatory external", "C": "Discretionary external", "D": "Mandatory internal"}, "correct": "B", "explanation": "The dependency is mandatory because the lawsuit must be resolved first before the project activity can start. The dependency is also external because the lawsuit resolution is a non-project activity."}, {"id": 120, "question": "Which risk response strategy can be used for both negative and positive risks?", "options": {"A": "Avoid", "B": "Transfer", "C": "Mitigate", "D": "Accept"}, "correct": "D", "explanation": "Avoid, transfer, mitigate, and accept are risk response strategies for negative risks. However, accept can also be used for both positive risks."}, {"id": 121, "question": "The project team discovered conflicting compliance requirements. What should the project manager do next?", "options": {"A": "Integrate compliance into the project's culture", "B": "Create an alignment with conflicting guidelines", "C": "Seek appropriate counsel and direction", "D": "Prioritize the conflicting requirements"}, "correct": "C", "explanation": "Stewards should seek counsel and direction if there are conflicting compliance guidelines or questions."}, {"id": 122, "question": "After a meeting with the product owner, it became evident that there are several security, health, safety, and regulatory requirements that the project must meet. What should the project manager do next?", "options": {"A": "Classify compliance categories", "B": "Determine potential threats", "C": "Apply methods to support compliance", "D": "Analyze noncompliance consequences"}, "correct": "A", "explanation": "The project manager must first classify the compliance requirements before analyzing the regulations and crafting potential solutions."}, {"id": 123, "question": "The quality manager highlighted the importance of budgeting for the cost of compliance. As a result, the project manager budgeted for prevention and appraisal costs. What else should the project manager consider?", "options": {"A": "None, the quality plan is comprehensive", "B": "Potential threats to noncompliance", "C": "How to measure project compliance", "D": "Address risk and legal compliance needs"}, "correct": "B", "explanation": "There are two parts to the cost of quality (cost of compliance and noncompliance). Prevention and appraisal are part of the cost of compliance. However, the cost of noncompliance (internal and external failures) has not been factored into the budget."}, {"id": 124, "question": "Which requirements can establish product, process, or service characteristics, including administrative provisions that have government-mandated compliance?", "options": {"A": "Functional", "B": "Customer", "C": "Technical", "D": "Regulation"}, "correct": "D", "explanation": "Regulatory requirements can establish product, process, or service characteristics, including administrative provisions that have government-mandated compliance."}, {"id": 125, "question": "A project manager takes over a project from another project manager who will soon retire. He noticed a regulatory document that identifies issues related to financial losses, security breaches, and license revocations. What should the project manager do next?", "options": {"A": "Analyze the consequences of noncompliance", "B": "Collaborate with the accounting department", "C": "Engage the information security team", "D": "Conduct an audit of software licenses"}, "correct": "A", "explanation": "Given a set of regulatory requirements, the project manager must ensure compliance to avoid the consequences of noncompliance."}, {"id": 126, "question": "What can potentially happen because of a project's noncompliance to regulatory requirements?", "options": {"A": "Scope creep, missed deadlines, and waste of contingency funds", "B": "Business disruptions, erosion of trust, and a damaged reputation", "C": "The project manager and team members will lose their jobs", "D": "Project cancellation, dissatisfied stakeholders, and poor team morale"}, "correct": "B", "explanation": "Business disruptions, erosion of trust, and a damaged reputation broadly captures the overall consequences."}, {"id": 127, "question": "If the project has confirmed the compliance requirements and planned relevant activities to fully address them, what should the project manager do next?", "options": {"A": "Sit back and relax because the project is under control", "B": "Determine potential threats to compliance", "C": "Analyze the consequences of noncompliance", "D": "Measure the extent to which the project complies"}, "correct": "D", "explanation": "As part of planning and managing project compliance, it is imperative to measure the extent of project compliance."}, {"id": 128, "question": "What should the project manager check to ensure that the project benefits are realized in the time frame in which they were planned?", "options": {"A": "The business plan and the organization's strategic plan", "B": "The business case and the underlying data", "C": "The benefits realization plan and the business case", "D": "Levels of complaints and returns to measure satisfaction"}, "correct": "C", "explanation": "Check the benefits realization plan, business case and/or schedule to ensure that the financial metrics and scheduled deliveries are being achieved as planned."}, {"id": 129, "question": "What outcome is the project manager trying to confirm by reviewing the business plan and the organization's strategic plan to ensure alignment between the project deliverables and the business objectives?", "options": {"A": "Projects contribute to business objectives and advancement of strategy", "B": "Project realize the outcomes they were intended to deliver", "C": "Project benefits are realized in the time frame in which they were planned", "D": "The project team has a clear understanding of requirements"}, "correct": "A", "explanation": "To ensure that the project contribute to business objectives and advancement of strategy, check the business plan and the organization's strategic plan."}, {"id": 130, "question": "The project team wants to ensure stakeholder acceptance and satisfaction of the project deliverables. How can the project manager confirm this outcome?", "options": {"A": "Review the business case and underlying data", "B": "Check the business realization plan and schedule", "C": "Ensure a clear understanding of the requirements", "D": "Conduct interviews and collect end user feedback"}, "correct": "D", "explanation": "Interviews, observation, and end user feedback indicate stakeholder satisfaction with deliverables."}, {"id": 131, "question": "In predictive development, what can the project team expect when it comes to requirements?", "options": {"A": "The initial requirements will be established, and they will not change", "B": "Little change in the initial requirements reflects clear understanding", "C": "Requirements will evolve from the beginning until the end of the project", "D": "Clear understanding of the requirements towards the end of the project"}, "correct": "B", "explanation": "In predictive development, little change in the initial requirements reflects the project team's clear understanding of requirements."}, {"id": 132, "question": "Which performance domain addresses activities and functions associated with delivering the scope and quality that the project was undertaken to achieve?", "options": {"A": "Scope and quality", "B": "Measurement", "C": "Delivery", "D": "Development approach and life cycle"}, "correct": "C", "explanation": "The delivery project performance domain addresses activities and functions associated with delivering the scope and quality that the project was undertaken to achieve."}, {"id": 133, "question": "A project manager will need to demonstrate integrity, care, trustworthiness, and compliance to adhere to which project management principle?", "options": {"A": "Value", "B": "Stakeholders", "C": "Team", "D": "Stewardship"}, "correct": "D", "explanation": "The stewardship project management principle encompasses integrity, care, trustworthiness, and compliance."}, {"id": 134, "question": "To demonstrate the stewardship project management principle, the project manager must have a holistic view of which factors in a project?", "options": {"A": "Financial, social, technical, and sustainable environmental awareness", "B": "Organizational cultures and guidelines, and optimal contributions", "C": "Stakeholder engagement and project team collaboration", "D": "Indicator of project success and quantitative and/or qualitative terms"}, "correct": "A", "explanation": "As part of stewardship, project managers must have a holistic view of financial, social, technical, and sustainable environmental awareness within a project."}, {"id": 135, "question": "What should the project manager do to fulfil the needs of the team?", "options": {"A": "Create a collaborative environment", "B": "Ensure that the team serve the stakeholders", "C": "Focus the outcome on value creation", "D": "Maintain a holistic view of project interactions"}, "correct": "A", "explanation": "The project management principle for teams necessitates the creation of a collaborative environment."}, {"id": 136, "question": "Several team members expressed their desire for a collaborative project environment. What should the project manager do next?", "options": {"A": "Recognize differences in motivation within the team", "B": "Introduce team agreements, structures, and processes", "C": "Enable stakeholders to directly influence the project", "D": "Measure the social benefit of the project"}, "correct": "B", "explanation": "Team agreements, structures, and processes help facilitate a collaborative project environment."}, {"id": 137, "question": "What is the project manager's best option for stakeholders with a high degree of influence but have an unfavorable or neutral view about a project?", "options": {"A": "Shift the focus to stakeholders with a positive view of the project", "B": "Minimize their project involvement but keep them constantly updated", "C": "Effectively engage them to understand their interests and concerns", "D": "Monitor their direct and indirect influences, and be prepared to act"}, "correct": "C", "explanation": "It is important to effectively manage stakeholders with a high degree of influence but have an unfavorable or neutral view about the project. Try to understand their interests, concerns, and rights."}, {"id": 138, "question": "What is a key part of stakeholder engagement?", "options": {"A": "Rapport", "B": "Honesty", "C": "Communication", "D": "Openness"}, "correct": "C", "explanation": "Communication is a key part of stakeholder engagement. Without it, it will be difficult to build relationship and develop a shared understanding of the project's objectives and success criteria."}, {"id": 139, "question": "What is the ultimate indicator of project success?", "options": {"A": "Value", "B": "Deliverables", "C": "Benefits", "D": "Outcomes"}, "correct": "A", "explanation": "Value is the ultimate indicator of project success. Other elements and factors such as deliverables, benefits, and outcomes contribute to the determination of the project's overall value."}, {"id": 140, "question": "What should the project manager do to ensure a focus on value?", "options": {"A": "Let the team self-organize themselves and empower them to prioritize the objectives", "B": "Listen to the product owner and give it higher priority relative to the team's opinions", "C": "Clearly describe the desired outcomes and iteratively assess them throughout the project", "D": "Maintain strict scope, cost, and schedule baselines, and make it difficult to change them"}, "correct": "C", "explanation": "To ensure a focus on value, it imperative to clearly describe the desired outcomes and iteratively assess them throughout the project."}, {"id": 141, "question": "Projects may be a part of a program which in turn is part of a portfolio. What should the project manager to ensure alignment across systems of systems?", "options": {"A": "Try to predict positive outcomes ahead of time", "B": "Pay attention to internal and external conditions", "C": "Engage technical architects early in the project", "D": "Balance inside/out and outside/in perspectives"}, "correct": "D", "explanation": "To ensure alignment within the interconnected structures, a system of systems, the project manager must balance inside/out and outside/in perspectives."}, {"id": 142, "question": "Systems thinking requires a holistic view to positively impact project performance. What should the project manager do to ensure alignment across projects, programs, and portfolios?", "options": {"A": "Provide frequent updates to program and portfolio managers", "B": "Recognize, evaluate, and respond to system interactions", "C": "Schedule system integration and user acceptance tests", "D": "Manage qualitative and quantitative risks proactively"}, "correct": "B", "explanation": "To positively affect project performance, the project manager must recognize, evaluate, and respond to the dynamic circumstances within and surrounding the project in a holistic way."}, {"id": 143, "question": "Projects require a unique set of leadership skills compared to general business operations. To proactively address potential confusion and conflict, what should the project manager do first to demonstrate leadership?", "options": {"A": "Help prioritize the project's vision, creativity, and motivation", "B": "Share the project's organizational hierarchy to all stakeholders", "C": "Lead the creation of the project's scope, budget, and schedule", "D": "Demonstrate advance soft skills such as emotional intelligence"}, "correct": "A", "explanation": "Within the context of a project, demonstrate leadership by establishing an environment that prioritizes vision, creativity, motivation, encouragement, and empathy."}, {"id": 144, "question": "Over the past year, a young engineer demonstrated natural leadership skills. What should the project manager do to give the engineer more authority within the project?", "options": {"A": "Nominate the engineer for a performance bonus", "B": "Sponsor the engineer for project management certification", "C": "Formalize the role by issuing a charter document", "D": "Reassign the engineer to a bigger technical project"}, "correct": "C", "explanation": "Authority allows an individual or entity to exercise power so the project manager must formalize the role by issuing a charter document or designated title."}, {"id": 145, "question": "Several senior managers have conflicting priorities within a project. What is the best course of action for the project manager to resolve their differences?", "options": {"A": "Serve as a neutral facilitator", "B": "Offer detailed recommendations", "C": "Delegate the decision to the product owner", "D": "Prioritize the most senior manager"}, "correct": "A", "explanation": "In projects where stakeholders with high authority have conflicting requirements, it is best for the project manager to serve as a neutral facilitator."}, {"id": 146, "question": "Given the unique nature of projects, how should the project manager tailor the project development approach?", "options": {"A": "Based solely on the project management office's (PMO) recommendation", "B": "Based on the context such as objectives, stakeholders, and governance", "C": "Based on the mandate of the project sponsor and the product owner", "D": "Based on the approach where the organization has the most experience"}, "correct": "B", "explanation": "Tailoring of the development approach should be based on the project's context such as objectives, stakeholders, governance, and environment."}, {"id": 147, "question": "At the beginning of the project, the project team agreed on a development approach. What should the project manager do with the chosen tailoring approach?", "options": {"A": "Maintain it throughout the project", "B": "Iterate it during the project life cycle", "C": "Change it after the planning phase", "D": "Standardize it for other projects"}, "correct": "A", "explanation": "Tailoring an approach is iterative in nature so it should be constantly evaluated for suitability throughout the project."}, {"id": 148, "question": "What should the project team establish to measure various quality dimensions within the project such as performance, conformity, reliability, and resilience?", "options": {"A": "Cost of conformance", "B": "Cost of nonconformance", "C": "Metrics and acceptance criteria", "D": "Quality assurance team"}, "correct": "C", "explanation": "Project teams measure quality using metrics and acceptance criteria based on requirements."}, {"id": 149, "question": "What is the common source of complexity that results in dynamic interdependencies within and among project elements?", "options": {"A": "Human behavior", "B": "Uncertainty and ambiguity", "C": "Technological innovation", "D": "System behavior"}, "correct": "D", "explanation": "System behavior is the result of dynamic interdependencies within and among project elements."}, {"id": 150, "question": "Why should the project manager build adaptability and resiliency into the project team's approaches?", "options": {"A": "To minimize change requests while maximizing the benefits of positive risks", "B": "To optimize value delivery by adhering to scope, budget, and schedule baselines", "C": "To fully engage the stakeholders while maximizing the satisfaction of team members", "D": "To help the project accommodate change, recover from setbacks, and advance the work"}, "correct": "D", "explanation": "By building adaptability and resiliency into the project team's approaches, the project can accommodate change, recover from setbacks, and advance the work."}, {"id": 151, "question": "Stakeholders have been identified, understood, and analyzed. What should the project manager do next?", "options": {"A": "Prioritize", "B": "Engage", "C": "Monitor", "D": "Categorize"}, "correct": "A", "explanation": "Steps for stakeholder engagement include identify, understand, analyze, prioritize, engage, and monitor. After analyzing the stakeholders, their needs must be prioritized."}, {"id": 152, "question": "The project team has successfully prioritized and engaged the stakeholders. For the most part, they are satisfied with their involvement within the project. What should the project manager continue to do?", "options": {"A": "Identify additional stakeholders", "B": "Understand stakeholder needs", "C": "Analyze their motivations", "D": "Monitor stakeholder engagement"}, "correct": "D", "explanation": "Steps for stakeholder engagement include identify, understand, analyze, prioritize, engage, and monitor. The next step engaging the stakeholders is to continue to monitor their involvement in the project."}, {"id": 153, "question": "After defining the work cost estimates, what should the project manager establish to build up the budget?", "options": {"A": "Cost baseline", "B": "Contingency reserve", "C": "Project budget", "D": "Management reserve"}, "correct": "A", "explanation": "The cost baseline is based on the work cost estimates. Contingency reserve is added on top of it to arrive at the project's budget."}, {"id": 154, "question": "The project is close to depleting its budget because of several unexpected and unknown risks. If additional funding is needed to finish the remaining activities, what is the next option available to the project manager?", "options": {"A": "Use the contingency reserve", "B": "Use the management reserve", "C": "Request a change the cost baseline", "D": "Request a change to the project's budget"}, "correct": "B", "explanation": "The project's budget includes the cost baseline and the contingency reserve. If additional funding is required, the project manager can tap the management reserve before issuing a change request for the cost baseline or the project's budget."}, {"id": 155, "question": "When building a budget up, what should the project manager include on top of the work cost estimates to come up with the total amount?", "options": {"A": "Cost baseline and contingency reserve", "B": "Contingency reserve and project budget", "C": "Contingency and management reserves", "D": "Project budget and management reserve"}, "correct": "C", "explanation": "Work cost estimates (WCE) = cost baseline (CB). CB + contingency reserve (CR) = project budget (PB). PB + management reserve (MR) = total amount. Therefore, CB and MR must be added on top of WCE to come up with the total budget."}, {"id": 156, "question": "The project manager led the creation of the request for information (RFI), request for proposal (RFP), and request for quote (RFQ). Given these requests, what is the project manager working on?", "options": {"A": "Bid process", "B": "Key performance indicators", "C": "Effective metrics", "D": "Business value measurements"}, "correct": "A", "explanation": "RFI, RFP, and RFQ are typically associated with the bid process."}, {"id": 157, "question": "A project manager captured several metrics to forecast future performance. Unfortunately, there are metrics which are equally important, but they cannot be captured until after the fact. What are these metrics called?", "options": {"A": "Key performance indicators", "B": "Leading indicators", "C": "Lagging indicators", "D": "Effective metrics"}, "correct": "C", "explanation": "Unlike leading indicators, lagging indicators can only be captured after the fact."}, {"id": 158, "question": "When creating SMART metrics, what should the project manager consider for the last letter of acronym (T)?", "options": {"A": "Technical", "B": "Timely", "C": "Team", "D": "Testing"}, "correct": "B", "explanation": "SMART is an acronym for specific, meaningful, achievable, relevant, and timely."}, {"id": 159, "question": "The project sponsor wanted to measure the business value that the project will contribute to the organization. Which measurements can the project manager potentially recommend?", "options": {"A": "Cost-benefit ratio and return on investment (ROI)", "B": "Net promoter score (NPS) and mood chart", "C": "Planned vs. actual benefits delivery, and mood chart", "D": "Net promoter score (NPS) and net present value (NPV)"}, "correct": "A", "explanation": "Some of the business value measurements are cost-benefit ratio, planned vs actual benefits delivery, return on investments (ROI), and net present value (NPV)."}, {"id": 160, "question": "A pharmaceutical company developing a vaccine needs to measure stakeholder satisfaction. What can the project manager use to achieve this goal?", "options": {"A": "Return on investment (ROI) and net present value (NPV)", "B": "Morale, mood chart and net promoter score (NPS)", "C": "Schedule measures, cost measures, and forecasting", "D": "Cost variance (CV) and cost performance index (CPI)"}, "correct": "B", "explanation": "Stakeholder satisfaction can be measured using net promoter score (NPS), mood chart, morale, and turnover."}, {"id": 161, "question": "What should the project manager measure to assess baseline performance?", "options": {"A": "Business value and stakeholder satisfaction", "B": "Schedule measures and cost measures", "C": "Quantitative forecasting and forecasting index", "D": "Life cycle, processes, and engagement"}, "correct": "B", "explanation": "Baseline performance can be measured using schedule measures and cost measures."}, {"id": 162, "question": "A project manager needs to perform quantitative forecasting. Which measures are needed to complete this task?", "options": {"A": "SV, SPI, CV, and CPI", "B": "ETC, EAC, VAC, and TCPI", "C": "Actual vs. planned cost", "D": "Feature completion rates"}, "correct": "B", "explanation": "Quantitative forecasting uses ETC, EAC, VAC, and TCPI."}, {"id": 163, "question": "A project needs to address the hygiene factors to keep the project team motivated. What should the project manager do next?", "options": {"A": "Offer opportunities for personal achievement", "B": "Establish a clear path for professional growth", "C": "Recognize excellent work and offer rewards", "D": "Create an ideal physical working environment"}, "correct": "D", "explanation": "In motivational theory popularized by Frederick Herzberg, hygiene factors include minimizing dissatisfiers such as company policies, salary, and physical environment."}, {"id": 164, "question": "A recent reorganization resulted in reduced corporate red tapes resulting in an increased staff satisfaction. What else can the project manager do within the project to keep the team motivated?", "options": {"A": "Improve the physical working environment", "B": "Request salary adjustments and more vacation", "C": "Offer opportunities for achievement and growth", "D": "Recognize good work with performance bonuses"}, "correct": "C", "explanation": "If the staff are satisfied because their hygiene factors have been met, the project manager can shift focus to motivational factors such as achievement, growth, and recognition."}, {"id": 165, "question": "Based on the Theory of X, Y, and Z motivational model, what's the motivation of person X?", "options": {"A": "Sole purpose of generating income", "B": "Intrinsically motivated to do good work", "C": "Self-realization, values, and higher calling", "D": "Undefined or unknown motivation"}, "correct": "A", "explanation": "Person X's primary motivation is to generate income."}, {"id": 166, "question": "Based on the Theory of X, Y, and Z motivational model, what's the motivation of person Y?", "options": {"A": "Sole purpose of generating income", "B": "Intrinsically motivated to do good work", "C": "Self-realization, values, and higher calling", "D": "Undefined or unknown motivation"}, "correct": "B", "explanation": "Person Y is intrinsically motivated to do good work."}, {"id": 167, "question": "Based on the Theory of X, Y, and Z motivational model, what's the motivation of person Z?", "options": {"A": "Sole purpose of generating income", "B": "Intrinsically motivated to do good work", "C": "Self-realization, values, and higher calling", "D": "Undefined or unknown motivation"}, "correct": "C", "explanation": "Person Z is self-actualized and finds motivation in values and higher calling."}, {"id": 168, "question": "A project is following a change framework. They have already formulated and planned the change. What should the project manager do next?", "options": {"A": "Implement", "B": "Manage", "C": "Sustain", "D": "Communicate"}, "correct": "A", "explanation": "Typical change framework follows the following steps: formulate, plan, implement, manage, and sustain."}, {"id": 169, "question": "A project used the ADKAR Model to manage change within a government agency. After the third step, knowledge, what should the project manager do next?", "options": {"A": "Reinforcement", "B": "Ability", "C": "Awareness", "D": "Desire"}, "correct": "B", "explanation": "ADKAR stands for awareness, desire, knowledge, ability, and reinforcement. Therefore, the next step after the knowledge step is the ability step."}, {"id": 170, "question": "John Kotter came up with an eight-step process for leading change. What should the project manager do first to demonstrate leadership when implementing massive organizational changes because of a project?", "options": {"A": "Communicate the vision", "B": "Create a vision for change", "C": "Form a powerful coalition", "D": "Create a sense of urgency"}, "correct": "D", "explanation": "According to John Kotter, creating a sense urgency is the first step when leading change."}, {"id": 171, "question": "After reviewing the Satir change curve, the project manager felt a sense of relief after passing the chaos stage. What stage can the project manager expect after the team members discover a transforming idea?", "options": {"A": "Late status quo", "B": "Resistance", "C": "Integration", "D": "New status quo"}, "correct": "C", "explanation": "The integration stage occurs after team members discover a transforming idea at the end of the chaos stage."}, {"id": 172, "question": "Certain stakeholders were transitioning through personal and psychological changes because of the project. How can the project manager help them reach the neutral zone?", "options": {"A": "Dream of a new beginning", "B": "Speed up the change process", "C": "Let them take their time", "D": "Coach them to let go"}, "correct": "A", "explanation": "William Bridges introduced the transition model. Ending, losing, and letting go helps people get to the neutral zone. From there, they then transition to the new beginning."}, {"id": 173, "question": "What is one of the characteristics of a project with a high degree of requirements and technical uncertainties?", "options": {"A": "Chaos, fundamentally risky", "B": "Simple, linear approaches will work", "C": "Complicated, adaptive approaches will work", "D": "Complex, adaptive approaches will work"}, "correct": "A", "explanation": "Project with a high degree of requirements and technical uncertainties are fundamentally risky."}, {"id": 174, "question": "Organizational breakdown structure and product breakdown structure are examples of what charts?", "options": {"A": "Process", "B": "Hierarchy", "C": "Baseline", "D": "Complexity"}, "correct": "B", "explanation": "Breakdown structures (organizational, product, resource, risk, and work) are examples of hierarchy charts."}, {"id": 175, "question": "The project sponsor asked for project baselines. Which baselines should the project manager prepare?", "options": {"A": "Budget, milestone, performance, schedule, and scope", "B": "Product, resource, risk, and work", "C": "Initiating, planning, executing, and closing", "D": "Requirements and technical uncertainties"}, "correct": "A", "explanation": "Project baselines include budget, milestone, performance, schedule, and scope."}, {"id": 176, "question": "Which performance domain will a project manager typically use situational leadership models?", "options": {"A": "Team and stakeholders", "B": "Planning and delivery", "C": "Team and project work", "D": "Measurement and uncertainty"}, "correct": "C", "explanation": "Team and project work performance domains typically use situational leadership models."}, {"id": 177, "question": "Stakeholders, planning, and project work performance domains usually use which models?", "options": {"A": "Communication", "B": "Motivation", "C": "Change", "D": "Complexity"}, "correct": "C", "explanation": "Stakeholders, planning, and project work performance domains usually use change models (ADKAR, 8-Step, Transition, etc.)."}, {"id": 178, "question": "A project manager must analyze uncertainties in a project. Which of the following methods would be most useful for the project manager?", "options": {"A": "Alternatives analysis, assumptions and constraints analysis, and SWOT analysis", "B": "Decision tree analysis, forecasting, simulation and trend analysis", "C": "Benchmarking, expected monetary value, and sensitivity analysis", "D": "Life cycle assessment, make-or-buy analysis, and stakeholder analysis"}, "correct": "A", "explanation": "Alternatives analysis, assumptions and constraints analysis, probability and impact matrix, and SWOT analysis are useful when analyzing uncertainties in a project."}, {"id": 179, "question": "Which performance domain will a project manager use affinity grouping, function points, and wideband Delphi?", "options": {"A": "Data approach and life cycle", "B": "Delivery", "C": "Uncertainty", "D": "Planning"}, "correct": "D", "explanation": "The planning performance domains use estimating methods."}, {"id": 180, "question": "What are some examples of log and register artifacts that a project manager may produce in a project?", "options": {"A": "Issue log and risk-adjusted backlog", "B": "Change control plan and iteration plan", "C": "Dashboard and histogram", "D": "Activity list and user story"}, "correct": "A", "explanation": "Issue log and risk-adjusted backlog are examples of log and register artifacts."}];
+const TOTAL = QUESTIONS.length;
+const PER_Q_SECS = 180; // 3 mins per question
+const TOTAL_SECS = 5*3600 + 30*60; // 5h 30m (180 q at ~1.8min avg)
+
+let current = 0;
+let state = QUESTIONS.map(() => ({
+  selected: null,
+  checked: false,
+  skipped: false,
+  marked: false,
+  perTimer: PER_Q_SECS,
+  perTimerStarted: false
+}));
+let globalSecs = TOTAL_SECS;
+let perSecs = PER_Q_SECS;
+let globalInterval, perInterval;
+let explainVisible = false;
+
+// ---- PROGRESS SAVE/RESUME ----
+const PROGRESS_KEY = 'pmp180-progress';
+function saveProgress(){
+  try{
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify({current: current, state: state, globalSecs: globalSecs}));
+  }catch(e){}
+}
+function clearProgress(){
+  try{ localStorage.removeItem(PROGRESS_KEY); }catch(e){}
+}
+function loadSavedProgress(){
+  try{
+    var raw = localStorage.getItem(PROGRESS_KEY);
+    return raw ? JSON.parse(raw) : null;
+  }catch(e){ return null; }
+}
+
+// ---- INIT ----
+document.getElementById('stat-total').textContent = TOTAL;
+buildGrid();
+
+(function(){
+  var saved = loadSavedProgress();
+  var answeredCount = saved ? saved.state.filter(function(s){return s.checked || s.skipped;}).length : 0;
+  var hasAnyProgress = saved && (saved.current > 0 || saved.state.some(function(s){return s.selected || s.checked || s.skipped;}));
+  if(hasAnyProgress){
+    var resume = confirm('Resume your previous attempt?\n\nYou were on question ' + (saved.current+1) + ' of ' + TOTAL + ', with ' + answeredCount + ' answered.\n\nOK = Resume, Cancel = Start fresh');
+    if(resume){
+      state = saved.state;
+      current = saved.current;
+      globalSecs = saved.globalSecs;
+    } else {
+      clearProgress();
+    }
+  }
+})();
+
+loadQuestion(current);
+startGlobalTimer();
+startPerTimer();
+
+// ---- GRID ----
+function buildGrid() {
+  const grid = document.getElementById('q-grid');
+  grid.innerHTML = '';
+  QUESTIONS.forEach((q, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-btn';
+    btn.id = 'qbtn-' + i;
+    btn.textContent = i + 1;
+    btn.onclick = () => goTo(i);
+    grid.appendChild(btn);
+  });
+  updateGrid();
+}
+
+function updateGrid() {
+  QUESTIONS.forEach((q, i) => {
+    const btn = document.getElementById('qbtn-' + i);
+    const s = state[i];
+    btn.className = 'q-btn';
+    if (i === current) btn.classList.add('current');
+    else if (s.checked) {
+      btn.classList.add(s.selected === q.correct ? 'correct' : 'wrong');
+    } else if (s.skipped) btn.classList.add('skipped');
+    if (s.marked) btn.classList.add('marked');
+  });
+  saveProgress();
+}
+
+// ---- LOAD QUESTION ----
+function loadQuestion(idx) {
+  current = idx;
+  explainVisible = false;
+  const q = QUESTIONS[idx];
+  const s = state[idx];
+  
+  document.getElementById('q-num').textContent = 'Q' + (idx+1) + ' / ' + TOTAL;
+  document.getElementById('q-progress-fill').style.width = ((idx+1)/TOTAL*100) + '%';
+  document.getElementById('question-text').textContent = q.question;
+  
+  // Options
+  const opts = document.getElementById('options-container');
+  opts.innerHTML = '';
+  ['A','B','C','D'].forEach(letter => {
+    const div = document.createElement('div');
+    div.className = 'option' + (s.disabled ? ' disabled' : '');
+    div.id = 'opt-' + letter;
+    if (s.checked) {
+      div.classList.add('disabled');
+      if (letter === q.correct) div.classList.add('correct');
+      else if (letter === s.selected) div.classList.add('wrong');
+    } else if (s.selected === letter) {
+      div.classList.add('selected');
+    }
+    div.onclick = () => selectOption(letter);
+    div.innerHTML = '<div class="option-letter">' + letter + '</div><div class="option-text">' + q.options[letter] + '</div>';
+    opts.appendChild(div);
+  });
+  
+  // Explanation
+  const expDiv = document.getElementById('explanation');
+  expDiv.className = 'explanation' + (s.checked ? ' show' : '');
+  document.getElementById('correct-tag').textContent = '✓ Correct Answer: ' + q.correct;
+  document.getElementById('explanation-text').textContent = q.explanation;
+  
+  // Per-question timer - restore saved or reset
+  clearInterval(perInterval);
+  perSecs = s.perTimer;
+  updatePerTimerDisplay();
+  if (!s.checked && !s.skipped) startPerTimer();
+  
+  // Buttons
+  document.getElementById('btn-check').textContent = s.checked ? '✓ Answered' : 'Check Answer';
+  document.getElementById('btn-check').disabled = s.checked;
+  
+  updateStats();
+  updateGrid();
+  
+  // Scroll to top
+  document.getElementById('main-content').scrollTo(0, 0);
+}
+
+// ---- SELECT OPTION ----
+function selectOption(letter) {
+  if (state[current].checked) return;
+  state[current].selected = letter;
+  ['A','B','C','D'].forEach(l => {
+    document.getElementById('opt-' + l).classList.toggle('selected', l === letter);
+  });
+  saveProgress();
+}
+
+// ---- CHECK ANSWER ----
+function checkAnswer() {
+  const s = state[current];
+  if (s.checked) return;
+  if (!s.selected) { alert('Please select an answer first.'); return; }
+  s.checked = true;
+  clearInterval(perInterval);
+  loadQuestion(current);
+}
+
+// ---- EXPLAIN ----
+function toggleExplain() {
+  const exp = document.getElementById('explanation');
+  explainVisible = !explainVisible;
+  if (explainVisible) exp.classList.add('show');
+  else exp.classList.remove('show');
+}
+
+// ---- MARK & SKIP ----
+function markQuestion() {
+  state[current].marked = !state[current].marked;
+  updateGrid();
+}
+function skipQuestion() {
+  state[current].skipped = true;
+  clearInterval(perInterval);
+  nextQuestion();
+}
+
+// ---- NAVIGATION ----
+function goTo(idx) {
+  state[current].perTimer = perSecs; // save timer
+  loadQuestion(idx);
+}
+function nextQuestion() {
+  if (current < TOTAL - 1) goTo(current + 1);
+}
+function prevQuestion() {
+  if (current > 0) goTo(current - 1);
+}
+
+// ---- STATS ----
+function updateStats() {
+  let correct = 0, wrong = 0, answered = 0;
+  state.forEach((s, i) => {
+    if (s.checked) {
+      answered++;
+      if (s.selected === QUESTIONS[i].correct) correct++;
+      else wrong++;
+    }
+  });
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-answered').textContent = answered;
+  const pct = answered > 0 ? Math.round(correct / answered * 100) : 0;
+  document.getElementById('stat-pct').textContent = pct + '%';
+}
+
+// ---- TIMERS ----
+function startGlobalTimer() {
+  clearInterval(globalInterval);
+  globalInterval = setInterval(() => {
+    if (globalSecs <= 0) { clearInterval(globalInterval); autoSubmit(); return; }
+    globalSecs--;
+    updateGlobalTimerDisplay();
+  }, 1000);
+}
+function updateGlobalTimerDisplay() {
+  const h = Math.floor(globalSecs / 3600);
+  const m = Math.floor((globalSecs % 3600) / 60);
+  const s = globalSecs % 60;
+  const txt = h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  const el = document.getElementById('global-timer');
+  el.textContent = txt;
+  const box = document.getElementById('global-timer-box');
+  box.className = 'timer-box';
+  if (globalSecs < 600) box.classList.add('danger');
+  else if (globalSecs < 1200) box.classList.add('warn');
+}
+
+function startPerTimer() {
+  clearInterval(perInterval);
+  perInterval = setInterval(() => {
+    if (perSecs <= 0) { clearInterval(perInterval); return; }
+    perSecs--;
+    state[current].perTimer = perSecs;
+    updatePerTimerDisplay();
+  }, 1000);
+}
+function updatePerTimerDisplay() {
+  const m = Math.floor(perSecs / 60);
+  const s = perSecs % 60;
+  const txt = '⏱ ' + m + ':' + String(s).padStart(2,'0');
+  const el = document.getElementById('q-per-timer-display');
+  el.textContent = txt;
+  el.className = 'q-per-timer';
+  if (perSecs < 30) el.classList.add('danger');
+  else if (perSecs < 60) el.classList.add('warn');
+}
+
+// ---- SUBMIT ----
+function showSubmitModal() {
+  let correct = 0, wrong = 0, answered = 0;
+  state.forEach((s, i) => {
+    if (s.checked) {
+      answered++;
+      if (s.selected === QUESTIONS[i].correct) correct++;
+      else wrong++;
+    }
+  });
+  const unanswered = TOTAL - answered;
+  const pct = answered > 0 ? Math.round(correct/answered*100) : 0;
+  document.getElementById('m-correct').textContent = correct;
+  document.getElementById('m-wrong').textContent = wrong;
+  document.getElementById('m-pct').textContent = pct + '%';
+  document.getElementById('modal-msg').textContent = unanswered > 0
+    ? `You have ${unanswered} unanswered question${unanswered>1?'s':''}. Submit anyway?`
+    : 'All questions answered. Ready to submit?';
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+function submitExam() {
+  clearInterval(globalInterval);
+  clearInterval(perInterval);
+  closeModal();
+  clearProgress();
+  // Show all answers
+  state.forEach((s, i) => {
+    if (!s.checked && s.selected) { s.checked = true; }
+  });
+  showResults();
+}
+function autoSubmit() {
+  alert('Time is up! Submitting exam.');
+  submitExam();
+}
+function showResults() {
+  let correct = 0, wrong = 0, answered = 0, skipped = 0;
+  state.forEach((s, i) => {
+    if (s.checked) { answered++; if (s.selected === QUESTIONS[i].correct) correct++; else wrong++; }
+    if (s.skipped) skipped++;
+  });
+  const pct = answered > 0 ? Math.round(correct/answered*100) : 0;
+  const pass = pct >= 61;
+  
+  document.getElementById('main-content').innerHTML = `
+    <div style="max-width:600px;margin:40px auto;text-align:center;">
+      <div style="font-size:60px;margin-bottom:16px">${pass ? '🎉' : '📚'}</div>
+      <h1 style="font-size:28px;margin-bottom:8px">${pass ? 'Congratulations!' : 'Keep Practicing!'}</h1>
+      <p style="color:var(--text-muted);margin-bottom:32px">${pass ? 'You passed the practice exam!' : 'Review the explanations and try again.'}</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-bottom:32px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:var(--green)">${correct}</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Correct</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:var(--red)">${wrong}</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Wrong</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:var(--text-muted)">${skipped}</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Skipped</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+          <div style="font-size:32px;font-weight:700;color:${pass?'var(--green)':'var(--red)'}">${pct}%</div>
+          <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;margin-top:4px">Score</div>
+        </div>
+      </div>
+      <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px">Passing threshold: 61% | Use the navigator to review answers & explanations</p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px">
+        <a href="https://wa.me/?text=${encodeURIComponent('I scored ' + pct + '% on the free PMP 180-question mock exam - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>
+      </div>
+      <button class="btn btn-primary" onclick="location.reload()">🔄 Retake Exam</button>
+    </div>
+  `;
+  updateGrid();
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  if (e.key === 'ArrowRight') nextQuestion();
+  if (e.key === 'ArrowLeft') prevQuestion();
+  if (['a','b','c','d'].includes(e.key.toLowerCase())) selectOption(e.key.toUpperCase());
+  if (e.key === 'Enter') checkAnswer();
+  if (e.key === 'm' || e.key === 'M') markQuestion();
+  if (e.key === 's' || e.key === 'S') skipQuestion();
+});
+</script>
+</body>
+</html>
