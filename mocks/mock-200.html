@@ -403,6 +403,38 @@ let multiSel=[]; // temp multi selections before submit
 let marked=[];
 const total=QS.length;
 
+// ── Analytics + readiness dashboard helpers (shared across all mocks) ──────
+function counterHit(key){
+  try{ fetch('https://countapi.mileshilliard.com/api/v1/hit/' + key).catch(function(){}); }catch(e){}
+}
+function trackMockStarted(mockId){
+  try{ if(typeof gtag === 'function') gtag('event', 'mock_started', {mock_id: mockId}); }catch(e){}
+  counterHit('ankitprabhash-pmp-mock-started');
+}
+function trackMockCompleted(mockId, scorePct){
+  try{ if(typeof gtag === 'function') gtag('event', 'mock_completed', {mock_id: mockId, score: scorePct}); }catch(e){}
+  counterHit('ankitprabhash-pmp-mock-completed');
+  saveReadinessScore(mockId, scorePct);
+}
+function trackShare(mockId){
+  try{ if(typeof gtag === 'function') gtag('event', 'share_click', {mock_id: mockId}); }catch(e){}
+  counterHit('ankitprabhash-pmp-share-click');
+}
+function saveReadinessScore(mockId, scorePct){
+  try{
+    var raw = localStorage.getItem('pmp-readiness-dashboard');
+    var data = raw ? JSON.parse(raw) : {};
+    data[mockId] = {score: scorePct, date: new Date().toISOString().slice(0,10)};
+    localStorage.setItem('pmp-readiness-dashboard', JSON.stringify(data));
+  }catch(e){}
+}
+function reportError(idx){
+  var q = QS[idx];
+  var subject = 'PMP Practice Feedback: Wrong answer / error in a question';
+  var body = 'Name: Not shared\nAbout: 200-Question Mock Set\nType: Wrong answer / error in a question\n\nMessage:\nQuestion ' + (idx+1) + ': ' + q.q + '\n\n(Describe what looks wrong)';
+  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent('ankit.prabhash@gmail.com') + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank');
+}
+
 // ── Progress save/resume ────────────────────────────────────
 const PROGRESS_KEY_200 = 'pmp200-progress';
 function saveProgress200(){
@@ -507,6 +539,7 @@ function render(){
       <div class="ans-badge ${correct?'correct':'wrong'}">${correct?'✓ Correct!':'✗ Incorrect — Correct: '+correctLetters}</div>
       <div class="exp-title">Explanation</div>
       <div>${q.exp}</div>
+      <a href="#" onclick="reportError(${cur}); return false;" style="display:inline-block; margin-top:10px; font-size:12px; color:#888; text-decoration:underline;">🚩 Spot an error in this question? Report it</a>
     </div>`;
   } else if(isAns && answered[cur]==='skip'){
     const correctLetters = (Array.isArray(q.ans)?q.ans:[q.ans]).map(i=>String.fromCharCode(65+i)).join(' & ');
@@ -514,6 +547,7 @@ function render(){
       <div class="ans-badge" style="background:#f0f0f0;color:#555;border:1px solid #ccc">⏭ Skipped — Correct: ${correctLetters}</div>
       <div class="exp-title">Explanation</div>
       <div>${q.exp}</div>
+      <a href="#" onclick="reportError(${cur}); return false;" style="display:inline-block; margin-top:10px; font-size:12px; color:#888; text-decoration:underline;">🚩 Spot an error in this question? Report it</a>
     </div>`;
   }
 
@@ -638,6 +672,8 @@ function showDone(){
   const pct=Math.round(score/total*100);
   const pass=pct>=70;
 
+  trackMockCompleted('mock-200', pct);
+
   // Build topic analysis
   const topicStats={};
   QS.forEach((q,i)=>{
@@ -695,9 +731,16 @@ function showDone(){
     ${pass?'Great job! You\'re likely ready for the PMP exam.':'Keep studying — aim for 70%+ before taking the real exam.'}
   </div></div>
   <div style="font-size:13px;color:#888;margin:0.5rem 0 1rem;text-align:center">Ankit Prabhash says: 70%+ on these ultra-hard questions means you should pass the real PMP exam easily.</div>
+  <div style="background:#fff;border:1px solid #e0e0d8;border-left:4px solid #5b6af0;border-radius:10px;padding:14px 18px;margin-bottom:1rem;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:4px;">Want help closing the gap?</div>
+      <div style="font-size:12.5px;color:#666;">Book a 60-min 1:1 call - application support, exam strategy, and full access to my study material.</div>
+    </div>
+    <a href="../book-a-call.html" style="background:#5b6af0;color:#fff;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;">Book a call →</a>
+  </div>
   <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem">
-    <a href="https://wa.me/?text=${encodeURIComponent('I scored ' + pct + '% on the free PMP 200-question mock bank - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>
+    <a href="https://wa.me/?text=${encodeURIComponent('I scored ' + pct + '% on the free PMP 200-question mock bank - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" onclick="trackShare('mock-200')" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" onclick="trackShare('mock-200')" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>
   </div>
   <div class="done-btns">
     <button class="btn primary" onclick="restart()">↺ Restart Quiz</button>
@@ -717,6 +760,7 @@ function reviewSkipped(){const f=answered.findIndex(a=>a==='skip');if(f>=0){cur=
 // Start timer on first interaction
 document.addEventListener('click',()=>{ if(!timerRunning&&cur===0&&answered[0]===undefined) startTimer(); },{once:true});
 
+trackMockStarted('mock-200');
 render();
 </script>
 </body>
