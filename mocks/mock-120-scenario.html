@@ -394,6 +394,7 @@
       <div class="explanation-title">💡 Coach Explanation</div>
       <div class="correct-tag" id="correct-tag">✓ Correct Answer: X</div>
       <div class="explanation-text" id="explanation-text"></div>
+      <a href="#" id="reportErrorLink" style="display:inline-block; margin-top:12px; font-size:12px; color:#7880a0; text-decoration:underline;">🚩 Spot an error in this question? Report it</a>
     </div>
     
     <div class="actions">
@@ -463,9 +464,38 @@ function loadSavedProgress(){
   }catch(e){ return null; }
 }
 
+// ---- Analytics + readiness dashboard helpers (shared across all mocks) ----
+function counterHit(key){
+  try{
+    fetch('https://countapi.mileshilliard.com/api/v1/hit/' + key).catch(function(){});
+  }catch(e){}
+}
+function trackMockStarted(mockId){
+  try{ if(typeof gtag === 'function') gtag('event', 'mock_started', {mock_id: mockId}); }catch(e){}
+  counterHit('ankitprabhash-pmp-mock-started');
+}
+function trackMockCompleted(mockId, scorePct){
+  try{ if(typeof gtag === 'function') gtag('event', 'mock_completed', {mock_id: mockId, score: scorePct}); }catch(e){}
+  counterHit('ankitprabhash-pmp-mock-completed');
+  saveReadinessScore(mockId, scorePct);
+}
+function trackShare(mockId){
+  try{ if(typeof gtag === 'function') gtag('event', 'share_click', {mock_id: mockId}); }catch(e){}
+  counterHit('ankitprabhash-pmp-share-click');
+}
+function saveReadinessScore(mockId, scorePct){
+  try{
+    var raw = localStorage.getItem('pmp-readiness-dashboard');
+    var data = raw ? JSON.parse(raw) : {};
+    data[mockId] = {score: scorePct, date: new Date().toISOString().slice(0,10)};
+    localStorage.setItem('pmp-readiness-dashboard', JSON.stringify(data));
+  }catch(e){}
+}
+
 // ---- INIT ----
 document.getElementById('stat-total').textContent = TOTAL;
 buildGrid();
+trackMockStarted('mock-120-scenario');
 
 (function(){
   var saved = loadSavedProgress();
@@ -526,6 +556,16 @@ function loadQuestion(idx) {
   document.getElementById('q-num').textContent = 'Q' + (idx+1) + ' / ' + TOTAL;
   document.getElementById('q-progress-fill').style.width = ((idx+1)/TOTAL*100) + '%';
   document.getElementById('question-text').textContent = q.question;
+
+  var reportLink = document.getElementById('reportErrorLink');
+  if (reportLink) {
+    reportLink.onclick = function(e){
+      e.preventDefault();
+      var subject = 'PMP Practice Feedback: Wrong answer / error in a question';
+      var body = 'Name: Not shared\nAbout: 120-Question Scenario Exam\nType: Wrong answer / error in a question\n\nMessage:\nQuestion ' + (idx+1) + ': ' + q.question + '\n\n(Describe what looks wrong)';
+      window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent('ankit.prabhash@gmail.com') + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank');
+    };
+  }
 
   // Taxonomy tag
   const taxEl = document.getElementById('taxonomy-tag');
@@ -746,6 +786,8 @@ function showResults() {
   });
   const pct = answered > 0 ? Math.round(correct/answered*100) : 0;
   const pass = pct >= 61;
+
+  trackMockCompleted('mock-120-scenario', pct);
   
   document.getElementById('main-content').innerHTML = `
     <div style="max-width:600px;margin:40px auto;text-align:center;">
@@ -771,9 +813,16 @@ function showResults() {
         </div>
       </div>
       <p style="color:var(--text-muted);font-size:13px;margin-bottom:24px">Passing threshold: 61% | Use the navigator to review answers & explanations</p>
+      <div style="background:#151828;border:1px solid #2e3248;border-radius:12px;padding:18px 20px;margin-bottom:20px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div>
+          <div style="font-weight:700;font-size:14px;margin-bottom:4px;">Want help closing the gap?</div>
+          <div style="font-size:12.5px;color:var(--text-muted);">Book a 60-min 1:1 call - application support, exam strategy, and full access to my study material.</div>
+        </div>
+        <a href="../book-a-call.html" style="background:#5b6af0;color:#fff;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;">Book a call →</a>
+      </div>
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px">
-        <a href="https://wa.me/?text=${encodeURIComponent('I scored ' + pct + '% on the free PMP 120-question scenario exam (PMBOK 8th Ed) - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>
+        <a href="https://wa.me/?text=${encodeURIComponent('I scored ' + pct + '% on the free PMP 120-question scenario exam (PMBOK 8th Ed) - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" onclick="trackShare('mock-120-scenario')" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')}" target="_blank" rel="noopener" onclick="trackShare('mock-120-scenario')" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>
       </div>
       <button class="btn btn-primary" onclick="location.reload()">🔄 Retake Exam</button>
     </div>
