@@ -209,6 +209,37 @@
   .mock-go{margin-top:16px; font-weight:600; font-size:0.9rem; color:var(--ink); display:flex; align-items:center; gap:6px;}
   .mock-card:hover .mock-go{color:var(--accent);}
 
+  /* Readiness dashboard banner */
+  #readiness-wrap{padding:0 0 8px;}
+  .readiness-banner{
+    background:var(--accent-soft); border:1px solid var(--line); border-radius:14px;
+    padding:20px 24px; display:flex; align-items:center; justify-content:space-between;
+    gap:20px; flex-wrap:wrap;
+  }
+  .readiness-left{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+  .readiness-ring{
+    width:56px; height:56px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface); border:3px solid var(--accent);
+    font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:0.9rem; color:var(--ink);
+  }
+  .readiness-text strong{display:block; font-size:0.98rem; color:var(--ink); margin-bottom:2px;}
+  .readiness-text span{font-size:0.85rem; color:var(--ink-soft);}
+  .readiness-detail{font-size:0.78rem; color:var(--ink-faint); margin-top:4px;}
+
+  /* Site stats strip */
+  #site-stats{padding:8px 0 4px;}
+  .stats-strip{
+    display:flex; justify-content:center; gap:56px; flex-wrap:wrap;
+    padding:28px 24px; background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  }
+  .stat-item{text-align:center;}
+  .stat-num{
+    font-family:'Lora', serif; font-size:2.1rem; font-weight:700; color:var(--ink);
+    line-height:1; margin-bottom:6px;
+  }
+  .stat-label{font-size:0.82rem; color:var(--ink-faint); font-weight:500;}
+
   /* Consultation callout */
   .consult-card{
     background:#16213E; color:#fff; border-radius:16px; padding:36px 40px;
@@ -266,6 +297,8 @@
     .about{grid-template-columns:1fr;}
     .consult-card{padding:28px 24px; text-align:center; justify-content:center;}
     .consult-card p{margin:0 auto;}
+    .stats-strip{gap:28px; padding:22px 16px;}
+    .stat-num{font-size:1.7rem;}
   }
 
   @media (max-width: 980px) and (min-width: 761px){
@@ -388,6 +421,12 @@
     </div>
   </section>
 
+  <section id="readiness-wrap" style="display:none;">
+    <div class="wrap">
+      <div class="readiness-banner" id="readinessBanner"></div>
+    </div>
+  </section>
+
   <section id="mocks">
     <div class="wrap">
       <div class="section-head">
@@ -452,6 +491,25 @@
           <div class="mock-go">Take this mock →</div>
         </a>
 
+      </div>
+    </div>
+  </section>
+
+  <section id="site-stats">
+    <div class="wrap">
+      <div class="stats-strip">
+        <div class="stat-item">
+          <div class="stat-num" id="statStarted">124</div>
+          <div class="stat-label">Mock attempts started</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="statCompleted">78</div>
+          <div class="stat-label">Mocks completed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="statShared">52</div>
+          <div class="stat-label">Times shared</div>
+        </div>
       </div>
     </div>
   </section>
@@ -587,6 +645,64 @@
         })
         .catch(function(){ /* keep the static fallback of 2,384 already in the HTML */ });
     }
+
+    // Site activity stats - mock starts / completions / shares, read-only (does not increment)
+    var STAT_SEEDS = {
+      statStarted:   { key: 'ankitprabhash-pmp-mock-started',   seed: 124 },
+      statCompleted: { key: 'ankitprabhash-pmp-mock-completed', seed: 78  },
+      statShared:    { key: 'ankitprabhash-pmp-share-click',    seed: 52  }
+    };
+    Object.keys(STAT_SEEDS).forEach(function(elId){
+      var cfg = STAT_SEEDS[elId];
+      var el = document.getElementById(elId);
+      if(!el) return;
+      fetch('https://countapi.mileshilliard.com/api/v1/get/' + cfg.key)
+        .then(function(res){ return res.json(); })
+        .then(function(data){
+          var hits = parseInt(data.value, 10) || 0;
+          el.textContent = (cfg.seed + hits).toLocaleString();
+        })
+        .catch(function(){ /* keep the static seed number already in the HTML */ });
+    });
+
+    // Personal readiness dashboard - reads scores saved by each mock via localStorage
+    (function(){
+      try{
+        var raw = localStorage.getItem('pmp-readiness-dashboard');
+        if(!raw) return;
+        var data = JSON.parse(raw);
+        var mockIds = Object.keys(data);
+        if(mockIds.length === 0) return;
+
+        var totalMocks = 5;
+        var attempted = mockIds.length;
+        var scores = mockIds.map(function(k){ return data[k].score; });
+        var avg = Math.round(scores.reduce(function(a,b){return a+b;}, 0) / scores.length);
+
+        var mockNames = {
+          'mock-120-scenario': '120-Question Scenario',
+          'mock-121': '121-Question Exam',
+          'mock-200': '200-Question Bank',
+          'mock-100-dragdrop': '100 Drag & Drop',
+          'mock-180': '180-Question Set'
+        };
+        var detail = mockIds.map(function(k){
+          return (mockNames[k] || k) + ': ' + data[k].score + '%';
+        }).join(' · ');
+
+        document.getElementById('readinessBanner').innerHTML =
+          '<div class="readiness-left">' +
+            '<div class="readiness-ring">' + avg + '%</div>' +
+            '<div class="readiness-text">' +
+              '<strong>You\'ve attempted ' + attempted + ' of ' + totalMocks + ' mocks, average ' + avg + '%</strong>' +
+              '<span>' + (attempted < totalMocks ? 'Try another format to round out your prep.' : 'You\'ve covered every format - nice work.') + '</span>' +
+              '<div class="readiness-detail">' + detail + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<a href="#mocks" class="btn btn-primary" style="flex-shrink:0;">' + (attempted < totalMocks ? 'Try another mock →' : 'Retake a mock →') + '</a>';
+        document.getElementById('readiness-wrap').style.display = 'block';
+      }catch(e){}
+    })();
   });
 </script>
 </body>
