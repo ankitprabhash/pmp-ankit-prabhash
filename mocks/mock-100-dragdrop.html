@@ -109,6 +109,13 @@ body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-ser
       <div class="stat"><div class="v r" id="fw">0</div><div class="l">Wrong</div></div>
       <div class="stat"><div class="v" id="fa">0</div><div class="l">Attempted</div></div>
     </div>
+    <div id="consultBanner" style="background:#151828;border:1px solid #2e3248;border-radius:12px;padding:16px 18px;margin-bottom:16px;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:4px;">Want help closing the gap?</div>
+        <div style="font-size:12.5px;color:var(--muted);">Book a 60-min 1:1 call - application support, exam strategy, and full access to my study material.</div>
+      </div>
+      <a href="../book-a-call.html" style="background:#5b6af0;color:#fff;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;">Book a call →</a>
+    </div>
     <div id="shareRow" style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px"></div>
     <button class="btn btn-primary" onclick="resetAll()">Try Again</button>
   </div>
@@ -825,6 +832,38 @@ state.answers = QS.map(function(){return {};});
 state.checked = QS.map(function(){return false;});
 state.results = QS.map(function(){return null;});
 
+// ── Analytics + readiness dashboard helpers (shared across all mocks) ──────
+function counterHit(key){
+  try{ fetch('https://countapi.mileshilliard.com/api/v1/hit/' + key).catch(function(){}); }catch(e){}
+}
+function trackMockStarted(mockId){
+  try{ if(typeof gtag === 'function') gtag('event', 'mock_started', {mock_id: mockId}); }catch(e){}
+  counterHit('ankitprabhash-pmp-mock-started');
+}
+function trackMockCompleted(mockId, scorePct){
+  try{ if(typeof gtag === 'function') gtag('event', 'mock_completed', {mock_id: mockId, score: scorePct}); }catch(e){}
+  counterHit('ankitprabhash-pmp-mock-completed');
+  saveReadinessScore(mockId, scorePct);
+}
+function trackShare(mockId){
+  try{ if(typeof gtag === 'function') gtag('event', 'share_click', {mock_id: mockId}); }catch(e){}
+  counterHit('ankitprabhash-pmp-share-click');
+}
+function saveReadinessScore(mockId, scorePct){
+  try{
+    var raw = localStorage.getItem('pmp-readiness-dashboard');
+    var data = raw ? JSON.parse(raw) : {};
+    data[mockId] = {score: scorePct, date: new Date().toISOString().slice(0,10)};
+    localStorage.setItem('pmp-readiness-dashboard', JSON.stringify(data));
+  }catch(e){}
+}
+function reportError(idx){
+  var q = QS[idx];
+  var subject = 'PMP Practice Feedback: Wrong answer / error in a question';
+  var body = 'Name: Not shared\nAbout: 100 Drag & Drop Questions\nType: Wrong answer / error in a question\n\nMessage:\nQuestion ' + q.id + ' (' + q.tag + ')\n\n(Describe what looks wrong)';
+  window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent('ankit.prabhash@gmail.com') + '&su=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank');
+}
+
 // ── Progress save/resume ────────────────────────────────────
 var PROGRESS_KEY_100 = 'pmp100-progress';
 function saveProgress100(){
@@ -916,6 +955,7 @@ function renderQ(idx){
     var cor=getItem(q,t.ans);
     expHtml+='<div style="margin-bottom:6px"><strong>'+(cor?cor.t:t.ans)+'</strong> &rarr; '+t.l+'</div>';
   });
+  expHtml+='<a href="#" onclick="reportError('+idx+'); return false;" style="display:inline-block; margin-top:8px; font-size:12px; color:var(--muted); text-decoration:underline;">🚩 Spot an error in this question? Report it</a>';
 
   var actHtml='';
   if(!chk) actHtml+='<button class="btn btn-green" onclick="checkAns('+idx+')">Check Answer</button>';
@@ -1028,6 +1068,7 @@ function showFinal(){
   var wrg=state.results.filter(function(r){return r==='wrong';}).length;
   var pct=att>0?Math.round(cor/att*100):0;
   clearProgress100();
+  trackMockCompleted('mock-100-dragdrop', pct);
   document.getElementById('fpct').textContent=pct+'%';
   document.getElementById('fc').textContent=cor;
   document.getElementById('fw').textContent=wrg;
@@ -1035,8 +1076,8 @@ function showFinal(){
   document.getElementById('fmsg').textContent=pct>=80?'Exam ready!':pct>=60?'Good progress, keep going!':'More practice needed.';
   document.getElementById('fsub').textContent='You attempted '+att+' of 100 questions.';
   document.getElementById('shareRow').innerHTML=
-    '<a href="https://wa.me/?text='+encodeURIComponent('I scored '+pct+'% on the free PMP 100 drag-and-drop mock - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')+'" target="_blank" rel="noopener" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>'+
-    '<a href="https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')+'" target="_blank" rel="noopener" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>';
+    '<a href="https://wa.me/?text='+encodeURIComponent('I scored '+pct+'% on the free PMP 100 drag-and-drop mock - try it yourself: https://ankitprabhash.github.io/pmp-ankit-prabhash/')+'" target="_blank" rel="noopener" onclick="trackShare(\'mock-100-dragdrop\')" style="background:#25D366;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on WhatsApp</a>'+
+    '<a href="https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent('https://ankitprabhash.github.io/pmp-ankit-prabhash/')+'" target="_blank" rel="noopener" onclick="trackShare(\'mock-100-dragdrop\')" style="background:#0A66C2;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Share on LinkedIn</a>';
   document.getElementById('qc').style.display='none';
   document.getElementById('nav').style.display='none';
   document.getElementById('fin').classList.add('show');
@@ -1064,6 +1105,7 @@ function updatePB(){
   }
 })();
 
+trackMockStarted('mock-100-dragdrop');
 renderNav(); renderQ(state.cur);
 </script>
 </body>
