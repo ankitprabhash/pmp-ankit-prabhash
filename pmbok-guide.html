@@ -180,61 +180,57 @@
   });
 </script>
 
-<!-- Tip Widget -->
+<!-- Community note card -->
 <style>
-  #tipCard{
+  #sideNote{
     position:fixed; bottom:20px; right:20px; z-index:999;
     background:linear-gradient(180deg, #1c1f2b 0%, #14161f 100%);
     border:1.5px solid #D9A441; border-radius:16px;
-    padding:16px 18px; max-width:280px;
+    padding:18px 20px; width:250px;
     box-shadow:0 8px 28px rgba(0,0,0,0.4), 0 0 0 1px rgba(217,164,65,0.15);
     font-family:'Inter',system-ui,sans-serif;
   }
-  #tipCard.tip-hidden{display:none;}
-  #tipCardClose{
+  #sideNote.sn-hidden{display:none;}
+  #sideNoteClose{
     position:absolute; top:8px; right:10px; background:none; border:none;
     color:rgba(255,255,255,0.5); font-size:14px; cursor:pointer; line-height:1; padding:2px;
   }
-  #tipCardClose:hover{color:#fff;}
-  .tip-heading{
+  #sideNoteClose:hover{color:#fff;}
+  .sn-heading{
     color:#fff; font-weight:700; font-size:13.5px; line-height:1.45; text-align:center;
     margin-bottom:14px; padding-right:4px;
   }
-  .tip-btn-row{display:flex; gap:8px; justify-content:center; align-items:center;}
-  .tip-pill{
+  .sn-row{display:flex; flex-direction:column; gap:10px; align-items:center;}
+  .sn-pill{
     background:#D9A441; color:#1a1a1a; border:none; border-radius:999px;
-    padding:8px 16px; font-size:12.5px; font-weight:700; cursor:pointer;
+    padding:9px 0; font-size:12.5px; font-weight:700; cursor:pointer;
     font-family:'Inter',system-ui,sans-serif; white-space:nowrap;
-    transition:transform .12s, background .12s;
+    transition:transform .12s, background .12s; width:100%;
   }
-  .tip-pill:hover{background:#EAB856; transform:translateY(-1px);}
-  /* Best-effort override of Razorpay's injected button to match the pill style */
-  .razorpay-payment-button, .razorpay-payment-button button{
-    background:#D9A441 !important; color:#1a1a1a !important; border-radius:999px !important;
-    font-weight:700 !important; font-size:12.5px !important; padding:8px 16px !important;
-    border:none !important; box-shadow:none !important; font-family:'Inter',system-ui,sans-serif !important;
-  }
-  #tipModalOverlay a, #tipModalOverlay button{ font-family:'Inter',system-ui,sans-serif; }
+  .sn-or{color:rgba(255,255,255,0.35); font-size:10.5px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase;}
+  .sn-pill:hover{background:#EAB856; transform:translateY(-1px);}
+  #snOverlay a, #snOverlay button{ font-family:'Inter',system-ui,sans-serif; }
 
   @media (max-width:480px){
-    #tipCard{ right:12px; bottom:12px; max-width:calc(100vw - 24px); padding:14px 16px; }
+    #sideNote{ right:12px; bottom:12px; width:calc(100vw - 24px); max-width:250px; padding:16px 18px; }
   }
 </style>
 
-<div id="tipCard">
-  <button id="tipCardClose" aria-label="Dismiss">✕</button>
-  <div class="tip-heading">Help keep these mocks free.<br>Your support means a lot.</div>
-  <div class="tip-btn-row">
-    <button class="tip-pill" id="tipUpiBtn">UPI</button>
+<div id="sideNote">
+  <button id="sideNoteClose" aria-label="Dismiss">✕</button>
+  <div class="sn-heading">Help keep these mocks free.<br>Your support means a lot.</div>
+  <div class="sn-row">
+    <button class="sn-pill" id="snPayBtn">Pay via UPI</button>
+    <span class="sn-or">or</span>
     <span style="display:inline-block;">
       <form style="margin:0;"><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_TPnD6FcED04Hmm" async> </script></form>
     </span>
   </div>
 </div>
 
-<div id="tipModalOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000; align-items:center; justify-content:center; padding:20px;">
+<div id="snOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000; align-items:center; justify-content:center; padding:20px;">
   <div style="background:#fff; border-radius:16px; max-width:340px; width:100%; padding:28px; position:relative; font-family:'Inter',system-ui,sans-serif;">
-    <button id="tipModalClose" aria-label="Close" style="position:absolute; top:14px; right:14px; background:none; border:none; font-size:20px; cursor:pointer; color:#8890A0; line-height:1;">✕</button>
+    <button id="snOverlayClose" aria-label="Close" style="position:absolute; top:14px; right:14px; background:none; border:none; font-size:20px; cursor:pointer; color:#8890A0; line-height:1;">✕</button>
     <div style="text-align:center; margin-bottom:18px;">
       <div style="font-size:28px; margin-bottom:8px;">💛</div>
       <h3 style="font-family:'Lora',Georgia,serif; font-size:1.1rem; color:#16213E; margin-bottom:4px; font-weight:600;">Pay via UPI</h3>
@@ -250,27 +246,27 @@
 
 <script>
 (function(){
-  var card = document.getElementById('tipCard');
-  var closeBtn = document.getElementById('tipCardClose');
-  var upiBtn = document.getElementById('tipUpiBtn');
-  var overlay = document.getElementById('tipModalOverlay');
-  var modalClose = document.getElementById('tipModalClose');
+  var card = document.getElementById('sideNote');
+  var closeBtn = document.getElementById('sideNoteClose');
+  var payBtn = document.getElementById('snPayBtn');
+  var overlay = document.getElementById('snOverlay');
+  var overlayClose = document.getElementById('snOverlayClose');
   if(!card) return;
 
   try{
-    if(localStorage.getItem('pmp-tip-dismissed') === '1'){ card.classList.add('tip-hidden'); }
+    if(localStorage.getItem('pmp-note-dismissed') === '1'){ card.classList.add('sn-hidden'); }
   }catch(e){}
 
   closeBtn.addEventListener('click', function(){
-    card.classList.add('tip-hidden');
-    try{ localStorage.setItem('pmp-tip-dismissed', '1'); }catch(e){}
+    card.classList.add('sn-hidden');
+    try{ localStorage.setItem('pmp-note-dismissed', '1'); }catch(e){}
   });
 
-  upiBtn.addEventListener('click', function(){
+  payBtn.addEventListener('click', function(){
     overlay.style.display = 'flex';
-    try{ if(typeof gtag === 'function') gtag('event', 'tip_widget_open', {method:'upi'}); }catch(e){}
+    try{ if(typeof gtag === 'function') gtag('event', 'payment_note_open', {method:'upi'}); }catch(e){}
   });
-  modalClose.addEventListener('click', function(){ overlay.style.display = 'none'; });
+  overlayClose.addEventListener('click', function(){ overlay.style.display = 'none'; });
   overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.style.display = 'none'; });
 })();
 </script>
